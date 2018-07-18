@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:tools="http://schemas.android.com/tools"
+    android:background="@android:color/transparent"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <EditText
+        android:id="@+id/editText"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="@color/colorWhite"
+        android:drawableLeft="@drawable/username"
+        android:drawablePadding="8dp"
+        android:ems="10"
+        android:hint="User name"
+        android:inputType="textPersonName"
+        android:paddingBottom="16dp"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorWhite"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editText2"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:backgroundTint="#FFF"
+        android:drawableLeft="@drawable/password"
+        android:drawablePadding="8dp"
+        android:ems="10"
+        android:hint="Password"
+        android:inputType="textPassword"
+        android:paddingBottom="16dp"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorWhite"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/editText" />
+
+    <Button
+        android:id="@+id/button"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:text="Sign In"
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite"
+        android:textSize="20sp"
+        android:background="@drawable/line_around"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/editText2" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:clickable="true"
+        android:text="Forgot password?"
+        android:textSize="15sp"
+        android:textColor="@color/colorWhite"
+        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/button" />
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:text="Don't have account? "
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp"
+        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+    <TextView
+        android:id="@+id/tvSignUp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:clickable="true"
+        android:text="Sign Up"
+        android:textColor="@color/colorWhite"
+        android:textSize="15sp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/textView2" />
+
+
+</android.support.constraint.ConstraintLayout>
