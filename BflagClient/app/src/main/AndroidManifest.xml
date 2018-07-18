@@ -18,6 +18,9 @@
         android:windowSoftInputMode="adjustPan"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".MainActivity">
+
+        </activity>
+        <activity android:name=".rocklee.view.FriendActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
