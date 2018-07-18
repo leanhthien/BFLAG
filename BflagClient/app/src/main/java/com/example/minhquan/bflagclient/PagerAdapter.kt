@@ -1,0 +1,27 @@
+package com.example.minhquan.bflagclient
+
+import android.support.v4.app.Fragment
+import android.support.v4.app.FragmentManager
+import android.support.v4.app.FragmentPagerAdapter
+import com.example.minhquan.bflagclient.signin.SignInFragment
+import com.example.minhquan.bflagclient.signin.SignUpFragment
+
+class PagerAdapter(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
+
+    override fun getItem(p0: Int): Fragment? {
+        var fragment: Fragment? = null
+        when (p0){
+            0 -> fragment = SignInFragment()
+            1 -> fragment = SignUpFragment()
+
+        }
+
+        return fragment
+    }
+
+    override fun getCount(): Int {
+        return 2
+    }
+
+
+}
