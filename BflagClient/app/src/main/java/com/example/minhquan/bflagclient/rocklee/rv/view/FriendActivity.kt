@@ -1,26 +1,33 @@
-package com.example.minhquan.bflagclient.rocklee.view
+package com.example.minhquan.bflagclient.rocklee.rv.view
 
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.LinearLayoutManager
+import android.support.v4.app.FragmentActivity
 import android.support.v7.widget.RecyclerView
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.adapter.FriendAdapter
+import com.example.minhquan.bflagclient.adapter.PagerAdapterFriend
 import com.example.minhquan.bflagclient.util.Friend
+import kotlinx.android.synthetic.main.activity_friend.*
 
-class FriendActivity : AppCompatActivity() {
+class FriendActivity : FragmentActivity() {
     private lateinit var rvFriends: RecyclerView
     private lateinit var friendAdapter: FriendAdapter
+    private var pagerAdapterFriend: PagerAdapterFriend? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_friend)
-        rvFriends = findViewById(R.id.rv_friend)
-
+        //.............rv 1
+        rvFriends = findViewById(R.id.rv_Friend)
         val listFriends : MutableList<Friend> = mutableListOf()
         creatListFriend(listFriends)//... add list
-
         setUpListView(listFriends)
+        //.............pager
+        pagerAdapterFriend = PagerAdapterFriend(supportFragmentManager)
+        vpg_ChatFriend.adapter = pagerAdapterFriend
+        //..............rv 2
+
+
     }
 
     /**
@@ -41,9 +48,6 @@ class FriendActivity : AppCompatActivity() {
     private fun setUpListView(listFriends : List<Friend>){
         friendAdapter = FriendAdapter(this)
         friendAdapter.setData(listFriends)
-        val layoutManager1 = LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
-        rvFriends.layoutManager = layoutManager1
-
         rvFriends.adapter = friendAdapter
     }
 }
