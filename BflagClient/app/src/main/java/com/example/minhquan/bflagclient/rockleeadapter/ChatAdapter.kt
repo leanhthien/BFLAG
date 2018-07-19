@@ -34,8 +34,11 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         chat = data[position]
+        //..................... Check null show
         if (chat.urlAvatarL == null) holder.cardViewLeft.visibility = View.GONE
         if (chat.urlAvatarR == null) holder.cardViewRight.visibility = View.GONE
+        if (chat.messageL == null) holder.txtChatLeftMessage.visibility = View.GONE
+        if (chat.messageR == null) holder.txtChatRightMessage.visibility = View.GONE
 
 
         Glide.with(context).load(chat.urlAvatarL).apply(RequestOptions.circleCropTransform())

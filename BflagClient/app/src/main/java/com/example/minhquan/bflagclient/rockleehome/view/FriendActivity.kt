@@ -23,7 +23,6 @@ class FriendActivity : FragmentActivity() {
         //.............pager
         pagerAdapterFriend = PagerAdapterFriend(supportFragmentManager)
         vpg_ChatFriend.adapter = pagerAdapterFriend
-
     }
 
     /**
