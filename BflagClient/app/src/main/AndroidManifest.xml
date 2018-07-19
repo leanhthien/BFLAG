@@ -20,7 +20,7 @@
         <activity android:name=".signin.SignInSignUpActivity">
 
         </activity>
-        <activity android:name=".rockleerv.view.FriendActivity">
+        <activity android:name=".rockleehome.view.FriendActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

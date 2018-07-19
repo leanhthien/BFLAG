@@ -1,4 +1,4 @@
-package com.example.minhquan.bflagclient.adapter
+package com.example.minhquan.bflagclient.rockleeadapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
@@ -10,8 +10,7 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.minhquan.bflagclient.R
-import com.example.minhquan.bflagclient.util.Friend
-import java.text.FieldPosition
+import com.example.minhquan.bflagclient.rockleeutil.Friend
 
 class FriendAdapter(internal var context: Context) : RecyclerView.Adapter<FriendAdapter.ViewHolder>() {
     internal var data: List<Friend>
