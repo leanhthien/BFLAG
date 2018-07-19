@@ -17,7 +17,7 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".signin.SignInSignUpActivity">
+        <activity android:name=".sign.SignActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -26,5 +26,4 @@
         </activity>
         <activity android:name=".signup.SignUpActivity"></activity>
     </application>
-
 </manifest>
