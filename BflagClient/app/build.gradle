@@ -66,5 +66,7 @@ dependencies {
     implementation 'com.android.support:multidex:1.0.3'
     //Blurry
     implementation 'jp.wasabeef:blurry:2.1.1'
+    //PhysicsLayout
+    implementation 'com.roger.catloadinglibrary:catloadinglibrary:1.0.4'
 
 }

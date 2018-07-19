@@ -14,16 +14,17 @@ import com.example.minhquan.bflagclient.utils.buildSignInJson
 import com.example.minhquan.bflagclient.utils.buildSignUpJson
 import kotlinx.android.synthetic.main.activity_signup.*
 
-class SignUpActivity : AppCompatActivity(), SignUpContract.View {
+
+class SignUpActivity : AppCompatActivity(), SignContract.View {
 
 
-    private lateinit var presenter: SignUpContract.Presenter
+    private lateinit var presenter: SignContract.Presenter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_signup)
 
-        SignUpPresenter(this)
+        SignPresenter(this)
 
         setupView()
     }
@@ -31,7 +32,6 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
     fun setupView() {
 
         val body = buildSignUpJson("thien@gmail.com", "123456", "anhthien", "Le Anh", "Thien")
-        val body_1 = buildSignInJson("thien@gmail.com", "123456")
         val body_2 = buildEditJson(null, null, null)
         val token = "3e4edeb41b928f3ee2dde5bff38e3f8c"
 
@@ -87,7 +87,7 @@ class SignUpActivity : AppCompatActivity(), SignUpContract.View {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
     }
 
-    override fun setPresenter(presenter: SignUpContract.Presenter) {
+    override fun setPresenter(presenter: SignContract.Presenter) {
         this.presenter = presenter
     }
 

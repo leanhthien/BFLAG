@@ -1,15 +1,14 @@
 package com.example.minhquan.bflagclient.signup
 
-import com.example.minhquan.bflagclient.base.BaseResponse
 import com.example.minhquan.bflagclient.base.BaseView
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.model.TokenResponse
 import com.example.minhquan.bflagclient.model.User
 import com.google.gson.JsonObject
 
-interface SignUpContract {
+interface SignContract {
 
-    interface View : BaseView<SignUpContract.Presenter> {
+    interface View : BaseView<Presenter> {
 
         fun onSignUpSuccess(result: SuccessResponse)
 
