@@ -26,6 +26,10 @@ interface BflagApiService {
     fun getSignOut(@Header("token") token: String)
             : Observable<SuccessResponse>
 
+    @GET("/api/v1/user")
+    fun getUser(@Header("token") token: String)
+            : Observable<SuccessResponse>
+
     companion object {
         const val BASE_URL = "https://glacial-journey-54219.herokuapp.com"
     }

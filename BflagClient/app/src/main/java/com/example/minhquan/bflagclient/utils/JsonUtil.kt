@@ -26,7 +26,6 @@ fun buildSignInJson(email: String, password: String) : JsonObject {
 fun buildEditJson(username: String?, firstName: String?, lastName: String?) : JsonObject {
 
     val body = JsonObject()
-
     body.addProperty("username", username)
     body.addProperty("first_name", firstName)
     body.addProperty("last_name", lastName)
