@@ -12,6 +12,7 @@ import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.model.TokenResponse
 import com.example.minhquan.bflagclient.utils.ConnectivityUtil
 import com.example.minhquan.bflagclient.utils.buildSignInJson
+import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_signin.*
 
 class SignInFragment : Fragment(), SignInContract.View {
@@ -37,7 +38,7 @@ class SignInFragment : Fragment(), SignInContract.View {
     private fun setupView() {
 
         btnSignIn.setOnClickListener {
-            val body = buildSignInJson(edtUsername.text.toString(), edtPassword.text.toString())
+            val body = JsonObject().buildSignInJson(edtUsername.text.toString(), edtPassword.text.toString())
             presenter.startSignIn(body)
         }
 
@@ -74,6 +75,6 @@ class SignInFragment : Fragment(), SignInContract.View {
     }
 
     override fun isNetworkConnected(): Boolean {
-        return ConnectivityUtil.isConnected(this!!.activity!!)
+        return ConnectivityUtil.isConnected(this.activity!!)
     }
 }

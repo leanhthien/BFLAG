@@ -10,8 +10,8 @@ import com.example.minhquan.bflagclient.model.TokenResponse
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.ConnectivityUtil
 import com.example.minhquan.bflagclient.utils.buildEditJson
-import com.example.minhquan.bflagclient.utils.buildSignInJson
 import com.example.minhquan.bflagclient.utils.buildSignUpJson
+import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_signup.*
 
 
@@ -31,15 +31,15 @@ class SignUpActivity : AppCompatActivity(), SignContract.View {
 
     fun setupView() {
 
-        val body = buildSignUpJson("thien@gmail.com", "123456", "anhthien", "Le Anh", "Thien")
-        val body_2 = buildEditJson(null, null, null)
-        val token = "3e4edeb41b928f3ee2dde5bff38e3f8c"
+        val body = JsonObject().buildSignUpJson("thien@gmail.com", "123456", "anhthien", "Le Anh", "Thien")
+        val body_2 = JsonObject().buildEditJson(null, null, null)
+        val token = "a423ecd5a4ab0379991b9c79d7535ab0"
 
         btn_test.setOnClickListener{
             //presenter.startSignUp(body)
             //presenter.startSignIn(body_1)
             //presenter.startEdit(token, body_2)
-            presenter.startSignOut(token)
+            //presenter.startSignOut(token)
 
             /*if (isNetworkConnected())
                 Log.d("Network status","Connected")
