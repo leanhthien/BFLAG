@@ -13,7 +13,7 @@ import com.bumptech.glide.request.RequestOptions
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.rockleeutil.Chat
 
-class ChatAdapter(internal var context: Context) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
+class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
     internal val data: MutableList<Chat> = mutableListOf()
     private lateinit var chat: Chat
 
