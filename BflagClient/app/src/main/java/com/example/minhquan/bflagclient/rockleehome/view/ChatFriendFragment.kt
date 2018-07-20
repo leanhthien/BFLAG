@@ -25,26 +25,21 @@ class ChatFriendFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         //...........rv 2
-        val list1: MutableList<Chat> = mutableListOf()
-        val list2: MutableList<Chat> = mutableListOf()
-        creatListChatFriend(list1, "User1", urlAvatar1)//... add list1
-        creatListChatFriend(list2, "User2", urlAvatar2)//... add list2
+        val demochatL = Chat("", urlAvatar1, "1111", 1)
+        val demochatR = Chat("", urlAvatar2, "0000", 0)
 
         chatAdapter = ChatAdapter(activity!!)
         rv_Chat.adapter = chatAdapter
 
-        chatAdapter.setData(list1)
-
-        btnTestChat.setOnClickListener {
-            chatAdapter.setData(list2)
-            Toast.makeText(context, "Button click ${activity?.findViewById<ViewPager>(R.id.vpg_ChatFriend)?.currentItem}", Toast.LENGTH_SHORT).show()
+        btnChatRight.setOnClickListener {
+            val a = chatAdapter.setData(demochatR)
+            rv_Chat.smoothScrollToPosition(a)
+            //Toast.makeText(context, "Button click ${activity?.findViewById<ViewPager>(R.id.vpg_ChatFriend)?.currentItem}", Toast.LENGTH_SHORT).show()
+        }
+        btn_ChatLeft.setOnClickListener {
+            val a = chatAdapter.setData(demochatL)
+            rv_Chat.smoothScrollToPosition(a)
         }
     }
 
-    private fun creatListChatFriend(list: MutableList<Chat>, name: String, urlAvatar: String) {
-        list.add(Chat(null, null, null, name, urlAvatar, "1 $name"))
-        list.add(Chat(null, null, null, name, urlAvatar, "2 $name"))
-        list.add(Chat(name, urlAvatar, "3 $name", null, null, null))
-        list.add(Chat(name, urlAvatar, "4 $name", null, null, null))
-    }
 }

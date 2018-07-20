@@ -17,14 +17,18 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
     internal val data: MutableList<Chat> = mutableListOf()
     private lateinit var chat: Chat
 
-    fun setData(listNewChat: List<Chat>) {
-        data.addAll(listNewChat)
-        //notifyDataSetChanged()
-        notifyItemInserted(data.size - listNewChat.size)
+    fun setData(messange: Chat): Int {
+        data.add(messange)
+        notifyItemInserted(data.size - 1)
+        return data.size
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_chat, parent, false)
+        val view: View = if (viewType == 0)
+            LayoutInflater.from(parent.context).inflate(R.layout.item_chat_right, parent, false)
+        else
+            LayoutInflater.from(parent.context).inflate(R.layout.item_chat_left, parent, false)
+
         return ViewHolder(view)
     }
 
@@ -32,32 +36,22 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
         return data.size
     }
 
+    override fun getItemViewType(position: Int): Int {
+        return if (data[position].type == 0) 0 else 1
+    }
+
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         chat = data[position]
-        //..................... Check null show
-        if (chat.urlAvatarL == null) holder.cardViewLeft.visibility = View.GONE
-        if (chat.urlAvatarR == null) holder.cardViewRight.visibility = View.GONE
-        if (chat.messageL == null) holder.txtChatLeftMessage.visibility = View.GONE
-        if (chat.messageR == null) holder.txtChatRightMessage.visibility = View.GONE
-
-
-        Glide.with(context).load(chat.urlAvatarL).apply(RequestOptions.circleCropTransform())
-                .into(holder.imgChatLeftAvatar)
-        holder.txtChatLeftMessage.text = chat.messageL
-
-        Glide.with(context).load(chat.urlAvatarR).apply(RequestOptions.circleCropTransform())
-                .into(holder.imgChatRightAvatar)
-        holder.txtChatRightMessage.text = chat.messageR
-
+        if (chat.type == 1) Glide.with(context).load(chat.urlAvatar).apply(RequestOptions.circleCropTransform())
+                .into(holder.imgChatAvatar!!)
+        holder.txtChatMessage.text = chat.message
+        //holder.txtChatMessage.setBackgroundResource(R.drawable.background_friendchat)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        internal val cardViewLeft: CardView = itemView.findViewById(R.id.cardViewLeft)
-        internal var imgChatLeftAvatar: ImageView = itemView.findViewById(R.id.img_ChatleftAvatar)
-        internal var txtChatLeftMessage: TextView = itemView.findViewById(R.id.txt_ChatLeftMessage)
+        internal val cardViewx: CardView? = itemView.findViewById(R.id.cardView)
+        internal var imgChatAvatar: ImageView? = itemView.findViewById(R.id.img_ChatAvatar)
+        internal var txtChatMessage: TextView = itemView.findViewById(R.id.txt_ChatMessage)
 
-        internal val cardViewRight: CardView = itemView.findViewById(R.id.cardViewRight)
-        internal var imgChatRightAvatar: ImageView = itemView.findViewById(R.id.img_ChatRightAvatar)
-        internal var txtChatRightMessage: TextView = itemView.findViewById(R.id.txt_ChatRightMessage)
     }
 }
