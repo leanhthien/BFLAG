@@ -44,6 +44,13 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
         chat = data[position]
         if (chat.type == 1) Glide.with(context).load(chat.urlAvatar).apply(RequestOptions.circleCropTransform())
                 .into(holder.imgChatAvatar!!)
+
+        // set leng text
+        if(chat.message!!.length > 30) {
+            val lp = holder.txtChatMessage.layoutParams as ViewGroup.LayoutParams
+            lp.width = 0
+            holder.txtChatMessage.layoutParams = lp
+        }
         holder.txtChatMessage.text = chat.message
         //holder.txtChatMessage.setBackgroundResource(R.drawable.background_friendchat)
     }
