@@ -9,17 +9,16 @@ class PagerAdapterFriend(fragmentManager: FragmentManager) : FragmentPagerAdapte
 
     override fun getItem(p0: Int): Fragment? {
         var fragment: Fragment? = null
-        when (p0){
-            0 -> fragment = ChatFriendFragment()
-            1 -> fragment = ChatFriendFragment()
-
+        fragment = when (p0) {
+            in 0..5 -> ChatFriendFragment()
+            else -> ChatFriendFragment()
         }
 
         return fragment
     }
 
     override fun getCount(): Int {
-        return 2
+        return 5
     }
 
 
