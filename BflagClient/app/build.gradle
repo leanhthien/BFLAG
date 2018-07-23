@@ -91,5 +91,9 @@ dependencies {
     //Actioncable client kotlin
     implementation 'com.github.hosopy:actioncable-client-kotlin:0.0.2'
 
+    implementation 'com.balysv:material-ripple:1.0.2'
+
+
+
 }
 
