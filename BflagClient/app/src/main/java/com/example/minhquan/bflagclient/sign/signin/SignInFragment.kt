@@ -3,6 +3,7 @@ package com.example.minhquan.bflagclient.sign.signin
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,6 +14,7 @@ import com.example.minhquan.bflagclient.model.TokenResponse
 import com.example.minhquan.bflagclient.utils.ConnectivityUtil
 import com.example.minhquan.bflagclient.utils.buildSignInJson
 import kotlinx.android.synthetic.main.fragment_signin.*
+
 
 class SignInFragment : Fragment(), SignInContract.View {
     private lateinit var presenter: SignInContract.Presenter
@@ -30,22 +32,37 @@ class SignInFragment : Fragment(), SignInContract.View {
         setupView()
 
         tvSignUp.setOnClickListener {
-            activity?.findViewById<ViewPager>(R.id.viewPager)?.currentItem=1
+            activity?.findViewById<ViewPager>(R.id.viewPager)?.currentItem = 1
         }
+
     }
 
     private fun setupView() {
 
         btnSignIn.setOnClickListener {
-            val body = buildSignInJson(edtUsername.text.toString(), edtPassword.text.toString())
-            presenter.startSignIn(body)
+
+            var check = true
+            if (TextUtils.isEmpty(edtUsername.text.toString())){
+                edtUsername.error = "The value cannot be empty!"
+                check = false
+            }
+            if (TextUtils.isEmpty(edtPassword.text.toString())){
+                edtPassword.error = "The value cannot be empty!"
+                check = false
+            }
+            if(check){
+
+                val body = buildSignInJson(edtUsername.text.toString(), edtPassword.text.toString())
+                presenter.startSignIn(body)
+            }
+
         }
 
     }
 
     override fun onSignInSuccess(result: TokenResponse) {
-        Toast.makeText(context,"Sign in success!!",Toast.LENGTH_SHORT).show()
-        Log.d("Sign in return",result.token)
+        Toast.makeText(context, "Sign in success!!", Toast.LENGTH_SHORT).show()
+        Log.d("Sign in return", result.token)
     }
 
     override fun showProgress(isShow: Boolean) {

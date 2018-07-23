@@ -2,6 +2,7 @@ package com.example.minhquan.bflagclient.sign.signup
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -13,11 +14,12 @@ import com.example.minhquan.bflagclient.utils.ConnectivityUtil
 import com.example.minhquan.bflagclient.utils.buildSignUpJson
 import kotlinx.android.synthetic.main.fragment_signup.*
 
-class SignUpFragment : Fragment(), SignUpContract.View{
+
+class SignUpFragment : Fragment(), SignUpContract.View {
     private lateinit var presenter: SignUpContract.Presenter
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_signup,container,false)
+        return inflater.inflate(R.layout.fragment_signup, container, false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -31,15 +33,38 @@ class SignUpFragment : Fragment(), SignUpContract.View{
     private fun setupView() {
 
         btnSignUp.setOnClickListener {
-            val body = buildSignUpJson(edtEmailSignUp.text.toString(), edtPasswordSignUp.text.toString(), edtUsername.text.toString(), edtFirstname.text.toString(), edtLastname.text.toString())
-            Log.d("Data: ", edtPasswordSignUp.text.toString() + "-"+ edtPasswordSignUp.text.toString()+ "-"+ edtUsername.text.toString())
-            presenter.startSignUp(body)
+            var check = true
+            if (TextUtils.isEmpty(edtEmailSignUp.text.toString())) {
+                edtEmailSignUp.error = "The value cannot be empty!"
+                check = false
+            }
+            if (TextUtils.isEmpty(edtPasswordSignUp.text.toString())) {
+                edtPasswordSignUp.error = "The value cannot be empty!"
+                check = false
+            }
+            if (TextUtils.isEmpty(edtUsername.text.toString())) {
+                edtUsername.error = "The value cannot be empty!"
+                check = false
+            }
+            if (TextUtils.isEmpty(edtFirstname.text.toString())) {
+                edtFirstname.error = "The value cannot be empty!"
+                check = false
+            }
+            if (TextUtils.isEmpty(edtLastname.text.toString())) {
+                edtLastname.error = "The value cannot be empty!"
+                check = false
+            }
+            if (check) {
+                val body = buildSignUpJson(edtEmailSignUp.text.toString(), edtPasswordSignUp.text.toString(), edtUsername.text.toString(), edtFirstname.text.toString(), edtLastname.text.toString())
+                presenter.startSignUp(body)
+            }
+
         }
     }
 
     override fun onSignUpSuccess(result: SuccessResponse) {
-        Toast.makeText(context,"Sign up success!!",Toast.LENGTH_SHORT).show()
-        Log.d("Sign up return",result.status)
+        Toast.makeText(context, "Sign up success!!", Toast.LENGTH_SHORT).show()
+        Log.d("Sign up return", result.status)
     }
 
     override fun showProgress(isShow: Boolean) {

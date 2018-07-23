@@ -17,6 +17,7 @@ class SignActivity : FragmentActivity(){
 
         pagerAdapter = PagerAdapter(supportFragmentManager)
         viewPager.adapter = pagerAdapter
+
     }
 
 }

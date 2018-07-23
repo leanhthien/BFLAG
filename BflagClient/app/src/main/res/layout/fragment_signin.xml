@@ -46,21 +46,34 @@
         app:layout_constraintStart_toStartOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/edtUsername" />
 
-    <Button
-        android:id="@+id/btnSignIn"
+    <com.balysv.materialripple.MaterialRippleLayout
+        android:id="@+id/ripple"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:background="@drawable/line_around"
-        android:text="Sign In"
-        android:textAllCaps="false"
-        android:textColor="@color/colorWhite"
-        android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/edtPassword" />
+        app:layout_constraintTop_toBottomOf="@+id/edtPassword" >
+
+        <Button
+            android:id="@+id/btnSignIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:background="@android:color/transparent"
+            android:text="Sign In"
+            android:textAllCaps="false"
+            android:textColor="@color/colorWhite"
+            android:textSize="20sp"
+           />
+
+    </com.balysv.materialripple.MaterialRippleLayout>
+
+
+
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline"
@@ -83,11 +96,12 @@
         android:layout_marginTop="24dp"
         android:clickable="true"
         android:text="Forgot password?"
+        android:textStyle="italic"
         android:textColor="@color/colorWhite"
         android:textSize="15sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
+        app:layout_constraintTop_toBottomOf="@+id/ripple" />
 
     <TextView
         android:id="@+id/textView3"
@@ -109,8 +123,8 @@
         android:clickable="true"
         android:text="Sign Up"
         android:textColor="@color/colorWhite"
-        android:textSize="15sp"
-        android:textStyle="bold"
+        android:textSize="16sp"
+        android:textStyle="bold|italic"
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/tvForgotPassword" />
 
