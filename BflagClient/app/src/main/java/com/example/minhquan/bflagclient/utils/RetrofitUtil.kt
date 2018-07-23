@@ -20,12 +20,13 @@ class RetrofitUtil {
             val retrofit = Retrofit.Builder()
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(BflagApiService.BASE_URL)
+                    .baseUrl(BflagApiService.BFLAG_BASE_URL)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(client())
                     .build()
             return retrofit.create(BflagApiService::class.java)
         }
+
 
         /**
          * Builder for set up a OkHttpClient

@@ -1,9 +1,7 @@
 package com.example.minhquan.bflagclient
 
-import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
-import com.example.minhquan.bflagclient.signup.SignUpActivity
 
 class MainActivity : AppCompatActivity() {
 
