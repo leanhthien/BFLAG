@@ -12,6 +12,7 @@ import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.utils.ConnectivityUtil
 import com.example.minhquan.bflagclient.utils.buildSignUpJson
+import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_signup.*
 
 
@@ -55,7 +56,7 @@ class SignUpFragment : Fragment(), SignUpContract.View {
                 check = false
             }
             if (check) {
-                val body = buildSignUpJson(edtEmailSignUp.text.toString(), edtPasswordSignUp.text.toString(), edtUsername.text.toString(), edtFirstname.text.toString(), edtLastname.text.toString())
+                val body = JsonObject().buildSignUpJson(edtEmailSignUp.text.toString(), edtPasswordSignUp.text.toString(), edtUsername.text.toString(), edtFirstname.text.toString(), edtLastname.text.toString())
                 presenter.startSignUp(body)
             }
 
