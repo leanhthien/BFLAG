@@ -1,9 +1,8 @@
-package com.example.minhquan.bflagclient.signup
+package com.example.minhquan.bflagclient.ambert.signup
 
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.model.TokenResponse
 import com.example.minhquan.bflagclient.model.User
-import com.example.minhquan.bflagclient.signup.SignContract
 import com.example.minhquan.bflagclient.utils.CallbackWrapper
 import com.example.minhquan.bflagclient.utils.RetrofitUtil
 import com.google.gson.JsonObject

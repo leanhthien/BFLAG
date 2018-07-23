@@ -1,4 +1,4 @@
-package com.example.minhquan.bflagclient.signup
+package com.example.minhquan.bflagclient.ambert.signup
 
 import com.example.minhquan.bflagclient.base.BaseView
 import com.example.minhquan.bflagclient.model.SuccessResponse
@@ -18,6 +18,8 @@ interface SignContract {
 
         fun onSignOutSuccess(result: SuccessResponse)
 
+
+
     }
 
     interface Presenter {
@@ -29,6 +31,7 @@ interface SignContract {
         fun startEdit(token: String, body: JsonObject)
 
         fun startSignOut(token: String)
+
 
     }
 }

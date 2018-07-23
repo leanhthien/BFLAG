@@ -31,6 +31,7 @@ interface BflagApiService {
             : Observable<SuccessResponse>
 
     companion object {
-        const val BASE_URL = "https://glacial-journey-54219.herokuapp.com"
+        const val BFLAG_BASE_URL = "https://glacial-journey-54219.herokuapp.com"
+
     }
 }

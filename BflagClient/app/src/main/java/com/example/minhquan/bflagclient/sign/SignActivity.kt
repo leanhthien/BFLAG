@@ -1,9 +1,12 @@
 package com.example.minhquan.bflagclient.sign
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import com.example.minhquan.bflagclient.PagerAdapter
 import com.example.minhquan.bflagclient.R
+import com.example.minhquan.bflagclient.ambert.capture.CaptureActivity
+import com.example.minhquan.bflagclient.ambert.signup.SignUpActivity
 import kotlinx.android.synthetic.main.activity_signin_signup.*
 
 
@@ -17,6 +20,8 @@ class SignActivity : FragmentActivity(){
 
         pagerAdapter = PagerAdapter(supportFragmentManager)
         viewPager.adapter = pagerAdapter
+
+        startActivity(Intent(this, SignUpActivity::class.java))
     }
 
 }

@@ -4,6 +4,10 @@ apply plugin: 'kotlin-android'
 
 apply plugin: 'kotlin-android-extensions'
 
+apply plugin: 'com.google.gms.google-services'
+
+apply plugin: 'kotlin-kapt'
+
 
 
 android {
@@ -14,7 +18,7 @@ android {
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
-        buildConfigField "String", "API_KEY", '"AIzaSyA0s2e-r1rt1xyh7RGdLd4VbWJY55uWgaE"'
+        buildConfigField "String", "API_KEY", '"AIzaSyBdM2fF0ztbHR_HX_AJI8m0h6ZyjZHeeF4"'
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
@@ -36,44 +40,50 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
 
-    //Retrofit
-    implementation "com.squareup.retrofit2:retrofit:2.4.0"
-    implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
-    implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
-    implementation 'io.reactivex.rxjava2:rxjava:2.0.1'
-    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
-    //OkHttp3
-    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
-    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
+    //For google library
     //Design
     implementation 'com.android.support:design:28.0.0-alpha3'
     //Map
     implementation 'com.google.android.gms:play-services-maps:15.0.1'
     implementation 'com.google.android.gms:play-services-location:15.0.1'
     implementation 'com.google.android.gms:play-services-places:15.0.1'
+    //Google auth
     implementation 'com.google.android.gms:play-services-auth:15.0.1'
-    //Material dialog
-    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
+    //Firebase
+    implementation 'com.google.firebase:firebase-core:16.0.1'
+    implementation 'com.google.firebase:firebase-database:16.0.1'
+    //Multidex
+    implementation 'com.android.support:multidex:1.0.3'
+
+    //Other library
+    //Retrofit
+    implementation "com.squareup.retrofit2:retrofit:2.4.0"
+    implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
+    implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
+    implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
+    implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
+    //OkHttp3
+    implementation 'com.squareup.okhttp3:okhttp:3.10.0'
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.10.0'
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+
+    //Facebook sign in
+    implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
+    //Material dialog
+    implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
     //Fab button
     implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
     //Loading animation
     implementation 'com.github.ybq:Android-SpinKit:1.1.0'
-    //Multidex
-    implementation 'com.android.support:multidex:1.0.3'
     //Blurry
     implementation 'jp.wasabeef:blurry:2.1.1'
     //PhysicsLayout
     implementation 'com.roger.catloadinglibrary:catloadinglibrary:1.0.4'
-    //Firebase
-    implementation 'com.google.firebase:firebase-core:16.0.1'
-    implementation 'com.google.firebase:firebase-database:16.0.1'
-    //WebSocket Client
-    implementation "org.java-websocket:Java-WebSocket:1.3.8"
+    //RxPermission
+    implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
 
 }
 
-apply plugin: 'com.google.gms.google-services'
