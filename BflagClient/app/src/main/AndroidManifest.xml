@@ -17,17 +17,17 @@
         android:theme="@style/AppTheme"
         android:windowSoftInputMode="adjustPan"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".signin.SignInSignUpActivity">
+        <activity android:name=".signin.SignInSignUpActivity"></activity>
+        <activity android:name=".rockleehome.view.FriendActivity"></activity>
+        <activity android:name=".signup.SignUpActivity"></activity>
 
-        </activity>
-        <activity android:name=".rockleehome.view.FriendActivity">
+        <activity android:name=".demoroom.DemoRoom">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".signup.SignUpActivity"></activity>
     </application>
 
 </manifest>

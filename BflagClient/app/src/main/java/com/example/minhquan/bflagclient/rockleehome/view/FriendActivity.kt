@@ -27,7 +27,7 @@ class FriendActivity : FragmentActivity() {
     }
 
     /**
-     * Rock Lee demo create list friend
+     * Rock Lee DemoRoom create list friend
      * delete when have data
      */
     private fun creatListFriend(listFriends: MutableList<Friend>){
