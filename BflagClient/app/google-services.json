@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "750646539429",
+    "firebase_url": "https://bflag-f30ca.firebaseio.com",
+    "project_id": "bflag-f30ca",
+    "storage_bucket": "bflag-f30ca.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:750646539429:android:ef2b08c5fbccaf2b",
+        "android_client_info": {
+          "package_name": "com.example.minhquan.bflagclient"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "750646539429-9tdp46hq8q2r3bteod4j4tck4fp2l1ob.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.minhquan.bflagclient",
+            "certificate_hash": "44649cca121d978ca7220ad980d112b22cf2d70e"
+          }
+        },
+        {
+          "client_id": "750646539429-7bjd5vvlphcsbfe1s2uaa10p0nb06veq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBdM2fF0ztbHR_HX_AJI8m0h6ZyjZHeeF4"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "750646539429-7bjd5vvlphcsbfe1s2uaa10p0nb06veq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

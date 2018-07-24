@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/img_capture"
+        android:layout_width="300dp"
+        android:layout_height="0dp"
+        android:src="@drawable/background_login"
+        android:scaleType="fitXY"
+        app:layout_constraintBottom_toTopOf="@id/btn_camera"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.0"/>
+
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_camera"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="Capture"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/btn_gallery"
+        app:layout_constraintTop_toBottomOf="@id/img_capture"
+        app:layout_constraintVertical_bias="1.0"/>
+
+    <android.support.v7.widget.AppCompatButton
+        android:id="@+id/btn_gallery"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="Gallery"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@id/btn_camera"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_capture"
+        app:layout_constraintVertical_bias="1.0"/>
+
+</android.support.constraint.ConstraintLayout>

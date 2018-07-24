@@ -1,3 +1,10 @@
 <resources>
     <string name="app_name">BflagClient</string>
+
+    <!--Facebook sign in-->
+    <string name="facebook_app_id">1879952642064210</string>
+    <string name="fb_login_protocol_scheme">fb1879952642064210</string>
+    <string name="messages">Messages</string>
+    <string name="active">Active</string>
+
 </resources>

@@ -1,4 +1,4 @@
-package com.example.minhquan.bflagclient.signin
+package com.example.minhquan.bflagclient.home
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -7,8 +7,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.minhquan.bflagclient.R
 
-class SignUpFragment : Fragment(){
+class ActiveFragment : Fragment(){
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_signup,container,false)
+        return inflater.inflate(R.layout.fragment_active,container,false)
     }
 }
