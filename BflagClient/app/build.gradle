@@ -6,10 +6,6 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'com.google.gms.google-services'
 
-apply plugin: 'kotlin-kapt'
-
-
-
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -21,6 +17,8 @@ android {
         buildConfigField "String", "API_KEY", '"AIzaSyBdM2fF0ztbHR_HX_AJI8m0h6ZyjZHeeF4"'
         multiDexEnabled true
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        renderscriptTargetApi 28 //must match target sdk and build tools
+        renderscriptSupportModeEnabled true
     }
     buildTypes {
         release {
@@ -59,7 +57,7 @@ dependencies {
     //Retrofit
     implementation "com.squareup.retrofit2:retrofit:2.4.0"
     implementation "com.squareup.retrofit2:adapter-rxjava2:2.3.0"
-    implementation "com.squareup.retrofit2:converter-gson:2.3.0"
+    implementation "com.squareup.retrofit2:converter-gson:2.4.0"
     implementation 'com.squareup.retrofit2:converter-scalars:2.3.0'
     implementation 'io.reactivex.rxjava2:rxjava:2.1.16'
     implementation "io.reactivex.rxjava2:rxandroid:2.0.1"
@@ -69,23 +67,19 @@ dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
-
     //Facebook sign in
     implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
+
+
     //Material dialog
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
-    //Fab button
-    implementation 'com.skyfishjy.ripplebackground:library:1.0.1'
     //Loading animation
     implementation 'com.github.ybq:Android-SpinKit:1.1.0'
-    //Blurry
-    implementation 'jp.wasabeef:blurry:2.1.1'
-    //PhysicsLayout
-    implementation 'com.roger.catloadinglibrary:catloadinglibrary:1.0.4'
     //RxPermission
     implementation 'com.github.tbruyelle:rxpermissions:0.10.2'
-
-    implementation 'com.balysv:material-ripple:1.0.2'
+    //Blur
+    implementation 'com.eightbitlab:supportrenderscriptblur:1.0.1'
+    implementation 'com.eightbitlab:blurview:1.4.0'
 
 
 
