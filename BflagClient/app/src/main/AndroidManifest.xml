@@ -18,10 +18,9 @@
         android:windowSoftInputMode="adjustPan"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name=".signin.SignInSignUpActivity"></activity>
-        <activity android:name=".rockleehome.view.FriendActivity"></activity>
         <activity android:name=".signup.SignUpActivity"></activity>
 
-        <activity android:name=".demoroom.DemoRoom">
+        <activity android:name=".rockleehome.view.FriendActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
