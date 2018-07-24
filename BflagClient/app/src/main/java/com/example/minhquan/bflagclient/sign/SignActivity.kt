@@ -22,7 +22,7 @@ class SignActivity : FragmentActivity(){
         pagerAdapter = PagerSignAdapter(supportFragmentManager)
         viewPager.adapter = pagerAdapter
 
-        //startActivity(Intent(this, ChatActivity::class.java))
+        startActivity(Intent(this, ChatActivity::class.java))
     }
 
 }

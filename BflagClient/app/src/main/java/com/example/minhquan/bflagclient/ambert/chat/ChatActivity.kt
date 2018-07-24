@@ -33,15 +33,15 @@ class ChatActivity : AppCompatActivity() {
     private fun connectWebSocket() {
 
         val uri = URI("ws://glacial-journey-54219.herokuapp.com/cable")
-        val token = "855186506a72af814d5fc961d8576948"
+        val token = "f8fbf75d65f4f1b674d0f29448635ec1"
         val options = Consumer.Options()
-        options.connection.headers = mapOf("token" to token)
+        options.connection.headers = mapOf("Token" to token)
 
         val consumer = ActionCable.createConsumer(uri, options)
 
 
         // 2. Create subscription
-        val chatChannel = Channel("ChatChannel", mapOf("room_" to 1))
+        val chatChannel = Channel("RoomChannel", mapOf("room_id" to 1))
         val subscription = consumer.subscriptions.create(chatChannel)
 
         subscription.onConnected = {
@@ -56,7 +56,6 @@ class ChatActivity : AppCompatActivity() {
 
         subscription.onReceived = { data: Any? ->
             // Called when the subscription receives data from the server
-            // Possible types...
             when (data) {
                 is Int -> { }
                 is Long -> { }
@@ -76,7 +75,7 @@ class ChatActivity : AppCompatActivity() {
 
         subscription.onFailed = { error ->
             // Called when the subscription encounters any error
-            Log.d("Subscription status",error.localizedMessage)
+            Log.d("Subscription status", "Error")
         }
 
         // 3. Establish connection
