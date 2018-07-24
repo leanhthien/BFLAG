@@ -69,8 +69,6 @@ dependencies {
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
     //Facebook sign in
     implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
-
-
     //Material dialog
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
     //Loading animation
@@ -80,8 +78,9 @@ dependencies {
     //Blur
     implementation 'com.eightbitlab:supportrenderscriptblur:1.0.1'
     implementation 'com.eightbitlab:blurview:1.4.0'
-
-
-
+    //OverScrollBouncy
+    implementation 'com.chauthai.overscroll:overscroll-bouncy:0.1.1'
+    //RealtimeBlurView
+    implementation 'com.github.mmin18:realtimeblurview:1.1.2'
 }
 

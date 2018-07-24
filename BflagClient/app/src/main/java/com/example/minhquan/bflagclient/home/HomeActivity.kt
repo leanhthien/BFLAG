@@ -4,14 +4,13 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.example.minhquan.bflagclient.R
-import com.example.minhquan.bflagclient.adapter.PagerMessageAdapter
+import com.example.minhquan.bflagclient.adapter.PagerHomeAdapter
 import kotlinx.android.synthetic.main.activity_home.*
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.view.View
 import android.view.ViewGroup
 import com.eightbitlab.supportrenderscriptblur.SupportRenderScriptBlur
-import eightbitlab.com.blurview.BlurView
 
 
 class HomeActivity : AppCompatActivity(){
@@ -19,7 +18,7 @@ class HomeActivity : AppCompatActivity(){
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
-        val adapter = PagerMessageAdapter(this,supportFragmentManager)
+        val adapter = PagerHomeAdapter(this,supportFragmentManager)
         viewPager.adapter = adapter
 
         tabLayout.setupWithViewPager(viewPager)
@@ -32,18 +31,5 @@ class HomeActivity : AppCompatActivity(){
             startActivity(intent, options.toBundle())
         }
 
-        val radius = 20f
-
-        val decorView = window.decorView
-        //ViewGroup you want to start blur from. Choose root as close to BlurView in hierarchy as possible.
-        val rootView = decorView.findViewById<View>(android.R.id.content) as ViewGroup
-        //set background, if your root layout doesn't have one
-        val windowBackground = decorView.background
-
-        blurView.setupWith(rootView)
-                .windowBackground(windowBackground)
-                .blurAlgorithm(SupportRenderScriptBlur(this))
-                .blurRadius(radius)
-                .setHasFixedTransformationMatrix(true)
     }
 }
