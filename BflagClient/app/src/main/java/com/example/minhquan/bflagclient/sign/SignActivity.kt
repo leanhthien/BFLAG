@@ -1,5 +1,6 @@
 package com.example.minhquan.bflagclient.sign
 
+import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import com.example.minhquan.bflagclient.adapter.PagerSignAdapter
@@ -18,8 +19,10 @@ class SignActivity : FragmentActivity(){
         pagerAdapter = PagerSignAdapter(supportFragmentManager)
         viewPager.adapter = pagerAdapter
 
-        //imgHome.bringToFront()
         //startActivity(Intent(this, CaptureActivity::class.java))
+
+        val typeface = Typeface.createFromAsset(assets,"fonts/smile_of_the_ocean.ttf")
+        tvBflag.typeface = typeface
     }
 
 }
