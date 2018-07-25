@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".home.HomeActivity"
+        <activity android:name=".roomdata.activity.RoomActivity"
             android:windowSoftInputMode="adjustPan">
 
             <intent-filter>
