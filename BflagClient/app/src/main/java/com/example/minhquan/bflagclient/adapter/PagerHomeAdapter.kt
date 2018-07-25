@@ -8,7 +8,7 @@ import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.home.ActiveFragment
 import com.example.minhquan.bflagclient.home.MessagesFragment
 
-class PagerMessageAdapter(var context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
+class PagerHomeAdapter(var context: Context, fm: FragmentManager) : FragmentPagerAdapter(fm) {
 
 
     override fun getItem(p0: Int): Fragment {

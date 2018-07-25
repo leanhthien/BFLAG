@@ -1,5 +1,6 @@
 package com.example.minhquan.bflagclient.sign.signup
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
@@ -9,6 +10,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.minhquan.bflagclient.R
+import com.example.minhquan.bflagclient.home.HomeActivity
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.utils.ConnectivityUtil
 import com.example.minhquan.bflagclient.utils.buildSignUpJson
@@ -66,6 +68,7 @@ class SignUpFragment : Fragment(), SignUpContract.View {
     override fun onSignUpSuccess(result: SuccessResponse) {
         Toast.makeText(context, "Sign up success!!", Toast.LENGTH_SHORT).show()
         Log.d("Sign up return", result.status)
+        startActivity(Intent(context, HomeActivity::class.java))
     }
 
     override fun showProgress(isShow: Boolean) {

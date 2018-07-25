@@ -12,4 +12,6 @@
     <color name="colorBlueFacebook">#4267b2</color>
     <color name="colorBlueFacebookLight">#3578e5</color>
     <color name="colorBlueFacebookDark">#29487d</color>
+    <color name="colorBlack">#000000</color>
 </resources>
+
