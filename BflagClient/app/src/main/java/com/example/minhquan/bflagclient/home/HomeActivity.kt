@@ -11,6 +11,7 @@ import android.support.v4.util.Pair
 import android.view.View
 import android.view.ViewGroup
 import com.eightbitlab.supportrenderscriptblur.SupportRenderScriptBlur
+import com.example.minhquan.bflagclient.chat.ChatActivity
 import eightbitlab.com.blurview.BlurView
 
 
@@ -18,6 +19,8 @@ class HomeActivity : AppCompatActivity(){
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        startActivity(Intent(this, ChatActivity::class.java))
 
         val adapter = PagerMessageAdapter(this,supportFragmentManager)
         viewPager.adapter = adapter

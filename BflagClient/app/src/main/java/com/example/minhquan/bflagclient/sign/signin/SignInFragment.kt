@@ -92,6 +92,6 @@ class SignInFragment : Fragment(), SignInContract.View {
     }
 
     override fun isNetworkConnected(): Boolean {
-        return ConnectivityUtil.isConnected(this!!.activity!!)
+        return ConnectivityUtil.isConnected(this.activity!!)
     }
 }

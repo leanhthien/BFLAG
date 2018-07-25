@@ -1,9 +1,9 @@
-package com.example.minhquan.bflagclient.rockleeadapter
+package com.example.minhquan.bflagclient.adapter
 
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.example.minhquan.bflagclient.rockleehome.view.ChatFriendFragment
+import com.example.minhquan.bflagclient.chat.ChatFriendFragment
 
 class PagerAdapterFriend(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_chat"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical" >
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_bottom"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.9" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@android:color/white"
+        app:layout_constraintTop_toBottomOf="@+id/guideline_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintVertical_bias="1"/>
+
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/img_chat_camera"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_camera_line"
+        app:layout_constraintTop_toBottomOf="@id/guideline_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/img_chat_gallery"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/img_chat_gallery"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginEnd="8dp"
+        android:src="@drawable/ic_gallery"
+        app:layout_constraintTop_toBottomOf="@id/guideline_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/edt_chat"
+        app:layout_constraintStart_toEndOf="@+id/img_chat_camera" />
+
+    <EditText
+        android:id="@+id/edt_chat"
+        style="@style/ChatBox"
+        android:layout_width="0dp"
+        android:layout_height="36dp"
+        android:layout_marginEnd="8dp"
+        android:ems="10"
+        android:inputType="text"
+        android:hint="@string/hint_chat"
+        app:layout_constraintTop_toBottomOf="@id/guideline_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/img_chat_sender"
+        app:layout_constraintStart_toEndOf="@+id/img_chat_gallery" />
+
+    <android.support.v7.widget.AppCompatImageView
+        android:id="@+id/img_chat_sender"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_send_active"
+        app:layout_constraintTop_toBottomOf="@id/guideline_bottom"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/edt_chat" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_ChatLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_send"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.1"
+        app:layout_constraintVertical_bias="0.9"/>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/btn_start"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_gallery"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintVertical_bias="0.1"/>
+
+</android.support.constraint.ConstraintLayout>

@@ -71,12 +71,11 @@ dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    //Klaxon
 
     //Optional libraries
     //Facebook sign in
     implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
-
-
     //Material dialog
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
     //Loading animation
@@ -88,10 +87,6 @@ dependencies {
     implementation 'com.eightbitlab:blurview:1.4.0'
     //Actioncable client kotlin
     implementation 'com.github.hosopy:actioncable-client-kotlin:0.0.2'
-
-    implementation 'com.balysv:material-ripple:1.0.2'
-
-
 
 }
 

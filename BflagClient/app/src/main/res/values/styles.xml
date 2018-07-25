@@ -9,4 +9,8 @@
         <item name="android:windowContentTransitions">true</item>
     </style>
 
+    <style name="ChatBox" parent="Widget.AppCompat.Button.Colored">
+        <item name="android:background">@drawable/bg_empty_body_stroke_chat</item>
+    </style>
+
 </resources>

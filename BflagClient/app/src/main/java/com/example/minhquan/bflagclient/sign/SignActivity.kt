@@ -5,9 +5,6 @@ import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import com.example.minhquan.bflagclient.adapter.PagerSignAdapter
 import com.example.minhquan.bflagclient.R
-import com.example.minhquan.bflagclient.ambert.capture.CaptureActivity
-import com.example.minhquan.bflagclient.ambert.chat.ChatActivity
-import com.example.minhquan.bflagclient.ambert.signup.SignUpActivity
 import kotlinx.android.synthetic.main.activity_sign.*
 
 
@@ -21,8 +18,6 @@ class SignActivity : FragmentActivity(){
 
         pagerAdapter = PagerSignAdapter(supportFragmentManager)
         viewPager.adapter = pagerAdapter
-
-        //startActivity(Intent(this, CaptureActivity::class.java))
 
         val typeface = Typeface.createFromAsset(assets,"fonts/smile_of_the_ocean.ttf")
         tvBflag.typeface = typeface

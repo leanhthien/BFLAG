@@ -94,7 +94,7 @@ class SignUpFragment : Fragment(), SignUpContract.View {
     }
 
     override fun isNetworkConnected(): Boolean {
-        return ConnectivityUtil.isConnected(this!!.activity!!)
+        return ConnectivityUtil.isConnected(this.activity!!)
     }
 
 

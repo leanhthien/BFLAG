@@ -4,22 +4,10 @@ import android.app.Activity
 import android.content.Context
 import android.content.SharedPreferences
 
-class SharedPreferenceHelper private constructor() {
+class SharedPreferenceHelper  {
 
 
-    init {
-
-    }
-
-    companion object {
-
-        private val mInstance: SharedPreferenceHelper = SharedPreferenceHelper()
-
-        @Synchronized
-        fun getInstance(): SharedPreferenceHelper {
-            return mInstance
-        }
-    }
+    companion object
 
 
 }
