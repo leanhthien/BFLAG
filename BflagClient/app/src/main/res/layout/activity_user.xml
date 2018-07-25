@@ -122,7 +122,7 @@
             android:layout_gravity="center"
             app:layout_behavior="com.example.minhquan.bflagclient.home.ImageBehavior"
             app:civ_border_color="@color/colorPrimaryLight"
-            app:civ_border_width="2dp" />
+            app:civ_border_width="1dp" />
 
     </android.support.design.widget.CoordinatorLayout>
 </LinearLayout>
