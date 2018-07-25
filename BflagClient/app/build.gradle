@@ -82,5 +82,9 @@ dependencies {
     implementation 'com.chauthai.overscroll:overscroll-bouncy:0.1.1'
     //RealtimeBlurView
     implementation 'com.github.mmin18:realtimeblurview:1.1.2'
+    //CircleImageView
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    //Fresco
+    implementation 'com.facebook.fresco:fresco:1.10.0'
 }
 
