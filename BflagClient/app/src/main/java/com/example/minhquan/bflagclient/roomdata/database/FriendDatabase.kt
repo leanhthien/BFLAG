@@ -4,29 +4,28 @@ import android.arch.persistence.room.Database
 import android.arch.persistence.room.Room
 import android.arch.persistence.room.RoomDatabase
 import android.content.Context
-import android.util.Log
 
-import com.example.minhquan.bflagclient.roomdata.dao.UserDao
-import com.example.minhquan.bflagclient.roomdata.entity.User
+import com.example.minhquan.bflagclient.roomdata.dao.FriendDao
+import com.example.minhquan.bflagclient.roomdata.entity.Friend
 
-@Database(entities = arrayOf(User::class), version = 1)
-abstract class AppDatabase : RoomDatabase() {
+@Database(entities = arrayOf(Friend::class), version = 1)
+abstract class FriendDatabase : RoomDatabase() {
 
-    abstract fun userDao(): UserDao
+    abstract fun friendDao(): FriendDao
 
     companion object {
 
-        private var INSTANCE : AppDatabase? = null
+        private var INSTANCE : FriendDatabase? = null
 
-        fun getAppDatabase(context: Context): AppDatabase {
+        fun getFriendDatabase(context: Context): FriendDatabase {
             if (INSTANCE == null) {
-                INSTANCE = Room.databaseBuilder(context, AppDatabase::class.java, "user-database")
+                INSTANCE = Room.databaseBuilder(context, FriendDatabase::class.java, "friend-database")
                         // allow queries on the main thread.
                         // Don't do this on a real app! See PersistenceBasicSample for an example.
                         .allowMainThreadQueries()
                         .build()
             }
-            return INSTANCE as AppDatabase
+            return INSTANCE as FriendDatabase
         }
 
         fun destroyInstance() {
