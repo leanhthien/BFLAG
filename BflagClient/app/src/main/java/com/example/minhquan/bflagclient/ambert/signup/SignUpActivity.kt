@@ -6,7 +6,6 @@ import android.util.Log
 import android.widget.Toast
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.model.SuccessResponse
-import com.example.minhquan.bflagclient.model.TokenResponse
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.ConnectivityUtil
 import com.example.minhquan.bflagclient.utils.buildEditJson
@@ -203,7 +202,7 @@ class SignUpActivity : AppCompatActivity(), SignContract.View {
         Log.d("Sign up return",result.status)
     }
 
-    override fun onSignInSuccess(result: TokenResponse) {
+    override fun onSignInSuccess(result: SuccessResponse) {
         Log.d("Sign in return",result.token)
     }
 

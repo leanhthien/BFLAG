@@ -10,27 +10,30 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.adapter.ChatAdapter
-import com.example.minhquan.bflagclient.model.Chat
-import com.example.minhquan.bflagclient.model.ChatResponse
+import com.example.minhquan.bflagclient.model.*
 import com.example.minhquan.bflagclient.utils.ConnectivityUtil
-import com.example.minhquan.bflagclient.utils.SubscriptionUtil
+import com.example.minhquan.bflagclient.utils.PreferenceUtil
 import com.hosopy.actioncable.Subscription
 import kotlinx.android.synthetic.main.fragment_chat_friend.*
-
+import java.text.SimpleDateFormat
+import java.util.*
 
 
 class ChatFriendFragment : Fragment(), ChatContract.View {
 
     private lateinit var presenter: ChatContract.Presenter
     private lateinit var chatAdapter: ChatAdapter
+    private lateinit var token: String
+    private lateinit var user: User
     private lateinit var chat: Chat
     private lateinit var historyChat: MutableList<Chat>
     private lateinit var localChat: MutableList<Chat>
     private lateinit var subscription : Subscription
 
-    private val urlAvatar1 = "https://i.pinimg.com/736x/bb/16/5c/bb165c8fcecf107962691450d7505dd3--world-cutest-dog-cutest-dogs.jpg"
-    private val urlAvatar2 = "https://d17fnq9dkz9hgj.cloudfront.net/uploads/2018/03/Pomeranian_01-390x203.jpeg"
-    private val token = "f8fbf75d65f4f1b674d0f29448635ec1"
+    //private val urlAvatar1 = "https://i.pinimg.com/736x/bb/16/5c/bb165c8fcecf107962691450d7505dd3--world-cutest-dog-cutest-dogs.jpg"
+    //private val urlAvatar2 = "https://d17fnq9dkz9hgj.cloudfront.net/uploads/2018/03/Pomeranian_01-390x203.jpeg"
+    //private val token = "54fceb5ff70d8ce9fcb4eff05f8d1415"
+    private val room = 1
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_chat_friend, container, false) as ViewGroup
@@ -39,46 +42,37 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+        val sdf = SimpleDateFormat("yyyy:MM:dd HH:mm:ss z", Locale.US)
+
+        ChatPresenter(this)
         historyChat = mutableListOf()
         localChat = mutableListOf()
-
-        subscription = SubscriptionUtil.buildSubscription(token, 1)
-        ChatPresenter(this, subscription)
 
         chatAdapter = ChatAdapter(activity!!)
         rv_chat.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rv_chat.adapter = chatAdapter
 
 
-        // Set up listener for button
-        btn_ChatLeft.setOnClickListener {
-            if(!edt_chat.text.isEmpty()) {
-
-                chat = Chat("", urlAvatar1, edt_chat.text.toString(), ChatAdapter.RECEIVER)
-                val smoothScroll = chatAdapter.setData(chat)
-                rv_chat.smoothScrollToPosition(smoothScroll)
-                edt_chat.text = null
-                historyChat.add(chat)
-
-                presenter.startSendLogChat( "send_data", localChat)
-            }
-        }
+        //Get current user data
+        token = PreferenceUtil(context!!).getToken()
+        user = PreferenceUtil(context!!).getUser()
 
         // Set up listener for button send message
         img_chat_sender.setOnClickListener {
 
             if(!edt_chat.text.isEmpty()) {
 
-                chat = Chat("", urlAvatar2, edt_chat.text.toString(), ChatAdapter.SENDER)
+                chat = Chat(
+                        Friend(user.email, user.username, user.profileImage?.url),
+                        Message( edt_chat.text.toString(), null),
+                        sdf.format(Date()))
                 val smoothScroll = chatAdapter.setData(chat)
                 rv_chat.smoothScrollToPosition(smoothScroll)
                 edt_chat.text = null
-                historyChat.add(chat)
                 localChat.add(chat)
-                // Handle whenever there no network connection
 
                 if (isNetworkConnected())
-                    presenter.startSendLogChat("send_data", localChat)
+                    presenter.startSendLogChat(ChatPresenter.ACTION_TYPE, localChat, subscription)
 
             }
         }
@@ -95,23 +89,29 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
 
         // Set up listener for button connect server
         btn_start.setOnClickListener {
-            presenter.startConnectWebSocket("f8fbf75d65f4f1b674d0f29448635ec1", 1)
+            presenter.startConnectWebSocket(token, room)
 
         }
     }
 
 
-    override fun onConnectWebSocketSuccess() {
+    override fun onConnectWebSocketSuccess(subscription: Subscription) {
 
-
+        this.subscription = subscription
     }
 
-    override fun onSendLogChatSuccess(data: ChatResponse) {
+    override fun onSendLogChatSuccess(data: Chat) {
 
-        chat = Chat(data.message?.user, urlAvatar2, data.message?.content, ChatAdapter.SENDER)
-        val smoothScroll = chatAdapter.setData(chat)
-        rv_chat.smoothScrollToPosition(smoothScroll)
-        historyChat.add(chat)
+        activity!!.runOnUiThread {
+
+            chat = data
+            if (data.friend!!.email != PreferenceUtil(context!!).getUser().email) {
+                val smoothScroll = chatAdapter.setData(chat)
+                rv_chat.smoothScrollToPosition(smoothScroll)
+            }
+            historyChat.add(chat)
+        }
+
     }
 
 

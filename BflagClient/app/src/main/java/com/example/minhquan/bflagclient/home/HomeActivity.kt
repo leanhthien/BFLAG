@@ -11,13 +11,27 @@ import kotlinx.android.synthetic.main.activity_home.*
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.util.Pair
+import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
+import com.example.minhquan.bflagclient.chat.ChatActivity
+import com.example.minhquan.bflagclient.model.User
+import com.example.minhquan.bflagclient.sign.SignActivity
+import com.example.minhquan.bflagclient.utils.ConnectivityUtil
+import com.example.minhquan.bflagclient.utils.PreferenceHelper
+import com.example.minhquan.bflagclient.utils.PreferenceHelper.get
+import com.example.minhquan.bflagclient.utils.PreferenceUtil
 
-class HomeActivity : AppCompatActivity() {
+class HomeActivity : AppCompatActivity(), HomeContract.View {
+
+    private lateinit var presenter: HomeContract.Presenter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
+
+        HomePresenter(this)
 
         val adapter = PagerHomeAdapter(this, supportFragmentManager)
         viewPager.adapter = adapter
@@ -59,5 +73,44 @@ class HomeActivity : AppCompatActivity() {
             startActivity(intent, options.toBundle())
         }
 
+        val token = PreferenceUtil(this).getToken()
+        if (token != PreferenceUtil.ERROR)
+            presenter.startGetUser(token)
+
+    }
+
+    override fun onGetUserSuccess(result: User) {
+
+        PreferenceUtil(this).setUser(result)
+        startActivity(Intent(this, ChatActivity::class.java))
+    }
+
+    override fun showProgress(isShow: Boolean) {
+
+    }
+
+    override fun showError(message: String) {
+        Log.e("Error return", message)
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
+    }
+
+    override fun setPresenter(presenter: HomeContract.Presenter) {
+        this.presenter = presenter
+    }
+
+    override fun onUnknownError(error: String) {
+        showError(error)
+    }
+
+    override fun onTimeout() {
+        showError("Time out")
+    }
+
+    override fun onNetworkError() {
+        showError("Network Error")
+    }
+
+    override fun isNetworkConnected(): Boolean {
+        return ConnectivityUtil.isConnected(this)
     }
 }

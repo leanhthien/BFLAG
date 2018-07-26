@@ -34,9 +34,9 @@ class FriendAdapter(private var context: Context) : RecyclerView.Adapter<FriendA
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         friend = data[position]
 
-        Glide.with(context).load(friend.urlAvatar).apply(RequestOptions.circleCropTransform())
+        Glide.with(context).load(friend.profileImage).apply(RequestOptions.circleCropTransform())
                 .into(holder.imgFriendAvatar)
-        holder.tvFriendName.text = friend.name
+        holder.tvFriendName.text = friend.username
 
         /**
          * Rock lee

@@ -1,14 +1,15 @@
-package com.example.minhquan.bflagclient.sign.signin
+package com.example.minhquan.bflagclient.home
 
 import com.example.minhquan.bflagclient.model.SuccessResponse
+import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.CallbackWrapper
+import com.example.minhquan.bflagclient.utils.PreferenceUtil
 import com.example.minhquan.bflagclient.utils.RetrofitUtil
-import com.google.gson.JsonObject
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class SignInPresenter(private val view: SignInContract.View) : SignInContract.Presenter {
+class HomePresenter(val view: HomeContract.View): HomeContract.Presenter {
 
     //Instance of interface created for Retrofit API calls
     private val service by lazy {
@@ -23,20 +24,18 @@ class SignInPresenter(private val view: SignInContract.View) : SignInContract.Pr
         this.view.setPresenter(this)
     }
 
-    override fun startSignIn(body: JsonObject) {
+    override fun startGetUser(token: String) {
+
         view.showProgress(true)
 
-        disposable  = service.getSignIn(body)
+        disposable  = service.getUser(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object: CallbackWrapper<SuccessResponse>(view) {
-                    override fun onSuccess(result: SuccessResponse) {
-                        view.onSignInSuccess(result)
+                .subscribeWith(object: CallbackWrapper<User>(view) {
+                    override fun onSuccess(result: User) {
+                        view.onGetUserSuccess(result)
                     }
                 })
-
     }
 
 }
-
-

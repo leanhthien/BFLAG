@@ -1,7 +1,6 @@
 package com.example.minhquan.bflagclient.ambert.signup
 
 import com.example.minhquan.bflagclient.model.SuccessResponse
-import com.example.minhquan.bflagclient.model.TokenResponse
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.CallbackWrapper
 import com.example.minhquan.bflagclient.utils.RetrofitUtil
@@ -45,8 +44,8 @@ class SignPresenter(private val view: SignContract.View) : SignContract.Presente
         disposable  = service.getSignIn(body)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object: CallbackWrapper<TokenResponse>(view) {
-                    override fun onSuccess(result: TokenResponse) {
+                .subscribeWith(object: CallbackWrapper<SuccessResponse>(view) {
+                    override fun onSuccess(result: SuccessResponse) {
                         view.onSignInSuccess(result)
                     }
                 })

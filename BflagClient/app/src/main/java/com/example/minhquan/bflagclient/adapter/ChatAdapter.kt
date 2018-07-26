@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.model.Chat
+import com.example.minhquan.bflagclient.utils.PreferenceUtil
 
 class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
@@ -39,7 +40,7 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
 
     override fun getItemViewType(position: Int): Int {
 
-        return if (data[position].type == SENDER) SENDER else RECEIVER
+        return if (data[position].friend!!.email!! == PreferenceUtil(context).getUser().email) SENDER else RECEIVER
 
     }
 
@@ -47,19 +48,19 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
 
         chat = data[position]
 
-        if (chat.type == RECEIVER)
+        if (chat.friend!!.email!! != PreferenceUtil(context).getUser().email)
             Glide.with(context)
-                    .load(chat.urlAvatar)
+                    .load(chat.friend?.profileImage)
                     .apply(RequestOptions
                             .circleCropTransform())
                     .into(holder.imgChatAvatar!!)
         //Set length text
-        if (chat.message!!.length > MAX_LENGTH) {
+        if (chat.message!!.content!!.length > MAX_LENGTH) {
             val lp = holder.txtChatMessage.layoutParams as ViewGroup.LayoutParams
             lp.width = 0
             holder.txtChatMessage.layoutParams = lp
         }
-        holder.txtChatMessage.text = chat.message
+        holder.txtChatMessage.text = chat.message!!.content
         //holder.txtChatMessage.setBackgroundResource(R.drawable.background_friendchat)
     }
 
