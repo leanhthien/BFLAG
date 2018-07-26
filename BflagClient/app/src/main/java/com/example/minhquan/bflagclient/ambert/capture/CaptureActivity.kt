@@ -141,12 +141,12 @@ class CaptureActivity : AppCompatActivity() {
                 (Environment.getExternalStorageDirectory()).toString() + IMAGE_DIRECTORY_PATH)
 
         // Have the object build the directory structure, if needed.
-        Log.d("fee",photoDirectory.toString())
+        Log.d("Directory path", photoDirectory.toString())
 
         if (!photoDirectory.exists()) photoDirectory.mkdirs()
 
         try {
-            Log.d("heel",photoDirectory.toString())
+            Log.d("Directory path after", photoDirectory.toString())
             val f = File(photoDirectory, ((Calendar.getInstance()
                     .timeInMillis).toString() + ".jpg"))
             f.createNewFile()

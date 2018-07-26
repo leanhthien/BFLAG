@@ -20,8 +20,6 @@ class SignActivity : AppCompatActivity(){
         pagerAdapter = PagerSignAdapter(supportFragmentManager)
         viewPager.adapter = pagerAdapter
 
-        //startActivity(Intent(this, CaptureActivity::class.java))
-
         val typeface = Typeface.createFromAsset(assets,"fonts/smile_of_the_ocean.ttf")
         tvBflag.typeface = typeface
     }

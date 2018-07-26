@@ -7,4 +7,6 @@
     <string name="messages">Messages</string>
     <string name="active">Active</string>
 
+    <!---->
+    <string name="hint_chat">Message</string>
 </resources>
