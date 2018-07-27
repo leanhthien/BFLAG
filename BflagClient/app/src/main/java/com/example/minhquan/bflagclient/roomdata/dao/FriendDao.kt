@@ -8,10 +8,10 @@ import com.example.minhquan.bflagclient.roomdata.entity.User
 @Dao
 interface FriendDao {
 
-    @get:Query("SELECT * FROM Friend")
+    @get:Query("SELECT * FROM friend")
     val all: List<Friend>
 
-    @Query("DELETE FROM Friend")
+    @Query("DELETE FROM friend")
     fun deleteAll()
 
     @Delete
@@ -19,8 +19,8 @@ interface FriendDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg friend: Friend)
-
+/*
     @Query("SELECT * FROM friend WHERE email=:emailUser")
-    fun findFriendForUser(emailUser: Int): List<Friend>
+    fun findFriendForUser(emailUser: Int): List<Friend>*/
 
 }

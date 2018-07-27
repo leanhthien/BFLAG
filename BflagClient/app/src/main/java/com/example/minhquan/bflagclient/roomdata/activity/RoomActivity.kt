@@ -3,7 +3,6 @@ package com.example.minhquan.bflagclient.roomdata.activity
 import android.annotation.SuppressLint
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
-import android.widget.TextView
 
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.roomdata.database.FriendDatabase
@@ -31,12 +30,12 @@ class RoomActivity : AppCompatActivity() {
         demoCreateListFriend(friend1)
 
         btn_insert.setOnClickListener {
-            //DatabaseInitializer.insertUserAysnc(UserDatabase.getUserDatabase(this), user1)
+            //DatabaseInitializer.insertUserAysnc(UserDatabase.getUserDatabase(this),user1)
             DatabaseInitializerFriend.insertFriendAysnc(FriendDatabase.getFriendDatabase(this),friend1)
         }
 
         btn_view.setOnClickListener {
-            val friendlist: List<Friend> = DatabaseInitializerFriend.getFriend(FriendDatabase.getFriendDatabase(this))
+            val friendlist = DatabaseInitializerFriend.getFriend(FriendDatabase.getFriendDatabase(this))
             if (friendlist.isEmpty())
                 txt_roomdata.text = null
             else
@@ -53,14 +52,14 @@ class RoomActivity : AppCompatActivity() {
     }
 
     private fun demoCreateListUser(user1: User) {
-        user1.email = "a@example.com"
+        user1.email = "c@example.com"
         user1.password = "123456"
         user1.username = "Test"
-        user1.firstname = "A"
+        user1.firstname = "C"
     }
     private fun demoCreateListFriend(friend1: Friend) {
-        friend1.email = "a1@example.com"
-        friend1.name = "Test"
+        friend1.email = "friend2@example.com"
+        friend1.name = "Friend2"
     }
 
 

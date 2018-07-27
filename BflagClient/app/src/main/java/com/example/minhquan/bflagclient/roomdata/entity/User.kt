@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull
 class User {
     @PrimaryKey()
     @NotNull
+    @ColumnInfo(name = "email")
     var email: String = ""
 
     @ColumnInfo(name = "password")
