@@ -34,6 +34,7 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
     //private val urlAvatar2 = "https://d17fnq9dkz9hgj.cloudfront.net/uploads/2018/03/Pomeranian_01-390x203.jpeg"
     //private val token = "54fceb5ff70d8ce9fcb4eff05f8d1415"
     private val room = 1
+    private lateinit var sdf : SimpleDateFormat
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_chat_friend, container, false) as ViewGroup
@@ -42,7 +43,7 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sdf = SimpleDateFormat("yyyy:MM:dd HH:mm:ss z", Locale.US)
+         sdf = SimpleDateFormat("yyyy:MM:dd HH:mm:ss z", Locale.US)
 
         ChatPresenter(this)
         historyChat = mutableListOf()
@@ -57,6 +58,11 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
         token = PreferenceUtil(context!!).getToken()
         user = PreferenceUtil(context!!).getUser()
 
+
+    }
+
+    override fun onResume() {
+        super.onResume()
         // Set up listener for button send message
         img_chat_sender.setOnClickListener {
 
@@ -88,10 +94,8 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
         }
 
         // Set up listener for button connect server
-        btn_start.setOnClickListener {
-            presenter.startConnectWebSocket(token, room)
+        presenter.startConnectWebSocket(token, room)
 
-        }
     }
 
 

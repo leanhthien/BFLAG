@@ -8,6 +8,7 @@
     <color name="colorGrey">#e1dede</color>
 
     <!--Color in chat-->
+    <color name="colorGreyFacebookLight">#f1f0f0</color>
     <color name="colorGreyFacebook">#7f7f7f</color>
     <color name="colorBlueFacebook">#4267b2</color>
     <color name="colorBlueFacebookLight">#3578e5</color>

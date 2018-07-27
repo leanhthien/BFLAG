@@ -61,7 +61,7 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
             holder.txtChatMessage.layoutParams = lp
         }
         holder.txtChatMessage.text = chat.message!!.content
-        //holder.txtChatMessage.setBackgroundResource(R.drawable.background_friendchat)
+        //holder.txtChatMessage.setBackgroundResource(R.drawable.background_friend_chat)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
