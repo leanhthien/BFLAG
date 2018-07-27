@@ -19,7 +19,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name=".roomdata.activity.RoomActivity"
+        <activity android:name=".sign.SignActivity"
             android:windowSoftInputMode="adjustPan">
 
             <intent-filter>
@@ -28,11 +28,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <!--<activity android:name=".home.HomeActivity" />-->
+        <!--<activity android:name=".sign.SignActivity" />-->
+        <activity android:name=".home.HomeActivity"
+            android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".home.SearchActivity"
             android:windowSoftInputMode="stateAlwaysVisible"/>
         <activity android:name=".ambert.signup.SignUpActivity" />
-        <activity android:name=".ambert.chat.ChatActivity" />
-        <activity android:name=".ambert.capture.CaptureActivity"/>
+        <activity android:name=".chat.ChatActivity"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".ambert.capture.CaptureActivity" />
+        <activity android:name=".home.user.UserActivity" />
 
         <uses-library
             android:name="com.google.android.maps"

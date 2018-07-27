@@ -1,5 +1,6 @@
 package com.example.minhquan.bflagclient.sign.signin
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
@@ -10,11 +11,17 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.minhquan.bflagclient.R
-import com.example.minhquan.bflagclient.model.TokenResponse
+import com.example.minhquan.bflagclient.chat.ChatActivity
+import com.example.minhquan.bflagclient.home.HomeActivity
+import com.example.minhquan.bflagclient.model.SuccessResponse
+import com.example.minhquan.bflagclient.sign.SignActivity
 import com.example.minhquan.bflagclient.utils.ConnectivityUtil
+import com.example.minhquan.bflagclient.utils.PreferenceHelper.customPrefs
 import com.example.minhquan.bflagclient.utils.buildSignInJson
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_signin.*
+import com.example.minhquan.bflagclient.utils.PreferenceHelper.set
+import com.example.minhquan.bflagclient.utils.PreferenceUtil
 
 
 class SignInFragment : Fragment(), SignInContract.View {
@@ -43,8 +50,8 @@ class SignInFragment : Fragment(), SignInContract.View {
         btnSignIn.setOnClickListener {
 
             var check = true
-            if (TextUtils.isEmpty(edtUsername.text.toString())){
-                edtUsername.error = "The value cannot be empty!"
+            if (TextUtils.isEmpty(edtEmail.text.toString())){
+                edtEmail.error = "The value cannot be empty!"
                 check = false
             }
             if (TextUtils.isEmpty(edtPassword.text.toString())){
@@ -53,7 +60,7 @@ class SignInFragment : Fragment(), SignInContract.View {
             }
             if(check){
 
-                val body = JsonObject().buildSignInJson(edtUsername.text.toString(), edtPassword.text.toString())
+                val body = JsonObject().buildSignInJson(edtEmail.text.toString(), edtPassword.text.toString())
                 presenter.startSignIn(body)
             }
 
@@ -61,9 +68,14 @@ class SignInFragment : Fragment(), SignInContract.View {
 
     }
 
-    override fun onSignInSuccess(result: TokenResponse) {
+    override fun onSignInSuccess(result: SuccessResponse) {
         Toast.makeText(context, "Sign in success!!", Toast.LENGTH_SHORT).show()
         Log.d("Sign in return", result.token)
+
+        PreferenceUtil(context!!).setToken(result.token)
+
+        startActivity(Intent(context,HomeActivity::class.java))
+
     }
 
     override fun showProgress(isShow: Boolean) {
@@ -92,6 +104,6 @@ class SignInFragment : Fragment(), SignInContract.View {
     }
 
     override fun isNetworkConnected(): Boolean {
-        return ConnectivityUtil.isConnected(this!!.activity!!)
+        return ConnectivityUtil.isConnected(this.activity!!)
     }
 }

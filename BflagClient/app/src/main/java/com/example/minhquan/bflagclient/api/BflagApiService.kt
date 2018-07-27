@@ -1,7 +1,6 @@
 package com.example.minhquan.bflagclient.api
 
 import com.example.minhquan.bflagclient.model.SuccessResponse
-import com.example.minhquan.bflagclient.model.TokenResponse
 import com.example.minhquan.bflagclient.model.User
 import com.google.gson.JsonObject
 import io.reactivex.Observable
@@ -15,7 +14,7 @@ interface BflagApiService {
 
     @POST("/api/v1/user/sign_in")
     fun getSignIn(@Body body: JsonObject)
-            : Observable<TokenResponse>
+            : Observable<SuccessResponse>
 
     @PUT("/api/v1/user/edit")
     fun getEdit(@Header("token") token: String,
@@ -28,7 +27,7 @@ interface BflagApiService {
 
     @GET("/api/v1/user")
     fun getUser(@Header("token") token: String)
-            : Observable<SuccessResponse>
+            : Observable<User>
 
     companion object {
         const val BFLAG_BASE_URL = "https://glacial-journey-54219.herokuapp.com"

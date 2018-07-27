@@ -2,8 +2,6 @@ package com.example.minhquan.bflagclient.sign.signup
 
 import com.example.minhquan.bflagclient.base.BaseView
 import com.example.minhquan.bflagclient.model.SuccessResponse
-import com.example.minhquan.bflagclient.model.TokenResponse
-import com.example.minhquan.bflagclient.model.User
 import com.google.gson.JsonObject
 
 interface SignUpContract {

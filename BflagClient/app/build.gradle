@@ -54,6 +54,10 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:16.0.1'
     //Multidex
     implementation 'com.android.support:multidex:1.0.3'
+    //Gson
+    implementation 'com.google.code.gson:gson:2.8.5'
+    //Kotlin coroutines core
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:0.23.4'
 
     //Other library
     //Retrofit
@@ -69,10 +73,11 @@ dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    //Klaxon
+
+    //Optional libraries
     //Facebook sign in
     implementation 'com.facebook.android:facebook-android-sdk:4.34.0'
-
-
     //Material dialog
     implementation 'com.afollestad.material-dialogs:commons:0.9.6.0'
     //Loading animation
@@ -82,6 +87,19 @@ dependencies {
     //Blur
     implementation 'com.eightbitlab:supportrenderscriptblur:1.0.1'
     implementation 'com.eightbitlab:blurview:1.4.0'
+    //Actioncable client kotlin
+    implementation 'com.github.hosopy:actioncable-client-kotlin:0.0.2'
+
+    //OverScrollBouncy
+    implementation 'com.chauthai.overscroll:overscroll-bouncy:0.1.1'
+    //RealtimeBlurView
+    implementation 'com.github.mmin18:realtimeblurview:1.1.2'
+    //CircleImageView
+    implementation 'de.hdodenhof:circleimageview:2.2.0'
+    //Fresco
+    implementation 'com.facebook.fresco:fresco:1.10.0'
+    //BlurZoomCoordinatorLayout
+    implementation 'com.github.fafaldo:blur-zoom-gallery:1.0.0'
     //..................Room and RxJava
     def room_version = "1.1.1"
     implementation "android.arch.persistence.room:runtime:$room_version"
