@@ -84,6 +84,10 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         if (token != PreferenceUtil.ERROR)
             presenter.startGetUser(token)
 
+
+        val height = getHeightNavigation()
+
+        blurNav.layoutParams.height = height
     }
 
     override fun onGetUserSuccess(result: User) {
@@ -119,9 +123,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     override fun isNetworkConnected(): Boolean {
         return ConnectivityUtil.isConnected(this)
-        val height = getHeightNavigation()
 
-        blurNav.layoutParams.height = height
     }
 
     private fun getHeightNavigation(): Int {
