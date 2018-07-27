@@ -89,7 +89,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     override fun onGetUserSuccess(result: User) {
 
         PreferenceUtil(this).setUser(result)
-        startActivity(Intent(this, ChatActivity::class.java))
+        //startActivity(Intent(this, ChatActivity::class.java))
     }
 
     override fun showProgress(isShow: Boolean) {

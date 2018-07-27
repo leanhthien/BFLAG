@@ -96,7 +96,7 @@
     <com.github.mmin18.widget.RealtimeBlurView
         android:id="@+id/blurNav"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="wrap_content"
         app:blurOverlayColor="#1Affffff"
         app:layout_constraintBottom_toBottomOf="@+id/viewPager"
         app:layout_constraintEnd_toEndOf="parent"
