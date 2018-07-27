@@ -1,7 +1,6 @@
 package com.example.minhquan.bflagclient.home
 
 import android.content.Intent
-import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -14,6 +13,7 @@ import android.support.v4.util.Pair
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import com.example.minhquan.bflagclient.home.user.UserActivity
 import android.widget.Toast
 import com.example.minhquan.bflagclient.chat.ChatActivity
 import com.example.minhquan.bflagclient.model.User
@@ -31,6 +31,11 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        setUpView()
+
+    }
+
+    private fun setUpView() {
         HomePresenter(this)
 
         val adapter = PagerHomeAdapter(this, supportFragmentManager)
@@ -50,7 +55,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             val decor = getWindow().decorView
-                decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
+            decor.systemUiVisibility = View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR
         }
 
         // clear FLAG_TRANSLUCENT_STATUS flag:
@@ -59,6 +64,8 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
+
 
         // finally change the color
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorWhite)
@@ -82,7 +89,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     override fun onGetUserSuccess(result: User) {
 
         PreferenceUtil(this).setUser(result)
-        startActivity(Intent(this, ChatActivity::class.java))
+        //startActivity(Intent(this, ChatActivity::class.java))
     }
 
     override fun showProgress(isShow: Boolean) {
@@ -112,5 +119,17 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     override fun isNetworkConnected(): Boolean {
         return ConnectivityUtil.isConnected(this)
+        val height = getHeightNavigation()
+
+        blurNav.layoutParams.height = height
+    }
+
+    private fun getHeightNavigation(): Int {
+
+        val resources = this.resources
+        val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+        return if (resourceId > 0) {
+            resources.getDimensionPixelSize(resourceId)
+        } else 0
     }
 }

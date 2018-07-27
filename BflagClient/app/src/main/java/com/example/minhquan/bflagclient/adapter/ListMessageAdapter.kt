@@ -13,7 +13,13 @@ class ListMessageAdapter(var context: Context) : RecyclerView.Adapter<ListMessag
     //val data = List<Message>
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view = LayoutInflater.from(parent.context).inflate(R.layout.message, parent, false)
+        var view: View?
+        if (viewType == 0 ) {
+             view = LayoutInflater.from(parent.context).inflate(R.layout.temp, parent, false)
+        }
+        else {
+            view = LayoutInflater.from(parent.context).inflate(R.layout.message, parent, false)
+        }
         return ViewHolder(view)
     }
 
@@ -22,11 +28,11 @@ class ListMessageAdapter(var context: Context) : RecyclerView.Adapter<ListMessag
     }
 
     override fun getItemViewType(position: Int): Int {
-        return position
-    }
+        return if(position == 0) 0 else 1
+     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        if (holder.itemViewType == 0 ) holder.itemView.visibility = View.INVISIBLE
+       
     }
 
 
