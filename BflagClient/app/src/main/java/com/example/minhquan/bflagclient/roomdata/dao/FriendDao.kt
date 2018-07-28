@@ -19,8 +19,8 @@ interface FriendDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insertAll(vararg friend: Friend)
-/*
-    @Query("SELECT * FROM friend WHERE email=:emailUser")
-    fun findFriendForUser(emailUser: Int): List<Friend>*/
+
+    @Query("SELECT * FROM friend WHERE email_user = :emailUser")
+    fun findFriendForUser(emailUser: String): List<Friend>
 
 }
