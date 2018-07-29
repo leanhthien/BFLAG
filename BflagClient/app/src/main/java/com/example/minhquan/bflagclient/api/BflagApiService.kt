@@ -6,6 +6,8 @@ import com.google.gson.JsonObject
 import io.reactivex.Observable
 import retrofit2.http.*
 
+const val BFLAG_BASE_URL = "https://glacial-journey-54219.herokuapp.com"
+
 interface BflagApiService {
 
     @POST("/api/v1/user/sign_up")
@@ -29,8 +31,4 @@ interface BflagApiService {
     fun getUser(@Header("token") token: String)
             : Observable<User>
 
-    companion object {
-        const val BFLAG_BASE_URL = "https://glacial-journey-54219.herokuapp.com"
-
-    }
 }

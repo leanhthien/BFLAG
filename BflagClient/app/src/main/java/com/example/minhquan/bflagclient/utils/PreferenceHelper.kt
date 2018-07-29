@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2017 by Krupal Shah. All detail of this file comes from blog:
+ * Copyright (c) 2017 by Krupal Shah. All detail of this file based from blog:
  * https://myprogrammingexperiments.wordpress.com/2017/06/04/manipulating-shared-prefs-with-kotlin-just-two-lines-of-code/
  */
 

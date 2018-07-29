@@ -16,6 +16,5 @@ interface BaseView<T> {
 
     fun isNetworkConnected(): Boolean
 
-    //fun onConnectionError()
 
 }

@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.CAMERA" />
 
     <application
+        android:name="com.example.minhquan.bflagclient.MainApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -19,6 +20,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
+
         <activity android:name=".sign.SignActivity"
             android:windowSoftInputMode="adjustPan">
 
@@ -37,9 +39,8 @@
         <activity android:name=".ambert.signup.SignUpActivity" />
         <activity android:name=".chat.ChatActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".ambert.capture.CaptureActivity" />
         <activity android:name=".home.user.UserActivity" />
-
+        <activity android:name=".ambert.capture.CaptureActivity" />
         <uses-library
             android:name="com.google.android.maps"
             android:required="true" />

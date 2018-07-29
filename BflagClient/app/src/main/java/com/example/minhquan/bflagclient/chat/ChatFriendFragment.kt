@@ -1,6 +1,12 @@
 package com.example.minhquan.bflagclient.chat
 
+import android.Manifest
+import android.app.Activity
+import android.content.Intent
+import android.graphics.Bitmap
 import android.os.Bundle
+import android.provider.MediaStore
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.LinearLayoutManager
 import android.util.Log
@@ -11,13 +17,20 @@ import android.widget.Toast
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.adapter.ChatAdapter
 import com.example.minhquan.bflagclient.model.*
-import com.example.minhquan.bflagclient.utils.ConnectivityUtil
-import com.example.minhquan.bflagclient.utils.PreferenceUtil
+import com.example.minhquan.bflagclient.utils.*
+import com.github.ybq.android.spinkit.style.Circle
 import com.hosopy.actioncable.Subscription
+import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_chat_friend.*
+import java.io.IOException
 import java.text.SimpleDateFormat
 import java.util.*
 
+const val ACTION_TYPE = "send_data"
+const val CAMERA_REQUEST_CODE = 100
+const val GALLERY_REQUEST_CODE = 200
+const val IMAGE_DIRECTORY_PATH = "/Bflag"
 
 class ChatFriendFragment : Fragment(), ChatContract.View {
 
@@ -26,14 +39,17 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
     private lateinit var token: String
     private lateinit var user: User
     private lateinit var chat: Chat
-    private lateinit var historyChat: MutableList<Chat>
-    private lateinit var localChat: MutableList<Chat>
     private lateinit var subscription : Subscription
+    private lateinit var path: String
 
-    //private val urlAvatar1 = "https://i.pinimg.com/736x/bb/16/5c/bb165c8fcecf107962691450d7505dd3--world-cutest-dog-cutest-dogs.jpg"
-    //private val urlAvatar2 = "https://d17fnq9dkz9hgj.cloudfront.net/uploads/2018/03/Pomeranian_01-390x203.jpeg"
-    //private val token = "54fceb5ff70d8ce9fcb4eff05f8d1415"
+    private var historyChat: MutableList<Chat> = mutableListOf()
+    private var localChat: MutableList<Chat> = mutableListOf()
+    private var disposable: Disposable? = null
+    private var count: Int = 0
+
     private val room = 1
+    private lateinit var sdf : SimpleDateFormat
+    private var localImage: MutableList<String> = mutableListOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_chat_friend, container, false) as ViewGroup
@@ -42,62 +58,79 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        val sdf = SimpleDateFormat("yyyy:MM:dd HH:mm:ss z", Locale.US)
+         sdf = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
 
         ChatPresenter(this)
-        historyChat = mutableListOf()
-        localChat = mutableListOf()
 
         chatAdapter = ChatAdapter(activity!!)
-        rv_chat.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        rv_chat.layoutManager = LinearLayoutManager(context,
+                                                    LinearLayoutManager.VERTICAL,
+                                                    false)
         rv_chat.adapter = chatAdapter
 
-
         //Get current user data
-        token = PreferenceUtil(context!!).getToken()
-        user = PreferenceUtil(context!!).getUser()
+        token = PreferenceUtil(context!!).getToken()!!
+        user = PreferenceUtil(context!!).getUser()!!
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        val rxPermissions = RxPermissions(this)
+        rxPermissions.setLogging(true)
+
+        loader.indeterminateDrawable = Circle()
+        showProgress(true)
 
         // Set up listener for button send message
         img_chat_sender.setOnClickListener {
 
             if(!edt_chat.text.isEmpty()) {
 
-                chat = Chat(
-                        Friend(user.email, user.username, user.profileImage?.url),
-                        Message( edt_chat.text.toString(), null),
-                        sdf.format(Date()))
-                val smoothScroll = chatAdapter.setData(chat)
-                rv_chat.smoothScrollToPosition(smoothScroll)
-                edt_chat.text = null
-                localChat.add(chat)
-
-                if (isNetworkConnected())
-                    presenter.startSendLogChat(ChatPresenter.ACTION_TYPE, localChat, subscription)
+                sendChat(edt_chat.text.toString(), null)
 
             }
         }
 
         // Set up listener for button open camera to take a photo
         img_chat_camera.setOnClickListener {
-
+            disposable = rxPermissions
+                    .request(Manifest.permission.CAMERA)
+                    .subscribe { granted ->
+                        if (granted)
+                            takePhotoFromCamera()
+                        else
+                            Toast.makeText(context!!,
+                                    "Permission denied, can't open Camera!",
+                                    Toast.LENGTH_SHORT).show()
+                    }
         }
 
         // Set up listener for button open photo gallery of device
         img_chat_gallery.setOnClickListener {
-
+            disposable = rxPermissions
+                    .request(Manifest.permission.READ_EXTERNAL_STORAGE)
+                    .subscribe { granted ->
+                        if (granted)
+                            choosePhotoFromGallery()
+                        else
+                            Toast.makeText(context!!,
+                                    "Permission denied, can't open photo Gallery!",
+                                    Toast.LENGTH_SHORT).show()
+                    }
         }
 
-        // Set up listener for button connect server
-        btn_start.setOnClickListener {
-            presenter.startConnectWebSocket(token, room)
+        // Set up for connecting to server
+        presenter.startConnectWebSocket(token, room)
 
-        }
     }
 
 
     override fun onConnectWebSocketSuccess(subscription: Subscription) {
 
         this.subscription = subscription
+        showProgress(false)
     }
 
     override fun onSendLogChatSuccess(data: Chat) {
@@ -105,7 +138,9 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
         activity!!.runOnUiThread {
 
             chat = data
-            if (data.friend!!.email != PreferenceUtil(context!!).getUser().email) {
+
+            if (data.friend!!.email != PreferenceUtil(context!!).getUser()!!.email) {
+
                 val smoothScroll = chatAdapter.setData(chat)
                 rv_chat.smoothScrollToPosition(smoothScroll)
             }
@@ -114,14 +149,111 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
 
     }
 
+    /**
+     * Function for take photo from camera by making an ACTION_IMAGE_CAPTURE Intent
+     */
+    private fun takePhotoFromCamera() {
+
+        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
+        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
+
+    }
+
+    /**
+     * Function for choose photo from gallery by making an ACTION_PICK Intent
+     */
+    private fun choosePhotoFromGallery() {
+
+        val galleryIntent = Intent(Intent.ACTION_PICK,
+                MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+        startActivityForResult(galleryIntent, GALLERY_REQUEST_CODE)
+
+    }
+
+    /**
+     * Function for handle data that return from sent Intent
+     * @param requestCode param to determine action type: camera or gallery
+     *
+     */
+    override fun onActivityResult(requestCode:Int, resultCode:Int, data: Intent?) {
+
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == Activity.RESULT_CANCELED)
+            return
+
+        when (requestCode) {
+            CAMERA_REQUEST_CODE -> {
+
+                val thumbnail = data!!.extras!!.get("data") as Bitmap
+                path = context!!.savePhoto(thumbnail)
+
+                Toast.makeText(context!!, "Image Saved!", Toast.LENGTH_SHORT).show()
+
+                sendChat(null, path)
+            }
+            GALLERY_REQUEST_CODE -> {
+
+                val contentURI = data?.data
+                try {
+
+                    path = context!!.getPath(contentURI!!)
+                    localImage.add(path)
+
+                    sendChat(null, path)
+
+                }
+                catch (e: IOException) {
+                    e.printStackTrace()
+                    Toast.makeText(context!!, "Failed!", Toast.LENGTH_SHORT).show()
+                }
+            }
+        }
+
+    }
+
+    private fun sendChat(text: String?, image: String?) {
+
+        chat = Chat(
+                Friend(user.email, user.username, user.profileImage?.url),
+                Message( text, image),
+                sdf.format(Date()))
+
+        if (text != null) edt_chat.text = null
+
+        val smoothScroll = chatAdapter.setData(chat)
+        rv_chat.smoothScrollToPosition(smoothScroll)
+        localChat.add(chat)
+
+        if (isNetworkConnected()) {
+            Log.d("TAG", "Ready to send to server")
+            presenter.startSendLogChat(ACTION_TYPE, localChat, subscription)
+        }
+
+    }
 
     override fun showProgress(isShow: Boolean) {
-
+        activity!!.runOnUiThread {
+            loader.visibility = if (isShow) View.VISIBLE else View.GONE
+        }
     }
 
     override fun showError(message: String) {
         Log.e("Error return", message)
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
+
+        count++
+        if (count < 10)
+            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+                    .setAction(RETRY) {
+                        if (isNetworkConnected()) {
+                            Log.d("TAG", "Ready to send to server")
+                            presenter.startSendLogChat(ACTION_TYPE, localChat, subscription)
+                        }
+                    }
+                    .show()
+        else
+            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+                    .show()
     }
 
     override fun setPresenter(presenter: ChatContract.Presenter) {
@@ -133,11 +265,11 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
     }
 
     override fun onTimeout() {
-        showError("Time out")
+        showError(TIME_OUT)
     }
 
     override fun onNetworkError() {
-        showError("Network Error")
+        showError(NETWORK_ERROR)
     }
 
     override fun isNetworkConnected(): Boolean {

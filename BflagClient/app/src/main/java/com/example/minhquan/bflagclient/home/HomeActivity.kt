@@ -3,6 +3,7 @@ package com.example.minhquan.bflagclient.home
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.adapter.PagerHomeAdapter
@@ -15,17 +16,17 @@ import android.view.View
 import android.view.WindowManager
 import com.example.minhquan.bflagclient.home.user.UserActivity
 import android.widget.Toast
+import com.example.minhquan.bflagclient.ambert.capture.CaptureActivity
 import com.example.minhquan.bflagclient.chat.ChatActivity
 import com.example.minhquan.bflagclient.model.User
-import com.example.minhquan.bflagclient.sign.SignActivity
-import com.example.minhquan.bflagclient.utils.ConnectivityUtil
-import com.example.minhquan.bflagclient.utils.PreferenceHelper
-import com.example.minhquan.bflagclient.utils.PreferenceHelper.get
-import com.example.minhquan.bflagclient.utils.PreferenceUtil
+import com.example.minhquan.bflagclient.utils.*
+
 
 class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     private lateinit var presenter: HomeContract.Presenter
+    private lateinit var token: String
+    private var count: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,9 +81,17 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
             startActivity(intent, options.toBundle())
         }
 
-        val token = PreferenceUtil(this).getToken()
-        if (token != PreferenceUtil.ERROR)
+        val height = getHeightNavigation()
+
+        blurNav.layoutParams.height = height
+
+        val tokenReturn = PreferenceUtil(this).getToken()
+        val tokenReturn_ =  SharedPreferenceHelper.getInstance(this).getToken()
+
+        if (tokenReturn != null) {
+            token = tokenReturn
             presenter.startGetUser(token)
+        }
 
 
         val height = getHeightNavigation()
@@ -93,20 +102,31 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     override fun onGetUserSuccess(result: User) {
 
         PreferenceUtil(this).setUser(result)
-        //startActivity(Intent(this, ChatActivity::class.java))
+        SharedPreferenceHelper.getInstance(this).setUser(result)
+        startActivity(Intent(this, ChatActivity::class.java))
+
     }
 
     override fun showProgress(isShow: Boolean) {
 
     }
 
-    override fun showError(message: String) {
-        Log.e("Error return", message)
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show()
-    }
-
     override fun setPresenter(presenter: HomeContract.Presenter) {
         this.presenter = presenter
+    }
+
+    override fun showError(message: String) {
+        Log.e("Error return", message)
+        count++
+        if (count < 10)
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+                    .setAction(RETRY) {
+                        presenter.startGetUser(token)
+                    }
+                    .show()
+        else
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+                    .show()
     }
 
     override fun onUnknownError(error: String) {
@@ -114,11 +134,11 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     }
 
     override fun onTimeout() {
-        showError("Time out")
+        showError(TIME_OUT)
     }
 
     override fun onNetworkError() {
-        showError("Network Error")
+        showError(NETWORK_ERROR)
     }
 
     override fun isNetworkConnected(): Boolean {

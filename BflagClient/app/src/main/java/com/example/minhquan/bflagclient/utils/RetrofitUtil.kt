@@ -1,5 +1,6 @@
 package com.example.minhquan.bflagclient.utils
 
+import com.example.minhquan.bflagclient.api.BFLAG_BASE_URL
 import com.example.minhquan.bflagclient.api.BflagApiService
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -20,7 +21,7 @@ class RetrofitUtil {
             val retrofit = Retrofit.Builder()
                     .addConverterFactory(ScalarsConverterFactory.create())
                     .addConverterFactory(GsonConverterFactory.create())
-                    .baseUrl(BflagApiService.BFLAG_BASE_URL)
+                    .baseUrl(BFLAG_BASE_URL)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(client())
                     .build()
