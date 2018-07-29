@@ -14,10 +14,11 @@ class Chat {
     @PrimaryKey(autoGenerate = true)
     @NotNull
     @ColumnInfo(name = "id")
-    var id: String? = ""
+    var id: Int = 0
 
     @ColumnInfo(name = "room_id")
-    var roomid: Int? = 0
+    @NotNull
+    var roomid: Int = 0
 
     @ColumnInfo(name = "time")
     var time: String? = null

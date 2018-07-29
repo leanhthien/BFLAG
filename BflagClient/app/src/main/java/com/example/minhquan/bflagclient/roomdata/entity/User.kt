@@ -11,7 +11,8 @@ class User {
     var email: String = ""
 
     @ColumnInfo(name = "password")
-    var password: String? = null
+    @NotNull
+    var password: String = ""
 
     @ColumnInfo(name = "username")
     var username: String? = null

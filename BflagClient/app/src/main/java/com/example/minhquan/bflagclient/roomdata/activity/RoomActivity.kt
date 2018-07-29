@@ -6,14 +6,8 @@ import android.support.v7.app.AppCompatActivity
 
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.roomdata.database.BflagDatabase
-import com.example.minhquan.bflagclient.roomdata.entity.Friend
-import com.example.minhquan.bflagclient.roomdata.entity.FriendInRoom
-import com.example.minhquan.bflagclient.roomdata.entity.RoomChat
-import com.example.minhquan.bflagclient.roomdata.entity.User
-import com.example.minhquan.bflagclient.roomdata.utils.DatabaseInitializerFriend
-import com.example.minhquan.bflagclient.roomdata.utils.DatabaseInitializerFriendsInRoom
-import com.example.minhquan.bflagclient.roomdata.utils.DatabaseInitializerRoomChat
-import com.example.minhquan.bflagclient.roomdata.utils.DatabaseInitializerUser
+import com.example.minhquan.bflagclient.roomdata.entity.*
+import com.example.minhquan.bflagclient.roomdata.utils.*
 import kotlinx.android.synthetic.main.activity_room.*
 
 class RoomActivity : AppCompatActivity() {
@@ -35,29 +29,33 @@ class RoomActivity : AppCompatActivity() {
         demoCreateListRoomChat(roomchat1)
         val friendInRoom1 = FriendInRoom()
         demoCreateListFriendInRoom(friendInRoom1)
+        val chat1 = Chat()
+        demoCreateChatInRoom(chat1)
 
 
 
         btn_insert.setOnClickListener {
-            //DatabaseInitializerUser.insertUserAysnc(BflagDatabase.getDatabase(this),user1)
-            DatabaseInitializerFriend.insertFriendAysnc(BflagDatabase.getDatabase(this),friend1)
-            DatabaseInitializerRoomChat.insertRoomChatAysnc(BflagDatabase.getDatabase(this), roomchat1)
-            DatabaseInitializerFriendsInRoom.insertFriendAysnc(BflagDatabase.getDatabase(this),friendInRoom1)
+            //DbInitializerUser.insertUserAysnc(BflagDatabase.getDatabase(this),user1)
+            //DbInitializerFriend.insertFriendAysnc(BflagDatabase.getDatabase(this), friend1)
+            DbInitializerRoomChat.insertRoomChatAysnc(BflagDatabase.getDatabase(this), roomchat1)
+            DbInitializerFriendsInRoom.insertFriendAysnc(BflagDatabase.getDatabase(this), friendInRoom1)
+            DbInitializerChat.insertChatAysnc(BflagDatabase.getDatabase(this),chat1)
         }
 
         btn_view.setOnClickListener {
-            val friendlist = DatabaseInitializerFriendsInRoom.getFriendInRoom(BflagDatabase.getDatabase(this), 1)
-            if (friendlist.isEmpty())
+            val chatlist = DbInitializerChat.getChatInRoom(BflagDatabase.getDatabase(this), 1)
+            if (chatlist.isEmpty())
                 txt_roomdata.text = null
             else
                 txt_roomdata.text =
-                        "roomId: ${friendlist[0].roomid}\n " +
-                        "emailUser: ${friendlist[0].email}\n "
+                        "roomId: ${chatlist[0].roomid}\n " +
+                        "emailUser: ${chatlist[0].email}\n "
         }
 
         btn_delete.setOnClickListener {
-            //DatabaseInitializerUser.deleteUserAysnc(BflagDatabase.getDatabase(this), user1)
-            //DatabaseInitializerFriend.deleteAllFriendAysnc(FriendDatabase.getFriendDatabase(this))
+            //DbInitializerUser.deleteUserAysnc(BflagDatabase.getDatabase(this), user1)
+            //DbInitializerFriend.deleteAllFriendAysnc(FriendDatabase.getFriendDatabase(this))
+
         }
 
     }
@@ -66,7 +64,7 @@ class RoomActivity : AppCompatActivity() {
         user1.email = "a@example.com"
         user1.password = "123456"
         user1.username = "Test"
-        user1.firstname = "a"
+        user1.firstname = "A"
     }
 
     private fun demoCreateListFriend(friend1: Friend) {
@@ -76,14 +74,21 @@ class RoomActivity : AppCompatActivity() {
     }
 
     private fun demoCreateListRoomChat(roomChat1: RoomChat) {
-        roomChat1.id = 3
+        roomChat1.id = 2
         roomChat1.emailuser = "a@example.com"
     }
 
-    private fun demoCreateListFriendInRoom(friendInRoom: FriendInRoom){
-        friendInRoom.email = "x@example.com"
-        friendInRoom.roomid = 1
-        friendInRoom.username = "X"
+    private fun demoCreateListFriendInRoom(friendInRoom: FriendInRoom) {
+        friendInRoom.email = "z@example.com"
+        friendInRoom.roomid = 2
+        friendInRoom.username = "Z"
+    }
+
+    private fun demoCreateChatInRoom(chat: Chat) {
+        chat.roomid = 2
+        chat.email = "z@example.com"
+        chat.username = "Z"
+        chat.content = "hello world"
     }
 
 

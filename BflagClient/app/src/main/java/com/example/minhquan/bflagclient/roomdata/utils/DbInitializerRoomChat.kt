@@ -7,9 +7,9 @@ import com.example.minhquan.bflagclient.roomdata.database.BflagDatabase
 import com.example.minhquan.bflagclient.roomdata.entity.RoomChat
 
 
-object DatabaseInitializerRoomChat {
+object DbInitializerRoomChat {
 
-    private val TAG = DatabaseInitializerRoomChat::class.java.name
+    private val TAG = DbInitializerRoomChat::class.java.name
     lateinit var type: String
 
     /**
@@ -24,7 +24,7 @@ object DatabaseInitializerRoomChat {
         task.execute()
     }
     //using main
-    fun findRoomChatUser(db: BflagDatabase, mEmailUser: String?) : List<RoomChat> {
+    fun getRoomChatUser(db: BflagDatabase, mEmailUser: String?) : List<RoomChat> {
         return db.roomChatDao().findRoomForUser(mEmailUser!!)
     }
 

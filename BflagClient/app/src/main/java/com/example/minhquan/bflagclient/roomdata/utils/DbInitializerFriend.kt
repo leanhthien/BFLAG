@@ -7,9 +7,9 @@ import com.example.minhquan.bflagclient.roomdata.database.BflagDatabase
 import com.example.minhquan.bflagclient.roomdata.entity.Friend
 
 
-object DatabaseInitializerFriend {
+object DbInitializerFriend {
 
-    private val TAG = DatabaseInitializerFriend::class.java.name
+    private val TAG = DbInitializerFriend::class.java.name
     lateinit var type: String
 
     /**
@@ -24,7 +24,7 @@ object DatabaseInitializerFriend {
         task.execute()
     }
 
-    fun findFriendUser(db: BflagDatabase, mEmailUser: String?) : List<Friend> {
+    fun getFriendUser(db: BflagDatabase, mEmailUser: String?) : List<Friend> {
         return db.friendDao().findFriendForUser(mEmailUser!!)
     }
 
@@ -58,9 +58,9 @@ object DatabaseInitializerFriend {
     fun getFriend(db: BflagDatabase): List<Friend> {
         val friendList = db.friendDao().all
         friendList.forEach {
-            Log.d(DatabaseInitializerFriend.TAG, "Rows : " + it.email)
+            Log.d(DbInitializerFriend.TAG, "Rows : " + it.email)
         }
-        Log.d(DatabaseInitializerFriend.TAG, "Rows count: " + friendList.size)
+        Log.d(DbInitializerFriend.TAG, "Rows count: " + friendList.size)
         return friendList
     }
 

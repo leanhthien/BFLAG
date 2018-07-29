@@ -7,9 +7,9 @@ import com.example.minhquan.bflagclient.roomdata.database.BflagDatabase
 import com.example.minhquan.bflagclient.roomdata.entity.FriendInRoom
 
 
-object DatabaseInitializerFriendsInRoom {
+object DbInitializerFriendsInRoom {
 
-    private val TAG = DatabaseInitializerFriendsInRoom::class.java.name
+    private val TAG = DbInitializerFriendsInRoom::class.java.name
     lateinit var type: String
 
     /**

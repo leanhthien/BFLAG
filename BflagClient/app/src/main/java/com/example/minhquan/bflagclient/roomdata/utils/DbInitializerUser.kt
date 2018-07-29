@@ -7,9 +7,9 @@ import android.util.Log
 import com.example.minhquan.bflagclient.roomdata.database.BflagDatabase
 import com.example.minhquan.bflagclient.roomdata.entity.User
 
-object DatabaseInitializerUser {
+object DbInitializerUser {
 
-    private val TAG = DatabaseInitializerUser::class.java.name
+    private val TAG = DbInitializerUser::class.java.name
     lateinit var type: String
 
     /**
@@ -52,9 +52,9 @@ object DatabaseInitializerUser {
     fun getUser(db: BflagDatabase): List<User> {
         val userList = db.userDao().all
         userList.forEach {
-            Log.d(DatabaseInitializerUser.TAG, "Rows : " + it.email)
+            Log.d(DbInitializerUser.TAG, "Rows : " + it.email)
         }
-        Log.d(DatabaseInitializerUser.TAG, "Rows count: " + userList.size)
+        Log.d(DbInitializerUser.TAG, "Rows count: " + userList.size)
         return userList
     }
 
@@ -92,7 +92,7 @@ object DatabaseInitializerUser {
         addUser(db, user)
 
         val userList = db.userDao().all
-        Log.d(DatabaseInitializerUser.TAG, "Rows Count: " + userList.size)
+        Log.d(DbInitializerUser.TAG, "Rows Count: " + userList.size)
 
     }
 
