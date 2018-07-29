@@ -29,12 +29,14 @@
         <activity android:name=".sign.SignActivity"
             android:windowSoftInputMode="adjustPan">
 
-
         </activity>
         <!--<activity android:name=".home.HomeActivity" />-->
         <!--<activity android:name=".sign.SignActivity" />-->
         <activity android:name=".home.HomeActivity"
-            android:windowSoftInputMode="adjustPan"/>
+            android:windowSoftInputMode="adjustPan">
+
+
+        </activity>
         <activity android:name=".home.SearchActivity"
             android:windowSoftInputMode="stateAlwaysVisible"/>
         <activity android:name=".ambert.signup.SignUpActivity" />

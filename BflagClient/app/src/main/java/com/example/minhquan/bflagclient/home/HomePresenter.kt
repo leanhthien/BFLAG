@@ -1,5 +1,6 @@
 package com.example.minhquan.bflagclient.home
 
+import android.preference.Preference
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.CallbackWrapper
@@ -34,6 +35,7 @@ class HomePresenter(val view: HomeContract.View): HomeContract.Presenter {
                 .subscribeWith(object: CallbackWrapper<User>(view) {
                     override fun onSuccess(result: User) {
                         view.onGetUserSuccess(result)
+
                     }
                 })
     }
