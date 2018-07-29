@@ -2,6 +2,7 @@ package com.example.minhquan.bflagclient.sign.signin
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v4.view.ViewPager
 import android.text.TextUtils
@@ -11,21 +12,19 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.minhquan.bflagclient.R
-import com.example.minhquan.bflagclient.chat.ChatActivity
 import com.example.minhquan.bflagclient.home.HomeActivity
 import com.example.minhquan.bflagclient.model.SuccessResponse
-import com.example.minhquan.bflagclient.sign.SignActivity
-import com.example.minhquan.bflagclient.utils.ConnectivityUtil
-import com.example.minhquan.bflagclient.utils.PreferenceHelper.customPrefs
-import com.example.minhquan.bflagclient.utils.buildSignInJson
+import com.example.minhquan.bflagclient.utils.*
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_signin.*
-import com.example.minhquan.bflagclient.utils.PreferenceHelper.set
-import com.example.minhquan.bflagclient.utils.PreferenceUtil
 
+const val EMPTY_ERROR = "The value cannot be empty!"
 
 class SignInFragment : Fragment(), SignInContract.View {
+
     private lateinit var presenter: SignInContract.Presenter
+    private lateinit var body: JsonObject
+    private var count: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_signin, container, false) as ViewGroup
@@ -51,16 +50,16 @@ class SignInFragment : Fragment(), SignInContract.View {
 
             var check = true
             if (TextUtils.isEmpty(edtEmail.text.toString())){
-                edtEmail.error = "The value cannot be empty!"
+                edtEmail.error = EMPTY_ERROR
                 check = false
             }
             if (TextUtils.isEmpty(edtPassword.text.toString())){
-                edtPassword.error = "The value cannot be empty!"
+                edtPassword.error = EMPTY_ERROR
                 check = false
             }
             if(check){
 
-                val body = JsonObject().buildSignInJson(edtEmail.text.toString(), edtPassword.text.toString())
+                body = JsonObject().buildSignInJson(edtEmail.text.toString(), edtPassword.text.toString())
                 presenter.startSignIn(body)
             }
 
@@ -73,6 +72,7 @@ class SignInFragment : Fragment(), SignInContract.View {
         Log.d("Sign in return", result.token)
 
         PreferenceUtil(context!!).setToken(result.token)
+        SharedPreferenceHelper.getInstance(context!!).setToken(result.token)
 
         startActivity(Intent(context,HomeActivity::class.java))
 
@@ -82,13 +82,23 @@ class SignInFragment : Fragment(), SignInContract.View {
 
     }
 
-    override fun showError(message: String) {
-        Log.e("Error return", message)
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
-
     override fun setPresenter(presenter: SignInContract.Presenter) {
         this.presenter = presenter
+    }
+
+    override fun showError(message: String) {
+        Log.e("Error return", message)
+
+        count++
+        if (count < 10)
+            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+                    .setAction(RETRY) {
+                        presenter.startSignIn(body)
+                    }
+                    .show()
+        else
+            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+                    .show()
     }
 
     override fun onUnknownError(error: String) {
@@ -96,11 +106,11 @@ class SignInFragment : Fragment(), SignInContract.View {
     }
 
     override fun onTimeout() {
-        showError("Time out")
+        showError(TIME_OUT)
     }
 
     override fun onNetworkError() {
-        showError("Network Error")
+        showError(NETWORK_ERROR)
     }
 
     override fun isNetworkConnected(): Boolean {

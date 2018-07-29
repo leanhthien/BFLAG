@@ -1,9 +1,7 @@
 package com.example.minhquan.bflagclient.home
 
-import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.CallbackWrapper
-import com.example.minhquan.bflagclient.utils.PreferenceUtil
 import com.example.minhquan.bflagclient.utils.RetrofitUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable

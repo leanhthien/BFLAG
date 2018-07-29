@@ -1,11 +1,14 @@
 package com.example.minhquan.bflagclient.sign
 
+import android.content.Intent
 import android.graphics.Typeface
 import android.os.Bundle
 import android.support.v4.app.FragmentActivity
 import android.support.v7.app.AppCompatActivity
 import com.example.minhquan.bflagclient.adapter.PagerSignAdapter
 import com.example.minhquan.bflagclient.R
+import com.example.minhquan.bflagclient.home.HomeActivity
+import com.example.minhquan.bflagclient.utils.PreferenceUtil
 import kotlinx.android.synthetic.main.activity_sign.*
 
 
@@ -22,6 +25,9 @@ class SignActivity : AppCompatActivity(){
 
         val typeface = Typeface.createFromAsset(assets,"fonts/smile_of_the_ocean.ttf")
         tvBflag.typeface = typeface
+
+        if (PreferenceUtil(this).getToken() != null)
+            startActivity(Intent(this, HomeActivity::class.java))
     }
 
 }
