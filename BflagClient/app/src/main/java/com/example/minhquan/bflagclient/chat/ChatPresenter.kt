@@ -10,6 +10,12 @@ import com.hosopy.actioncable.Subscription
 import java.net.URI
 import com.google.gson.GsonBuilder
 
+const val BASE_SERVER_URI = "ws://glacial-journey-54219.herokuapp.com/cable"
+const val TOKEN = "Token"
+const val ROOM_CHANNEL = "RoomChannel"
+const val ROOM_ID = "room_id"
+const val CONTENT = "content"
+const val MAX_ATTEMPT = 10
 
 class ChatPresenter (val view: ChatContract.View): ChatContract.Presenter {
 
@@ -24,6 +30,9 @@ class ChatPresenter (val view: ChatContract.View): ChatContract.Presenter {
 
         val options = Consumer.Options()
         options.connection.headers = mapOf(TOKEN to token)
+        options.connection.reconnection = true
+        options.connection.reconnectionMaxAttempts = MAX_ATTEMPT
+
         val consumer = ActionCable.createConsumer(URI(BASE_SERVER_URI), options)
 
 
@@ -40,6 +49,7 @@ class ChatPresenter (val view: ChatContract.View): ChatContract.Presenter {
         subscription.onRejected = {
             // Called when the subscription is rejected by the server
             Log.d("Subscription status","Rejected")
+
         }
 
         subscription.onReceived = { data: Any? ->
@@ -55,12 +65,13 @@ class ChatPresenter (val view: ChatContract.View): ChatContract.Presenter {
         subscription.onDisconnected = {
             // Called when the subscription has been closed
             Log.d("Subscription status","Closed")
+
         }
 
         subscription.onFailed = {
             // Called when the subscription encounters any error
 
-            if (count < 4) {
+          /*  if (count < 5) {
                 Handler().postDelayed({
                     count++
                     consumer.connect()
@@ -69,7 +80,13 @@ class ChatPresenter (val view: ChatContract.View): ChatContract.Presenter {
             else {
                 Log.d("Subscription status", "Error")
                 view.showError("Error")
+            }*/
+
+            if (count++ > 10) {
+                Log.d("Subscription status", "Error")
+                view.showError("Failed to connect")
             }
+
 
         }
 
@@ -93,14 +110,4 @@ class ChatPresenter (val view: ChatContract.View): ChatContract.Presenter {
         }
     }
 
-
-    companion object {
-        const val BASE_SERVER_URI = "ws://glacial-journey-54219.herokuapp.com/cable"
-        const val TOKEN = "Token"
-        const val ROOM_CHANNEL = "RoomChannel"
-        const val ROOM_ID = "room_id"
-        const val ACTION_TYPE = "send_data"
-        const val CONTENT = "content"
-
-    }
 }

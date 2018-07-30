@@ -2,6 +2,7 @@ package com.example.minhquan.bflagclient.sign.signup
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.text.TextUtils
 import android.util.Log
@@ -12,17 +13,18 @@ import android.widget.Toast
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.home.HomeActivity
 import com.example.minhquan.bflagclient.model.SuccessResponse
-import com.example.minhquan.bflagclient.utils.ConnectivityUtil
-import com.example.minhquan.bflagclient.utils.PreferenceHelper
-import com.example.minhquan.bflagclient.utils.PreferenceHelper.set
-import com.example.minhquan.bflagclient.utils.PreferenceUtil
-import com.example.minhquan.bflagclient.utils.buildSignUpJson
+import com.example.minhquan.bflagclient.utils.*
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_signup.*
 
 
+const val EMPTY_ERROR = "The value cannot be empty!"
+
 class SignUpFragment : Fragment(), SignUpContract.View {
+
     private lateinit var presenter: SignUpContract.Presenter
+    private lateinit var body: JsonObject
+    private var count: Int = 0
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_signup, container, false)
@@ -41,27 +43,31 @@ class SignUpFragment : Fragment(), SignUpContract.View {
         btnSignUp.setOnClickListener {
             var check = true
             if (TextUtils.isEmpty(edtEmailSignUp.text.toString())) {
-                edtEmailSignUp.error = "The value cannot be empty!"
+                edtEmailSignUp.error = EMPTY_ERROR
                 check = false
             }
             if (TextUtils.isEmpty(edtPasswordSignUp.text.toString())) {
-                edtPasswordSignUp.error = "The value cannot be empty!"
+                edtPasswordSignUp.error = EMPTY_ERROR
                 check = false
             }
             if (TextUtils.isEmpty(edtUsername.text.toString())) {
-                edtUsername.error = "The value cannot be empty!"
+                edtUsername.error = EMPTY_ERROR
                 check = false
             }
             if (TextUtils.isEmpty(edtFirstname.text.toString())) {
-                edtFirstname.error = "The value cannot be empty!"
+                edtFirstname.error = EMPTY_ERROR
                 check = false
             }
             if (TextUtils.isEmpty(edtLastname.text.toString())) {
-                edtLastname.error = "The value cannot be empty!"
+                edtLastname.error = EMPTY_ERROR
                 check = false
             }
             if (check) {
-                val body = JsonObject().buildSignUpJson(edtEmailSignUp.text.toString(), edtPasswordSignUp.text.toString(), edtUsername.text.toString(), edtFirstname.text.toString(), edtLastname.text.toString())
+                body = JsonObject().buildSignUpJson(edtEmailSignUp.text.toString(),
+                        edtPasswordSignUp.text.toString(),
+                        edtUsername.text.toString(),
+                        edtFirstname.text.toString(),
+                        edtLastname.text.toString())
                 presenter.startSignUp(body)
             }
 
@@ -73,6 +79,7 @@ class SignUpFragment : Fragment(), SignUpContract.View {
         Log.d("Sign up return", result.status)
 
         PreferenceUtil(context!!).setToken(result.token)
+        SharedPreferenceHelper.getInstance(context!!).setToken(result.token)
 
         startActivity(Intent(context, HomeActivity::class.java))
     }
@@ -81,13 +88,23 @@ class SignUpFragment : Fragment(), SignUpContract.View {
 
     }
 
-    override fun showError(message: String) {
-        Log.e("Error return", message)
-        Toast.makeText(context, message, Toast.LENGTH_SHORT).show()
-    }
-
     override fun setPresenter(presenter: SignUpContract.Presenter) {
         this.presenter = presenter
+    }
+
+    override fun showError(message: String) {
+        Log.e("Error return", message)
+
+        count++
+        if (count < 10)
+            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+                .setAction(RETRY) {
+                        presenter.startSignUp(body)
+                }
+                .show()
+        else
+            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+                    .show()
     }
 
     override fun onUnknownError(error: String) {
@@ -95,16 +112,15 @@ class SignUpFragment : Fragment(), SignUpContract.View {
     }
 
     override fun onTimeout() {
-        showError("Time out")
+        showError(TIME_OUT)
     }
 
     override fun onNetworkError() {
-        showError("Network Error")
+        showError(NETWORK_ERROR)
     }
 
     override fun isNetworkConnected(): Boolean {
         return ConnectivityUtil.isConnected(this.activity!!)
     }
-
 
 }

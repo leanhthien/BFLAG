@@ -61,7 +61,7 @@ class CaptureActivity : AppCompatActivity() {
                     .subscribe { granted ->
                         if (granted)
                             choosePhotoFromGallery()
-                         else
+                        else
                             Toast.makeText(this,
                                     "Permission denied, can't open photo Gallery!",
                                     Toast.LENGTH_SHORT).show()
@@ -130,8 +130,8 @@ class CaptureActivity : AppCompatActivity() {
     }
 
     /**
-     * Function for prepare photo and return absolute path of photo
-     * @return path The absolute path of photo for handle
+     * Function for preparing photo and returning the absolute path of photo
+     * @return path - The absolute path of photo for handle
      */
     private fun savePhoto(myBitmap: Bitmap): String {
 
