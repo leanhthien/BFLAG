@@ -35,11 +35,11 @@ class RoomActivity : AppCompatActivity() {
 
 
         btn_insert.setOnClickListener {
-            //DbInitializerUser.insertUserAysnc(BflagDatabase.getDatabase(this),user1)
-            //DbInitializerFriend.insertFriendAysnc(BflagDatabase.getDatabase(this), friend1)
-            DbInitializerRoomChat.insertRoomChatAysnc(BflagDatabase.getDatabase(this), roomchat1)
-            DbInitializerFriendsInRoom.insertFriendAysnc(BflagDatabase.getDatabase(this), friendInRoom1)
-            DbInitializerChat.insertChatAysnc(BflagDatabase.getDatabase(this),chat1)
+            DbInitializerUser.insertUserAysnc(BflagDatabase.getDatabase(this),user1)
+            DbInitializerFriend.insertFriendAysnc(BflagDatabase.getDatabase(this), friend1)
+            //DbInitializerRoomChat.insertRoomChatAysnc(BflagDatabase.getDatabase(this), roomchat1)
+            //DbInitializerFriendsInRoom.insertFriendAysnc(BflagDatabase.getDatabase(this), friendInRoom1)
+            //DbInitializerChat.insertChatAysnc(BflagDatabase.getDatabase(this),chat1)
         }
 
         btn_view.setOnClickListener {
