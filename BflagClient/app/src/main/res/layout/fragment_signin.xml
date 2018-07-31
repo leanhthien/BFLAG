@@ -69,9 +69,9 @@
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/checkBox" />
 
     <android.support.v7.widget.AppCompatCheckBox
@@ -84,12 +84,10 @@
         android:text="@string/remember_me"
         android:textColor="@color/colorBlack"
         android:theme="@style/MyCheckBox"
-        app:layout_constraintStart_toEndOf="@+id/guideline"
-        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/edtPassword" />
 
-    <com.facebook.login.widget.LoginButton
+    <!--<com.facebook.login.widget.LoginButton
         android:id="@+id/btn_facebook_sign_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -120,32 +118,32 @@
         app:layout_constraintTop_toTopOf="@+id/bg_google"
         app:layout_constraintBottom_toBottomOf="@+id/bg_google"
         app:layout_constraintStart_toStartOf="@+id/bg_google"
-        app:layout_constraintEnd_toEndOf="@+id/bg_google"/>
+        app:layout_constraintEnd_toEndOf="@+id/bg_google"/>-->
+
     <TextView
         android:id="@+id/tvForgotPassword"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:clickable="true"
+        android:focusable="true"
         android:text="@string/forgot_password"
         android:textColor="@color/colorPrimary"
         android:textSize="15sp"
         android:textStyle="italic"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignIn"
-        android:focusable="true" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:text="@string/dont_have_account"
-
         android:textSize="15sp"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/tvForgotPassword" />
 
     <TextView
@@ -153,7 +151,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:clickable="true"
         android:focusable="true"
         android:text="@string/sign_up"
@@ -163,5 +161,48 @@
         app:layout_constraintStart_toEndOf="@+id/textView3"
         app:layout_constraintTop_toBottomOf="@+id/tvForgotPassword" />
 
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/btn_facebook_sign_in"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/bg_google"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintVertical_chainStyle="packed" />
+
+    <View
+        android:id="@+id/bg_google"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_rounded_logo_google"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_facebook_sign_in" />
+
+    <ImageView
+        android:id="@+id/img_google"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_google"
+        app:layout_constraintBottom_toBottomOf="@+id/bg_google"
+        app:layout_constraintEnd_toEndOf="@+id/bg_google"
+        app:layout_constraintStart_toStartOf="@+id/bg_google"
+        app:layout_constraintTop_toTopOf="@+id/bg_google" />
+
+    <ProgressBar
+        android:id="@+id/progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+         />
 
 </android.support.constraint.ConstraintLayout>

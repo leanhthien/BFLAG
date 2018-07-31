@@ -11,6 +11,7 @@ import android.provider.MediaStore
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.model.User
@@ -24,6 +25,7 @@ import java.util.*
 import io.reactivex.disposables.Disposable
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.facebook.common.file.FileUtils
+import kotlinx.android.synthetic.main.fragment_signin.*
 import okhttp3.RequestBody
 import kotlin.collections.HashMap
 

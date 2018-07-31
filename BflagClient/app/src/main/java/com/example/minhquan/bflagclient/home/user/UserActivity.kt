@@ -4,19 +4,26 @@ import android.annotation.SuppressLint
 import android.content.Intent
 import android.os.Build
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.util.Pair
 import android.support.v7.app.AppCompatActivity
+import android.util.Log
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.model.User
-import com.example.minhquan.bflagclient.utils.PreferenceUtil
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_user.*
 import android.view.*
-import android.widget.Toast
+import com.example.minhquan.bflagclient.model.SuccessResponse
+import com.example.minhquan.bflagclient.utils.*
 
 
-class UserActivity : AppCompatActivity(){
+class UserActivity : AppCompatActivity(),DialogContract.View{
+
+    private lateinit var presenter: DialogContract.Presenter
+    private lateinit var token: String
+
+    private var count = 0
     lateinit var user: User
 
 
@@ -38,7 +45,7 @@ class UserActivity : AppCompatActivity(){
            startActivity(intent, options.toBundle())
        }
 
-        user = PreferenceUtil(this!!).getUser()
+        user =  SharedPreferenceHelper.getInstance(this).getUser()!!
 
         collapsing.title = user.username
         tvFullname.text = user.firstName + " " + user.lastName
@@ -73,5 +80,48 @@ class UserActivity : AppCompatActivity(){
             }
         }
         return super.onOptionsItemSelected(item)
+    }
+
+    override fun onSignOutSuccess(result: SuccessResponse) {
+
+    }
+
+    override fun showProgress(isShow: Boolean) {
+
+    }
+
+    override fun setPresenter(presenter: DialogContract.Presenter) {
+        this.presenter = presenter
+    }
+
+    override fun showError(message: String) {
+        Log.e("Error return", message)
+        count++
+        if (count < MAX_RETRY)
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+                    .setAction(RETRY) {
+                        presenter.startSignOut(token)
+                    }
+                    .show()
+        else
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+                    .show()
+    }
+
+    override fun onUnknownError(error: String) {
+        showError(error)
+    }
+
+    override fun onTimeout() {
+        showError(TIME_OUT)
+    }
+
+    override fun onNetworkError() {
+        showError(NETWORK_ERROR)
+    }
+
+    override fun isNetworkConnected(): Boolean {
+        return ConnectivityUtil.isConnected(this)
+
     }
 }

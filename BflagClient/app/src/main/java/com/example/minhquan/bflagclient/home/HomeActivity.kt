@@ -58,6 +58,35 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
         setUpStatusBar()
 
+        //setUser()
+
+
+        // get height of navigation bottom bar
+        val height = getHeightNavigationBottom()
+        // and set for view blur
+        blurNav.layoutParams.height = height
+
+
+        if (!isNetworkConnected()) {
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), WORKING_OFFLINE, Snackbar.LENGTH_LONG)
+                    .show()
+            setUser()
+        }
+        else {
+            val tokenReturn =  SharedPreferenceHelper.getInstance(this).getToken()
+
+            if (tokenReturn != null) {
+                token = tokenReturn
+                presenter.startGetUser(token)
+            }
+        }
+
+    }
+
+    private fun setUser() {
+        val user = SharedPreferenceHelper.getInstance(this).getUser()
+
+
         // animation shared element when click image profile
         imgProfile.setImageResource(R.drawable.shin)
         imgProfile.setOnClickListener {
@@ -66,16 +95,8 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1)
             startActivity(intent, options.toBundle())
         }
-
-        val token = PreferenceUtil(this).getToken()
-        if (token != PreferenceUtil.ERROR)
-            presenter.startGetUser(token)
-
-        // get height of navigation bottom bar
-        val height = getHeightNavigationBottom()
-        // and set for view blur
-        blurNav.layoutParams.height = height
     }
+
 
     /**
      * Function set up status bar and navigation bottom
@@ -100,22 +121,18 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
         // finally change the color
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorWhite)
+
+        val height = getHeightNavigationBottom()
+
+        blurNav.layoutParams.height = height
     }
 
     /**
      * Function get height of navigation bottom
      */
     private fun getHeightNavigationBottom(): Int {
-        val height = getHeightNavigation()
 
-        blurNav.layoutParams.height = height
 
-        val tokenReturn =  SharedPreferenceHelper.getInstance(this).getToken()
-
-        if (tokenReturn != null) {
-            token = tokenReturn
-            presenter.startGetUser(token)
-        }
 
         val resources = this.resources
         val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
@@ -127,6 +144,9 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     override fun onGetUserSuccess(result: User) {
 
         SharedPreferenceHelper.getInstance(this).setUser(result)
+
+        setUser()
+
         //startActivity(Intent(this, ChatActivity::class.java))
         //startActivity(Intent(this, CaptureActivity::class.java))
         //startActivity(Intent(this, SignUpActivity::class.java))

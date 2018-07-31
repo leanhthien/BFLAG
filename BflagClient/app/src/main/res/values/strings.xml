@@ -8,19 +8,6 @@
     <!--Sign-->
     <string name="app_name_show">Bflag Chat</string>
 
-    <!--Sign in-->
-    <string name="email">Email</string>
-    <string name="password">Password</string>
-    <string name="sign_in">Sign In</string>
-    <string name="forgot_password">Forgot password?</string>
-    <string name="account">Don\'t have account? </string>
-    <string name="another_sign_in">Or use Google, Facebook account</string>
-
-    <!--Sign up-->
-    <string name="sign_up">Sign Up</string>
-    <string name="first_name">First name</string>
-    <string name="last_name">Last name</string>
-    <string name="user_name">User name</string>
 
     <!--Chat room-->
     <string name="hint_chat">Message</string>

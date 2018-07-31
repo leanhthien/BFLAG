@@ -17,7 +17,10 @@ class DialogActivity : AppCompatActivity(){
         // handle click for item of circle menu
         circleMenu.setOnItemClickListener {
             when(it.id){
-                R.id.home -> Toast.makeText(this@DialogActivity,"Home!!", Toast.LENGTH_SHORT).show()
+                R.id.home ->{
+
+                    Toast.makeText(this@DialogActivity,"Home!!", Toast.LENGTH_SHORT).show()
+                }
                 R.id.search-> Toast.makeText(this@DialogActivity,"Seach!!", Toast.LENGTH_SHORT).show()
             }
         }

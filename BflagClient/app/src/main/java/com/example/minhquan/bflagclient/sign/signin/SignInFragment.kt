@@ -28,12 +28,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_signin.*
-import com.example.minhquan.bflagclient.utils.PreferenceHelper.set
-import com.example.minhquan.bflagclient.utils.PreferenceUtil
 import android.preference.PreferenceManager
-import android.content.SharedPreferences
-import android.support.v4.content.res.TypedArrayUtils.getResourceId
-import android.content.res.TypedArray
 import java.util.*
 
 const val GOOGLE_SIGN_IN_CODE = 100
@@ -68,12 +63,6 @@ class SignInFragment : Fragment(), SignInContract.View {
         }
 
         getStateCheckBox()
-
-
-//        val attrs = intArrayOf(R.attr.selectableItemBackground)
-//        val typedArray = activity!!.obtainStyledAttributes(attrs)
-//        val backgroundResource = typedArray.getResourceId(0, 0)
-//        button2.setBackgroundResource(backgroundResource)
 
     }
 
@@ -212,6 +201,7 @@ class SignInFragment : Fragment(), SignInContract.View {
     }
 
     override fun showProgress(isShow: Boolean) {
+        progressBar.visibility = if (isShow) View.VISIBLE else View.GONE
 
     }
 
