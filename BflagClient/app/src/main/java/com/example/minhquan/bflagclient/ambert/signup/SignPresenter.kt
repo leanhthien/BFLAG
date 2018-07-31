@@ -55,14 +55,14 @@ class SignPresenter(private val view: SignContract.View) : SignContract.Presente
     override fun startEdit(token: String, body: JsonObject) {
         view.showProgress(true)
 
-        disposable  = service.getEdit(token, body)
+        /*disposable  = service.getEdit(token, body)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribeWith(object: CallbackWrapper<User>(view) {
                     override fun onSuccess(result: User) {
                         view.onEditSuccess(result)
                     }
-                })
+                })*/
 
     }
 

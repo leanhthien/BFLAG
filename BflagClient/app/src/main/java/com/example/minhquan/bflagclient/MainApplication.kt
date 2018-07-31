@@ -9,7 +9,6 @@ class MainApplication: Application() {
     override fun onCreate() {
         super.onCreate()
 
-        Log.d("Main application","Init")
         SharedPreferenceHelper.getInstance(this)
     }
 }

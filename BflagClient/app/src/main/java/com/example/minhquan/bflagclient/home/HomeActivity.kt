@@ -17,6 +17,7 @@ import android.view.WindowManager
 import com.example.minhquan.bflagclient.home.user.UserActivity
 import android.widget.Toast
 import com.example.minhquan.bflagclient.ambert.capture.CaptureActivity
+import com.example.minhquan.bflagclient.ambert.signup.SignUpActivity
 import com.example.minhquan.bflagclient.chat.ChatActivity
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.*
@@ -85,8 +86,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
         blurNav.layoutParams.height = height
 
-        val tokenReturn = PreferenceUtil(this).getToken()
-        val tokenReturn_ =  SharedPreferenceHelper.getInstance(this).getToken()
+        val tokenReturn =  SharedPreferenceHelper.getInstance(this).getToken()
 
         if (tokenReturn != null) {
             token = tokenReturn
@@ -97,10 +97,10 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     override fun onGetUserSuccess(result: User) {
 
-        PreferenceUtil(this).setUser(result)
         SharedPreferenceHelper.getInstance(this).setUser(result)
-        startActivity(Intent(this, ChatActivity::class.java))
-
+        //startActivity(Intent(this, ChatActivity::class.java))
+        //startActivity(Intent(this, CaptureActivity::class.java))
+        startActivity(Intent(this, SignUpActivity::class.java))
     }
 
     override fun showProgress(isShow: Boolean) {
@@ -114,7 +114,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     override fun showError(message: String) {
         Log.e("Error return", message)
         count++
-        if (count < 10)
+        if (count < MAX_RETRY)
             Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                     .setAction(RETRY) {
                         presenter.startGetUser(token)

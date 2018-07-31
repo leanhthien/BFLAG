@@ -17,7 +17,6 @@ import com.example.minhquan.bflagclient.utils.*
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_signup.*
 
-
 const val EMPTY_ERROR = "The value cannot be empty!"
 
 class SignUpFragment : Fragment(), SignUpContract.View {
@@ -78,7 +77,6 @@ class SignUpFragment : Fragment(), SignUpContract.View {
         Toast.makeText(context, "Sign up success!!", Toast.LENGTH_SHORT).show()
         Log.d("Sign up return", result.status)
 
-        PreferenceUtil(context!!).setToken(result.token)
         SharedPreferenceHelper.getInstance(context!!).setToken(result.token)
 
         startActivity(Intent(context, HomeActivity::class.java))
@@ -96,7 +94,7 @@ class SignUpFragment : Fragment(), SignUpContract.View {
         Log.e("Error return", message)
 
         count++
-        if (count < 10)
+        if (count < MAX_RETRY)
             Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                 .setAction(RETRY) {
                         presenter.startSignUp(body)
