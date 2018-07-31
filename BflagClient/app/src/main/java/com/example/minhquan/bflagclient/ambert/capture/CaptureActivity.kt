@@ -24,8 +24,8 @@ import java.util.*
 import io.reactivex.disposables.Disposable
 import com.tbruyelle.rxpermissions2.RxPermissions
 import com.facebook.common.file.FileUtils
-
-
+import okhttp3.RequestBody
+import kotlin.collections.HashMap
 
 
 const val CAMERA_REQUEST_CODE = 1
@@ -45,6 +45,7 @@ class CaptureActivity : AppCompatActivity(), CaptureContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_capture)
 
+        CapturePresenter(this)
 
         val rxPermissions = RxPermissions(this)
         rxPermissions.setLogging(true)
@@ -133,8 +134,10 @@ class CaptureActivity : AppCompatActivity(), CaptureContract.View {
                     img_capture!!.setImageBitmap(bitmap)
                     Toast.makeText(this@CaptureActivity, "Image Loaded!", Toast.LENGTH_SHORT).show()
 
-
-
+                    val filePart = prepareFilePart("profile_image",contentURI!!, this)
+                    val mapPart = HashMap<String, RequestBody>()
+                            .buildRequestBody("Thien","Le","anhthien")
+                    presenter.startEdit(token, filePart, mapPart)
                 }
                 catch (e: IOException) {
                     e.printStackTrace()

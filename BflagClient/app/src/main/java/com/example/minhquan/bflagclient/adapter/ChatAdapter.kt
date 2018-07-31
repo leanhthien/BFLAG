@@ -69,7 +69,6 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
         //Set length text
         if (chat.message!!.content != null ) {
 
-            Log.d("Text chat show", chat.message!!.content)
             holder.txtChatMessage.visibility = View.VISIBLE
             holder.imgChatShare.visibility = View.GONE
 
@@ -83,7 +82,6 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
         }
         else {
 
-            Log.d("Image path show on log",chat.message!!.imgUrl)
             holder.txtChatMessage.visibility = View.GONE
             holder.imgChatShare.visibility = View.VISIBLE
 

@@ -17,6 +17,7 @@ import android.view.WindowManager
 import com.example.minhquan.bflagclient.home.user.UserActivity
 import android.widget.Toast
 import com.example.minhquan.bflagclient.ambert.capture.CaptureActivity
+import com.example.minhquan.bflagclient.ambert.capture.CapturePresenter
 import com.example.minhquan.bflagclient.ambert.signup.SignUpActivity
 import com.example.minhquan.bflagclient.chat.ChatActivity
 import com.example.minhquan.bflagclient.model.User
@@ -104,7 +105,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         SharedPreferenceHelper.getInstance(this).setUser(result)
         //startActivity(Intent(this, ChatActivity::class.java))
         //startActivity(Intent(this, CaptureActivity::class.java))
-        startActivity(Intent(this, SignUpActivity::class.java))
+        //startActivity(Intent(this, SignUpActivity::class.java))
     }
 
     override fun showProgress(isShow: Boolean) {

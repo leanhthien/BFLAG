@@ -59,8 +59,7 @@ fun Context.savePhoto(myBitmap: Bitmap) : String {
 fun Context.getPath(uri: Uri) : String {
 
     val file = arrayOf(MediaStore.Images.Media.DATA)
-    val cursor = contentResolver.query(uri,
-            file, null, null, null)
+    val cursor = contentResolver.query(uri, file, null, null, null)
 
     cursor.moveToFirst()
 

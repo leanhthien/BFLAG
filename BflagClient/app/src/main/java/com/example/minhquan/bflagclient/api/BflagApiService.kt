@@ -29,8 +29,8 @@ interface BflagApiService {
     @Multipart
     @PUT("/api/v1/user/edit")
     fun getEdit(@Header("token") token: String,
-                @PartMap() partMap: Map<String, RequestBody>,
-                @Part filePart: MultipartBody.Part)
+                @Part filePart: MultipartBody.Part,
+                @PartMap() mapPart: HashMap<String, RequestBody>)
             : Observable<User>
 
     @DELETE("/api/v1/user/sign_out")
