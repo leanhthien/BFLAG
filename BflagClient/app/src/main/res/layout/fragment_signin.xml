@@ -14,15 +14,16 @@
         android:layout_marginTop="64dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:drawableLeft="@drawable/mail"
+        android:drawableStart="@drawable/mail"
         android:drawablePadding="8dp"
         android:ems="10"
-        android:hint="Email"
-        android:inputType="textPersonName"
+        android:hint="@string/email"
+        android:inputType="textEmailAddress"
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="Autofill" />
 
     <EditText
         android:id="@+id/edtPassword"
@@ -32,15 +33,16 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:drawableLeft="@drawable/password"
+        android:drawableStart="@drawable/password"
         android:drawablePadding="8dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
+        app:layout_constraintTop_toBottomOf="@+id/edtEmail"
+        tools:ignore="Autofill" />
 
 
     <Button
@@ -50,14 +52,28 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/custom_button"
+        android:background="@drawable/button"
         android:gravity="center"
-        android:text="Sign In"
+        android:text="@string/sign_in"
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
+        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
+
+    <android.support.v7.widget.AppCompatCheckBox
+        android:id="@+id/checkBox"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center"
+        android:text="@string/remember_me"
+        android:textColor="@color/colorBlack"
+        android:theme="@style/MyCheckBox"
+        app:layout_constraintStart_toEndOf="@+id/guideline"
         app:layout_constraintTop_toBottomOf="@+id/edtPassword" />
 
 
@@ -81,13 +97,14 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:clickable="true"
-        android:text="Forgot password?"
+        android:text="@string/forgot_password"
         android:textColor="@color/colorPrimary"
         android:textSize="15sp"
         android:textStyle="italic"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
+        app:layout_constraintTop_toBottomOf="@+id/btnSignIn"
+        android:focusable="true" />
 
     <TextView
         android:id="@+id/textView3"
@@ -95,7 +112,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
         android:layout_marginTop="32dp"
-        android:text="Don't have account? "
+        android:text="@string/dont_have_account"
 
         android:textSize="15sp"
         app:layout_constraintStart_toStartOf="@+id/guideline"
@@ -105,9 +122,11 @@
         android:id="@+id/tvSignUp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:clickable="true"
-        android:text="Sign Up"
+        android:focusable="true"
+        android:text="@string/sign_up"
         android:textColor="@color/colorPrimary"
         android:textSize="15sp"
         android:textStyle="bold|italic"

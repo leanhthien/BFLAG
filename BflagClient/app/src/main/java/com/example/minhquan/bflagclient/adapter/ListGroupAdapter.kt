@@ -15,7 +15,7 @@ import android.view.animation.AnimationUtils
 import android.view.animation.AlphaAnimation
 import android.view.animation.DecelerateInterpolator
 
-class ListMessageAdapter(var context: Context) : RecyclerView.Adapter<ListMessageAdapter.ViewHolder>() {
+class ListGroupAdapter(var context: Context) : RecyclerView.Adapter<ListGroupAdapter.ViewHolder>() {
     //val data = List<Message>
     private var lastPosition = -1
 
@@ -24,7 +24,7 @@ class ListMessageAdapter(var context: Context) : RecyclerView.Adapter<ListMessag
             LayoutInflater.from(parent.context).inflate(R.layout.temp, parent, false)
         }
         else {
-            LayoutInflater.from(parent.context).inflate(R.layout.message, parent, false)
+            LayoutInflater.from(parent.context).inflate(R.layout.group, parent, false)
         }
         return ViewHolder(view!!)
     }
@@ -55,6 +55,8 @@ class ListMessageAdapter(var context: Context) : RecyclerView.Adapter<ListMessag
 //        anim.duration = 500
 //        view.startAnimation(anim)
 //    }
+
+
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
 

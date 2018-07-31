@@ -22,7 +22,10 @@ import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_signin.*
 import com.example.minhquan.bflagclient.utils.PreferenceHelper.set
 import com.example.minhquan.bflagclient.utils.PreferenceUtil
-
+import android.preference.PreferenceManager
+import android.content.SharedPreferences
+import android.support.v4.content.res.TypedArrayUtils.getResourceId
+import android.content.res.TypedArray
 
 class SignInFragment : Fragment(), SignInContract.View {
     private lateinit var presenter: SignInContract.Presenter
@@ -43,6 +46,21 @@ class SignInFragment : Fragment(), SignInContract.View {
             activity?.findViewById<ViewPager>(R.id.viewPager)?.currentItem = 1
         }
 
+        getStateCheckBox()
+
+
+//        val attrs = intArrayOf(R.attr.selectableItemBackground)
+//        val typedArray = activity!!.obtainStyledAttributes(attrs)
+//        val backgroundResource = typedArray.getResourceId(0, 0)
+//        button2.setBackgroundResource(backgroundResource)
+
+    }
+
+    private fun getStateCheckBox() {
+        val prefs = PreferenceManager.getDefaultSharedPreferences(activity!!.baseContext)
+        val checked = prefs.getBoolean("checked", false)
+        checkBox.isChecked = checked
+
     }
 
     private fun setupView() {
@@ -59,6 +77,10 @@ class SignInFragment : Fragment(), SignInContract.View {
                 check = false
             }
             if(check){
+
+                // save state of checkbox
+                val prefs = PreferenceManager.getDefaultSharedPreferences(activity!!.baseContext)
+                prefs.edit().putBoolean("checked", checkBox.isChecked).apply()
 
                 val body = JsonObject().buildSignInJson(edtEmail.text.toString(), edtPassword.text.toString())
                 presenter.startSignIn(body)

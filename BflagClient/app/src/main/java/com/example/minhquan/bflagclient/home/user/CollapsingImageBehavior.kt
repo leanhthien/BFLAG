@@ -44,8 +44,8 @@ class CollapsingImageBehavior : CoordinatorLayout.Behavior<View> {
         val range = appBarLayout.totalScrollRange
         val factor = -appBarLayout.y / range
 
-        val left = mView!![X] + (factor * (mTarget!![X] - mView!![X])).toInt() + 32
-        val top = mView!![Y] + (factor * (mTarget!![Y] - mView!![Y])).toInt() - 56
+        val left = mView!![X] + (factor * (mTarget!![X] - mView!![X])).toInt()
+        val top = mView!![Y] + (factor * (mTarget!![Y] - mView!![Y])).toInt()
         val width = mView!![WIDTH] + (factor * (mTarget!![WIDTH] - mView!![WIDTH])).toInt()
         val height = mView!![HEIGHT] + (factor * (mTarget!![HEIGHT] - mView!![HEIGHT])).toInt()
 

@@ -7,15 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.example.minhquan.bflagclient.R
-import com.example.minhquan.bflagclient.adapter.ListMessageAdapter
 import kotlinx.android.synthetic.main.fragment_messages.*
+import com.example.minhquan.bflagclient.adapter.ListGroupAdapter
 
 
-
-class MessagesFragment : Fragment() {
+class GroupFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        return inflater.inflate(R.layout.fragment_messages,container,false)
+        return inflater.inflate(R.layout.fragment_group,container,false)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -26,7 +25,7 @@ class MessagesFragment : Fragment() {
     }
 
     private fun setUpListView() {
-        val adapter = ListMessageAdapter(this.context!!)
+        val adapter = ListGroupAdapter(this.context!!)
         recyclerView.setHasFixedSize(true)
         val layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         recyclerView.layoutManager = layoutManager

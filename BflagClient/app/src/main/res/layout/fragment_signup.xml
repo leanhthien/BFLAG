@@ -15,12 +15,13 @@
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:ems="10"
-        android:hint="First name"
+        android:hint="@string/first_name"
         android:inputType="textPersonName|textNoSuggestions"
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_chat"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="Autofill" />
 
     <EditText
         android:id="@+id/edtLastname"
@@ -31,12 +32,13 @@
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:ems="10"
-        android:hint="Last name"
+        android:hint="@string/last_name"
         android:inputType="textPersonName|textNoSuggestions"
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintStart_toStartOf="@+id/guideline_chat"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="Autofill" />
 
     <EditText
         android:id="@+id/edtUsername"
@@ -46,16 +48,17 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:drawableLeft="@drawable/username"
+        android:drawableStart="@drawable/username"
         android:drawablePadding="8dp"
         android:ems="10"
-        android:hint="User name"
+        android:hint="@string/user_name"
         android:inputType="textPersonName"
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/edtFirstname" />
+        app:layout_constraintTop_toBottomOf="@+id/edtFirstname"
+        tools:ignore="Autofill" />
 
     <EditText
         android:id="@+id/edtEmailSignUp"
@@ -65,16 +68,17 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:drawableLeft="@drawable/mail"
+        android:drawableStart="@drawable/mail"
         android:drawablePadding="8dp"
         android:ems="10"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/edtUsername" />
+        app:layout_constraintTop_toBottomOf="@+id/edtUsername"
+        tools:ignore="Autofill" />
 
     <EditText
         android:id="@+id/edtPasswordSignUp"
@@ -84,16 +88,17 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/colorPrimaryDark"
-        android:drawableLeft="@drawable/password"
+        android:drawableStart="@drawable/password"
         android:drawablePadding="8dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="@string/password"
         android:inputType="textPassword"
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline2"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmailSignUp" />
+        app:layout_constraintTop_toBottomOf="@+id/edtEmailSignUp"
+        tools:ignore="Autofill" />
 
 
     <Button
@@ -103,8 +108,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
-        android:background="@drawable/custom_button"
-        android:text="Sign Up"
+        android:background="@drawable/button"
+        android:text="@string/sign_up"
         android:textAllCaps="false"
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
