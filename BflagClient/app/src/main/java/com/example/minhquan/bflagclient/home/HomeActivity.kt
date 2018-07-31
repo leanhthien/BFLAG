@@ -93,6 +93,10 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
             presenter.startGetUser(token)
         }
 
+
+//        val height = getHeightNavigation()
+//
+//        blurNav.layoutParams.height = height
     }
 
     override fun onGetUserSuccess(result: User) {
