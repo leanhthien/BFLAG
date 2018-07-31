@@ -39,7 +39,6 @@ class DialogActivity : AppCompatActivity(), DialogContract.View {
                 R.id.search -> Toast.makeText(this@DialogActivity, "Search!!", Toast.LENGTH_SHORT).show()
                 R.id.logout -> {
                     presenter.startSignOut(token)
-                    startActivity(Intent(this@DialogActivity,SignActivity::class.java))
                 }
 
             }
@@ -47,7 +46,9 @@ class DialogActivity : AppCompatActivity(), DialogContract.View {
     }
 
     override fun onSignOutSuccess(result: SuccessResponse) {
-
+        SharedPreferenceHelper.getInstance(this).removeAll()
+        startActivity(Intent(this@DialogActivity,SignActivity::class.java))
+        finish()
     }
 
     override fun showProgress(isShow: Boolean) {
