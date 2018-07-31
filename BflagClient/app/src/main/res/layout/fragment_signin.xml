@@ -6,12 +6,26 @@
     android:layout_height="match_parent"
     android:background="@android:color/transparent">
 
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.15" />
+
+    <android.support.constraint.Guideline
+        android:id="@+id/guideline_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_percent="0.85" />
+
     <EditText
         android:id="@+id/edtEmail"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
-        android:layout_marginTop="64dp"
+        android:layout_marginTop="32dp"
         android:layout_marginEnd="8dp"
         android:backgroundTint="@color/colorPrimaryDark"
         android:drawableStart="@drawable/mail"
@@ -20,10 +34,9 @@
         android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:paddingBottom="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="Autofill" />
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/edtPassword"
@@ -39,11 +52,9 @@
         android:hint="@string/password"
         android:inputType="textPassword"
         android:paddingBottom="16dp"
-        app:layout_constraintEnd_toStartOf="@+id/guideline2"
-        app:layout_constraintStart_toStartOf="@+id/guideline"
-        app:layout_constraintTop_toBottomOf="@+id/edtEmail"
-        tools:ignore="Autofill" />
-
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/edtEmail" />
 
     <Button
         android:id="@+id/btnSignIn"
@@ -74,23 +85,42 @@
         android:textColor="@color/colorBlack"
         android:theme="@style/MyCheckBox"
         app:layout_constraintStart_toEndOf="@+id/guideline"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
         app:layout_constraintTop_toBottomOf="@+id/edtPassword" />
 
-
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline"
+    <com.facebook.login.widget.LoginButton
+        android:id="@+id/btn_facebook_sign_in"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.15" />
+        app:layout_constraintBottom_toTopOf="@+id/bg_google"
+        android:layout_marginTop="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnSignIn"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_bias="0.0"/>
 
-    <android.support.constraint.Guideline
-        android:id="@+id/guideline2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.85" />
+    <View
+        android:id="@+id/bg_google"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/background_rounded_logo_google"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_facebook_sign_in" />
 
+    <ImageView
+        android:id="@+id/img_google"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:src="@drawable/ic_google"
+        app:layout_constraintTop_toTopOf="@+id/bg_google"
+        app:layout_constraintBottom_toBottomOf="@+id/bg_google"
+        app:layout_constraintStart_toStartOf="@+id/bg_google"
+        app:layout_constraintEnd_toEndOf="@+id/bg_google"/>
     <TextView
         android:id="@+id/tvForgotPassword"
         android:layout_width="wrap_content"

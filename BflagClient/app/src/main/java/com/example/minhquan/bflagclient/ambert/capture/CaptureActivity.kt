@@ -8,10 +8,13 @@ import android.media.MediaScannerConnection
 import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
+import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import com.example.minhquan.bflagclient.R
+import com.example.minhquan.bflagclient.model.User
+import com.example.minhquan.bflagclient.utils.*
 import kotlinx.android.synthetic.main.activity_capture.*
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -20,21 +23,29 @@ import java.io.IOException
 import java.util.*
 import io.reactivex.disposables.Disposable
 import com.tbruyelle.rxpermissions2.RxPermissions
+import com.facebook.common.file.FileUtils
+import okhttp3.RequestBody
+import kotlin.collections.HashMap
 
 
 const val CAMERA_REQUEST_CODE = 1
 const val GALLERY_REQUEST_CODE = 2
 
 
-class CaptureActivity : AppCompatActivity() {
+class CaptureActivity : AppCompatActivity(), CaptureContract.View {
 
     private var disposable: Disposable? = null
     private lateinit var path: String
+    private lateinit var presenter: CaptureContract.Presenter
+    private lateinit var token: String
+
+    private var count: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_capture)
 
+        CapturePresenter(this)
 
         val rxPermissions = RxPermissions(this)
         rxPermissions.setLogging(true)
@@ -61,13 +72,17 @@ class CaptureActivity : AppCompatActivity() {
                     .subscribe { granted ->
                         if (granted)
                             choosePhotoFromGallery()
-                         else
+                        else
                             Toast.makeText(this,
                                     "Permission denied, can't open photo Gallery!",
                                     Toast.LENGTH_SHORT).show()
                         }
 
         }
+
+        token =  SharedPreferenceHelper.getInstance(this).getToken()!!
+
+
 
     }
 
@@ -119,6 +134,10 @@ class CaptureActivity : AppCompatActivity() {
                     img_capture!!.setImageBitmap(bitmap)
                     Toast.makeText(this@CaptureActivity, "Image Loaded!", Toast.LENGTH_SHORT).show()
 
+                    val filePart = prepareFilePart("profile_image",contentURI!!, this)
+                    val mapPart = HashMap<String, RequestBody>()
+                            .buildRequestBody("Thien","Le","anhthien")
+                    presenter.startEdit(token, filePart, mapPart)
                 }
                 catch (e: IOException) {
                     e.printStackTrace()
@@ -130,8 +149,8 @@ class CaptureActivity : AppCompatActivity() {
     }
 
     /**
-     * Function for prepare photo and return absolute path of photo
-     * @return path The absolute path of photo for handle
+     * Function for preparing photo and returning the absolute path of photo
+     * @return path - The absolute path of photo for handle
      */
     private fun savePhoto(myBitmap: Bitmap): String {
 
@@ -170,6 +189,50 @@ class CaptureActivity : AppCompatActivity() {
 
     companion object {
         const val IMAGE_DIRECTORY_PATH = "/Bflag"
+    }
+
+
+    override fun onEditSuccess(result: User) {
+
+    }
+
+    override fun showProgress(isShow: Boolean) {
+
+    }
+
+    override fun showError(message: String) {
+        Log.e("Error return", message)
+        count++
+        if (count < MAX_RETRY)
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+                    .setAction(RETRY) {
+                        /*presenter.startEdit(token,,)*/
+                    }
+                    .show()
+        else
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+                    .show()
+    }
+
+    override fun setPresenter(presenter: CaptureContract.Presenter) {
+        this.presenter = presenter
+    }
+
+    override fun onUnknownError(error: String) {
+        showError(error)
+    }
+
+    override fun onTimeout() {
+        showError(TIME_OUT)
+    }
+
+    override fun onNetworkError() {
+        showError(NETWORK_ERROR)
+    }
+
+    override fun isNetworkConnected(): Boolean {
+        return ConnectivityUtil.isConnected(this)
+
     }
 
 }

@@ -16,6 +16,7 @@ import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_signup.*
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import android.content.Intent
+import com.example.minhquan.bflagclient.utils.SharedPreferenceHelper
 import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
@@ -26,9 +27,6 @@ import com.facebook.FacebookCallback
 import java.util.*
 import com.facebook.AccessToken
 import com.facebook.AccessTokenTracker
-
-
-
 
 const val GOOGLE_SIGN_IN_CODE = 100
 const val EMAIL = "email"
@@ -48,9 +46,9 @@ class SignUpActivity : AppCompatActivity(), SignContract.View {
 
         SignPresenter(this)
 
-        //setupView()
+        setupView()
         //getSignUpGoogle()
-        getSignUpFacebook()
+        //getSignUpFacebook()
     }
 
     fun setupView() {
@@ -61,19 +59,21 @@ class SignUpActivity : AppCompatActivity(), SignContract.View {
                 "Le Anh",
                 "Thien")
         val body_2 = JsonObject().buildEditJson(null, null, null)
-        val token = "a423ecd5a4ab0379991b9c79d7535ab0"
+        val token = SharedPreferenceHelper.getInstance(this).getToken()!!
 
 
         btn_test.setOnClickListener{
             //presenter.startSignUp(body)
             //presenter.startSignIn(body_1)
             //presenter.startEdit(token, body_2)
-            //presenter.startSignOut(token)
+            presenter.startSignOut(token)
 
             /*if (isNetworkConnected())
                 Log.d("Network status","Connected")
             else
                 Log.d("Network status","No network connection")*/
+
+
 
         }
 
@@ -212,6 +212,7 @@ class SignUpActivity : AppCompatActivity(), SignContract.View {
 
     override fun onSignOutSuccess(result: SuccessResponse) {
         Log.d("Sign out return",result.status)
+        SharedPreferenceHelper.getInstance(this).removeAll()
     }
 
 

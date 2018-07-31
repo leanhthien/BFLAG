@@ -6,6 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 
 apply plugin: 'com.google.gms.google-services'
 
+apply plugin: 'kotlin-kapt'
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -98,5 +100,16 @@ dependencies {
     implementation 'com.facebook.fresco:fresco:1.10.0'
     //CircleMenu
     implementation 'com.github.imangazalievm:circlemenu:2.0.2'
+    //BlurZoomCoordinatorLayout
+    implementation 'com.github.fafaldo:blur-zoom-gallery:1.0.0'
+    //..................Room and RxJava
+    def room_version = "1.1.1"
+    implementation "android.arch.persistence.room:runtime:$room_version"
+    kapt "android.arch.persistence.room:compiler:$room_version"
+    implementation "android.arch.persistence.room:rxjava2:$room_version"
+    implementation "android.arch.persistence.room:guava:$room_version"
+
+
+
 }
 

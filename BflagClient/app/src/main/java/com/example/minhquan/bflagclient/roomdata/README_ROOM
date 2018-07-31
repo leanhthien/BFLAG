@@ -1,0 +1,94 @@
+//Rock Lee 29 07 2018
+//Save data with room
+
+************* 5 Table ********************
+User :  email   KEY     NOTNULL
+        password        NOTNULL
+        user_name
+        first_name
+        last_name
+        profile_image
+        -   Friend :    FOREIGN KEY
+        -   RoomChat :  FOREIGN KEY
+
+Friend :    email       KEY             NOTNULL
+            email_user   FOREIGN KEY     NOT NULL
+            name
+            profile_image
+
+RoomChat :  id      KEY             NOTNULL
+            email   FOREIGN KEY     NOTNULL
+            -   FriendInRoom
+            -   Chat
+
+FriendInRoom :  email       KEY             NOTNULL
+                room_id      FOREIGN KEY     NOTNULL
+                user_name
+                profile_image
+
+Chat :  id      KEY             (AUTO)
+        room_id  FOREIGN KEY     NOTNULL
+        time
+        email
+        user_name
+        profile_image
+        content
+        img_url
+
+**************** Using ****************
+    val DB = BflagDatabase.getDatabase(this)
+
+list Users
+    insert :
+        DatabaseInitializerUser.insertUserAysnc(DB,user1)
+    delete :
+        DatabaseInitializerUser.deleteUserAysnc(DB, user1)
+    get :
+        DatabaseInitializerUser.getUser(BflagDatabase.getDatabase(this))
+
+
+list Friends
+    insert :
+        DatabaseInitializerFriend.insertFriendAysnc(DB, friend1)
+    getAll :
+        DatabaseInitializerFriend.getFriend(DB)
+    getFriends for Uer (*) :
+        DatabaseInitializerFriend.getFriendUser(DB,mEmailUser)
+
+
+list Rooms Chat
+    insert :
+        DatabaseInitializerRoomChat.insertRoomChatAysnc(DB,roomchat1)
+    getAll :
+        DatabaseInitializerRoomChat.getRoomChat(db)
+    getRooms for User (*) :
+        DatabaseInitializerRoomChat.getRoomChatUser(DB,mEmailUser)
+
+
+list Friends In Room
+    insert :
+        DatabaseInitializerFriendsInRoom.insertFriendAysnc(db,mFriendInRoom)
+    getAll :
+        DatabaseInitializerFriendsInRoom.getFriend(DB))
+    getFriends for Room (*) :
+        DatabaseInitializerFriendsInRoom.getFriendInRoom(DB,mRoomId)
+
+
+list Chat
+    insert :
+        DatabaseInitializerChat.insertChatAysnc(Db,chat1)
+    getAll :
+        DatabaseInitializerChat.getChat(DB)
+    getChats for Room (*) :
+        DatabaseInitializerChat.getChatInRoom(DB,mRoomId)
+
+
+
+
+
+
+
+
+
+
+

@@ -38,10 +38,6 @@ class FriendAdapter(private var context: Context) : RecyclerView.Adapter<FriendA
                 .into(holder.imgFriendAvatar)
         holder.tvFriendName.text = friend.username
 
-        /**
-         * Rock lee
-         * OnClick on RecyclerView1 -> ViewPager
-         */
         holder.imgFriendAvatar.setOnClickListener {
             //context.findViewById<ViewPager>(R.id.vpg_chat_friend).currentItem = position
 

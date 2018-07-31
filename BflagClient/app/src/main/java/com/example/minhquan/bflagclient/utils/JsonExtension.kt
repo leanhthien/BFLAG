@@ -21,6 +21,14 @@ fun JsonObject.buildSignInJson(email: String, password: String) : JsonObject {
     return this
 }
 
+fun JsonObject.buildAuthJson(token: String) : JsonObject {
+
+    addProperty("Token", token)
+
+    return this
+}
+
+
 fun JsonObject.buildEditJson(username: String?, firstName: String?, lastName: String?) : JsonObject {
 
     addProperty("username", username)
