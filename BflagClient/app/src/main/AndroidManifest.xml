@@ -37,7 +37,6 @@
         <activity android:name=".roomdata.activity.RoomActivity">
             <!--Rock Lee Run demo save database with room-->
         </activity>
-        <!--<activity android:name=".home.HomeActivity" />-->
         <!--<activity android:name=".sign.SignActivity" />-->
         <activity android:name=".home.HomeActivity"
             android:windowSoftInputMode="adjustPan"/>
@@ -46,8 +45,12 @@
         <activity android:name=".ambert.signup.SignUpActivity" />
         <activity android:name=".chat.ChatActivity"
             android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".home.user.UserActivity" />
         <activity android:name=".ambert.capture.CaptureActivity" />
+        <activity android:name=".home.user.UserActivity" />
+        <activity android:name=".home.user.DialogActivity"
+            android:theme="@style/NoTitleDialog" />
+        <activity android:name=".home.user.EditInfoActivity"/>
+
         <uses-library
             android:name="com.google.android.maps"
             android:required="true" />

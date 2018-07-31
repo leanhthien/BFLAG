@@ -9,6 +9,8 @@ class SharedPreferenceHelper private constructor(context: Context) {
 
     val BFLAG = "BFLAG"
     val TOKEN = "token"
+    val TOKEN_GOOGLE = "token_google"
+    val TOKEN_FACEBOOK = "token_facebook"
     val USER = "user"
 
     var instance : SharedPreferences
@@ -25,12 +27,33 @@ class SharedPreferenceHelper private constructor(context: Context) {
         return instance.getString(TOKEN, null)
     }
 
+    fun setTokenGoogle(token: String?) {
+        instance.edit().putString(TOKEN_GOOGLE, token).apply()
+    }
+
+    fun getTokenGoogle() : String? {
+        return instance.getString(TOKEN_GOOGLE, null)
+    }
+
+    fun setTokenFacebook(token: String?) {
+        instance.edit().putString(TOKEN_FACEBOOK, token).apply()
+    }
+
+    fun getTokenFacebook() : String? {
+        return instance.getString(TOKEN_FACEBOOK, null)
+    }
+
+
     fun setUser(user: User?) {
         instance.edit().putString(USER, Gson().toJson(user)).apply()
     }
 
     fun getUser() : User? {
         return Gson().fromJson(instance.getString(USER, null), User::class.java)
+    }
+
+    fun removeAll() {
+        instance.edit().clear().apply()
     }
 
     companion object : SingletonHolder<SharedPreferenceHelper, Context>(::SharedPreferenceHelper)

@@ -4,10 +4,38 @@
     <!--Facebook sign in-->
     <string name="facebook_app_id">1879952642064210</string>
     <string name="fb_login_protocol_scheme">fb1879952642064210</string>
-    <string name="messages">Messages</string>
-    <string name="active">Active</string>
+
+    <!--Sign-->
+    <string name="app_name_show">Bflag Chat</string>
+
 
     <!--Chat room-->
     <string name="hint_chat">Message</string>
+
+    <!--Sign-->
+    <string name="bflag_chat">Bflag Chat</string>
+    <string name="sign_in">Sign In</string>
+    <string name="sign_up">Sign Up</string>
+    <string name="first_name">First name</string>
+    <string name="last_name">Last name</string>
+    <string name="user_name">User name</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="remember_me">Remember me</string>
+    <string name="forgot_password">Forgot password?</string>
+    <string name="dont_have_account">Don"'"t have account?</string>
+
+    <!--Home-->
+    <string name="messages">Messages</string>
+    <string name="active">Active</string>
+    <string name="group">Group</string>
+
+    <!--User-->
+    <string name="full_name">Full name</string>
+    <string name="gender">Gender</string>
+    <string name="birthday">Birthday</string>
+    <string name="edit_your_info">Edit Your Info</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
 
 </resources>

@@ -31,6 +31,5 @@ interface SignContract {
 
         fun startSignOut(token: String)
 
-
     }
 }

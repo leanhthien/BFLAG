@@ -61,8 +61,8 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:transitionName="profile"
-        app:civ_border_color="@color/colorPrimaryLight"
-        app:civ_border_width="0.5dp"
+        app:civ_border_color="@color/colorPrimary"
+        app:civ_border_width="1dp"
         app:layout_constraintBottom_toTopOf="@+id/tabLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -96,7 +96,7 @@
     <com.github.mmin18.widget.RealtimeBlurView
         android:id="@+id/blurNav"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="80dp"
         app:blurOverlayColor="#1Affffff"
         app:layout_constraintBottom_toBottomOf="@+id/viewPager"
         app:layout_constraintEnd_toEndOf="parent"

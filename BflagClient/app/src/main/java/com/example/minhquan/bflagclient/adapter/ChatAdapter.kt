@@ -17,7 +17,6 @@ import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.model.Chat
 import com.example.minhquan.bflagclient.utils.RECEIVER
 import com.example.minhquan.bflagclient.utils.SENDER
-import com.example.minhquan.bflagclient.utils.PreferenceUtil
 import com.example.minhquan.bflagclient.utils.SharedPreferenceHelper
 import java.io.File
 
@@ -53,9 +52,7 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
 
     override fun getItemViewType(position: Int): Int {
 
-        val mail = SharedPreferenceHelper.getInstance(context).getUser()!!.email
-
-        return if (data[position].friend!!.email!! == PreferenceUtil(context).getUser()!!.email)
+        return if (data[position].friend!!.email!! == SharedPreferenceHelper.getInstance(context).getUser()!!.email)
             SENDER else RECEIVER
     }
 
@@ -72,7 +69,6 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
         //Set length text
         if (chat.message!!.content != null ) {
 
-            Log.d("Text chat show", chat.message!!.content)
             holder.txtChatMessage.visibility = View.VISIBLE
             holder.imgChatShare.visibility = View.GONE
 
@@ -86,7 +82,6 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
         }
         else {
 
-            Log.d("Image path show on log",chat.message!!.imgUrl)
             holder.txtChatMessage.visibility = View.GONE
             holder.imgChatShare.visibility = View.VISIBLE
 

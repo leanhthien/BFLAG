@@ -73,6 +73,7 @@ dependencies {
     //Glide
     implementation 'com.github.bumptech.glide:glide:4.7.1'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.7.1'
+    //Klaxon
 
     //Optional libraries
     //Facebook sign in
@@ -86,9 +87,9 @@ dependencies {
     //Blur
     implementation 'com.eightbitlab:supportrenderscriptblur:1.0.1'
     implementation 'com.eightbitlab:blurview:1.4.0'
+    implementation 'jp.wasabeef:blurry:2.1.1'
     //Actioncable client kotlin
     implementation 'com.github.hosopy:actioncable-client-kotlin:0.0.2'
-
     //OverScrollBouncy
     implementation 'com.chauthai.overscroll:overscroll-bouncy:0.1.1'
     //RealtimeBlurView
@@ -97,8 +98,15 @@ dependencies {
     implementation 'de.hdodenhof:circleimageview:2.2.0'
     //Fresco
     implementation 'com.facebook.fresco:fresco:1.10.0'
+    //CircleMenu
+    implementation 'com.github.imangazalievm:circlemenu:2.0.2'
     //BlurZoomCoordinatorLayout
     implementation 'com.github.fafaldo:blur-zoom-gallery:1.0.0'
+    //Progress
+    implementation 'com.pnikosis:materialish-progress:1.7'
+
+
+
     //..................Room and RxJava
     def room_version = "1.1.1"
     implementation "android.arch.persistence.room:runtime:$room_version"

@@ -42,10 +42,12 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
     private lateinit var subscription : Subscription
     private lateinit var path: String
 
+
     private var historyChat: MutableList<Chat> = mutableListOf()
     private var localChat: MutableList<Chat> = mutableListOf()
     private var disposable: Disposable? = null
     private var count: Int = 0
+    private var smoothScroll: Int = 0
 
     private val room = 1
     private lateinit var sdf : SimpleDateFormat
@@ -63,19 +65,18 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
         ChatPresenter(this)
 
         chatAdapter = ChatAdapter(activity!!)
-        rv_chat.layoutManager = LinearLayoutManager(context,
-                                                    LinearLayoutManager.VERTICAL,
-                                                    false)
+        rv_chat.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         rv_chat.adapter = chatAdapter
 
         //Get current user data
-        token = PreferenceUtil(context!!).getToken()!!
-        user = PreferenceUtil(context!!).getUser()!!
+        token =  SharedPreferenceHelper.getInstance(context!!).getToken()!!
+        user =  SharedPreferenceHelper.getInstance(context!!).getUser()!!
+
+        setupView()
 
     }
 
-    override fun onResume() {
-        super.onResume()
+    private fun setupView() {
 
         val rxPermissions = RxPermissions(this)
         rxPermissions.setLogging(true)
@@ -139,9 +140,9 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
 
             chat = data
 
-            if (data.friend!!.email != PreferenceUtil(context!!).getUser()!!.email) {
+            if (data.friend!!.email != SharedPreferenceHelper.getInstance(context!!).getUser()!!.email) {
 
-                val smoothScroll = chatAdapter.setData(chat)
+                smoothScroll = chatAdapter.setData(chat)
                 rv_chat.smoothScrollToPosition(smoothScroll)
             }
             historyChat.add(chat)
@@ -216,12 +217,12 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
 
         chat = Chat(
                 Friend(user.email, user.username, user.profileImage?.url),
-                Message( text, image),
+                Message(text, image),
                 sdf.format(Date()))
 
         if (text != null) edt_chat.text = null
 
-        val smoothScroll = chatAdapter.setData(chat)
+        smoothScroll = chatAdapter.setData(chat)
         rv_chat.smoothScrollToPosition(smoothScroll)
         localChat.add(chat)
 
@@ -242,7 +243,7 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
         Log.e("Error return", message)
 
         count++
-        if (count < 10)
+        if (count < MAX_RETRY)
             Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                     .setAction(RETRY) {
                         if (isNetworkConnected()) {

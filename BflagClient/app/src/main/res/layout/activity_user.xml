@@ -2,12 +2,14 @@
 <android.support.design.widget.CoordinatorLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
     <android.support.design.widget.AppBarLayout
-        android:id="@+id/app_bar_layout"
+        android:id="@+id/appBar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
@@ -15,13 +17,13 @@
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing"
             app:title="Ginn"
-            app:expandedTitleMarginStart="120dp"
-            app:expandedTitleMarginBottom="40dp"
+            app:expandedTitleMarginStart="112dp"
+            app:expandedTitleMarginBottom="48dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
+            app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -35,14 +37,16 @@
                     android:background="@drawable/cover"
                     android:scaleType="centerCrop"
                     android:transitionName="cover"
-                    android:layout_height="250dp" />
+                    android:layout_height="250dp"
+                    tools:ignore="ContentDescription" />
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="64dp"
-                app:titleMarginStart="16dp"
+                android:layout_marginTop="32dp"
+                app:titleMarginStart="8dp"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
                 app:layout_collapseMode="pin">
                 <Space
@@ -55,18 +59,213 @@
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
+        android:id="@+id/nestedScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:scrollbars="none"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:fillViewport="true"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior"
+        tools:ignore="PrivateResource">
 
-        <TextView
+        <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:lineSpacingExtra="8dp"
-            android:text="aaaaaaaaa"
-            android:textSize="18sp" />
+            android:layout_height="match_parent"
+            android:background="@color/colorWhite"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:gravity="center|start"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:text="@string/full_name"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/tvFullname"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:gravity="center|start"
+                android:paddingStart="16dp"
+                android:paddingBottom="8dp"
+                android:text="Ginn"
+                android:textColor="@color/colorBlack"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView4" />
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:text="TextView"
+                android:background="@color/colorGrey"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvFullname" />
+
+            <TextView
+                android:id="@+id/textView8"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:gravity="center|start"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:text="@string/gender"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/tvGender"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:textColor="@color/colorBlack"
+                android:gravity="center|start"
+                android:paddingStart="16dp"
+                android:text="Nam"
+                android:paddingBottom="8dp"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView8"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/textView9"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginStart="16dp"
+                android:background="@color/colorGrey"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGender" />
+
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:gravity="center|start"
+                android:paddingStart="16dp"
+                android:paddingTop="8dp"
+                android:text="@string/birthday"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView9"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/tvBirthday"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:gravity="center|start"
+                android:textColor="@color/colorBlack"
+                android:paddingStart="16dp"
+                android:paddingBottom="8dp"
+                android:text="19/05/1997"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView5"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/textView11"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:background="@color/colorGrey"
+                android:layout_marginStart="16dp"
+                android:text="TextView"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvBirthday" />
+
+            <TextView
+                android:id="@+id/email"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/colorWhite"
+                android:gravity="center|start"
+                android:paddingTop="8dp"
+                android:paddingStart="16dp"
+                android:text="@string/email"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.501"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView11"
+                tools:ignore="RtlSymmetry" />
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:textColor="@color/colorBlack"
+                android:background="@color/colorWhite"
+                android:gravity="center|start"
+                android:paddingStart="16dp"
+                android:paddingBottom="8dp"
+                android:text="example@gmail.com"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/email"
+                tools:ignore="RtlSymmetry" />
+
+            <Button
+                android:id="@+id/btnEditInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="24dp"
+                android:background="@drawable/button"
+                android:paddingStart="64dp"
+                android:paddingRight="64dp"
+                android:text="@string/edit_your_info"
+                android:textAllCaps="false"
+                android:textColor="@color/colorWhite"
+                android:textSize="20sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
+
+            <android.support.design.widget.FloatingActionButton
+                android:id="@+id/fabMenu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="48dp"
+                android:layout_marginEnd="48dp"
+                android:backgroundTint="@color/colorWhite"
+                android:src="@drawable/menu"
+                android:transitionName="menuCircle"
+                android:elevation="6dp"
+                app:borderWidth="1dp"
+                app:fabSize="normal"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/btnEditInfo" />
+
+
+        </android.support.constraint.ConstraintLayout>
     </android.support.v4.widget.NestedScrollView>
 
     <de.hdodenhof.circleimageview.CircleImageView
@@ -75,13 +274,15 @@
         android:layout_height="80dp"
         android:src="@drawable/shin"
         android:transitionName="profile"
-        android:layout_marginTop="150dp"
-        android:layout_marginLeft="16dp"
-        android:layout_gravity="left"
+        android:layout_marginTop="144dp"
+        android:layout_marginStart="16dp"
+        android:layout_gravity="start"
         android:elevation="8dp"
         app:civ_border_color="@color/colorPrimary"
         app:civ_border_width="1dp"
         app:collapsedTarget="@id/circle_collapsed_target"
         app:layout_behavior="com.example.minhquan.bflagclient.home.user.CollapsingImageBehavior"/>
+
+
 
 </android.support.design.widget.CoordinatorLayout>

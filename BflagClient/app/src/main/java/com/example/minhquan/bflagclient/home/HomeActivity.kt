@@ -17,6 +17,8 @@ import android.view.WindowManager
 import com.example.minhquan.bflagclient.home.user.UserActivity
 import android.widget.Toast
 import com.example.minhquan.bflagclient.ambert.capture.CaptureActivity
+import com.example.minhquan.bflagclient.ambert.capture.CapturePresenter
+import com.example.minhquan.bflagclient.ambert.signup.SignUpActivity
 import com.example.minhquan.bflagclient.chat.ChatActivity
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.*
@@ -39,11 +41,13 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     private fun setUpView() {
         HomePresenter(this)
 
+        // set up adapter for view pager
         val adapter = PagerHomeAdapter(this, supportFragmentManager)
         viewPager.adapter = adapter
 
         tabLayout.setupWithViewPager(viewPager)
 
+        // animation shared element when click search
         edtSearch.setOnClickListener {
             val intent = Intent(this, SearchActivity::class.java)
             val p1 = Pair.create<View, String>(edtSearch, "search")
@@ -52,6 +56,52 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
             startActivity(intent, options.toBundle())
         }
 
+        setUpStatusBar()
+
+        //setUser()
+
+
+        // get height of navigation bottom bar
+        val height = getHeightNavigationBottom()
+        // and set for view blur
+        blurNav.layoutParams.height = height
+
+
+        if (!isNetworkConnected()) {
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), WORKING_OFFLINE, Snackbar.LENGTH_LONG)
+                    .show()
+            setUser()
+        }
+        else {
+            val tokenReturn =  SharedPreferenceHelper.getInstance(this).getToken()
+
+            if (tokenReturn != null) {
+                token = tokenReturn
+                presenter.startGetUser(token)
+            }
+        }
+
+    }
+
+    private fun setUser() {
+        val user = SharedPreferenceHelper.getInstance(this).getUser()
+
+
+        // animation shared element when click image profile
+        imgProfile.setImageResource(R.drawable.shin)
+        imgProfile.setOnClickListener {
+            val intent = Intent(this, UserActivity::class.java)
+            val p1 = Pair.create<View, String>(imgProfile, "profile")
+            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1)
+            startActivity(intent, options.toBundle())
+        }
+    }
+
+
+    /**
+     * Function set up status bar and navigation bottom
+     */
+    private fun setUpStatusBar() {
         val window = this.window
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -64,47 +114,42 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
+        // make layout no limit
         window.addFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
+        // show and translucent navigation bottom bar
         window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION)
-
 
         // finally change the color
         window.statusBarColor = ContextCompat.getColor(this, R.color.colorWhite)
 
-        imgProfile.setImageResource(R.drawable.shin)
-
-        imgProfile.setOnClickListener {
-            val intent = Intent(this, UserActivity::class.java)
-            val p1 = Pair.create<View, String>(imgProfile, "profile")
-            //val p2 = Pair.create<View, String>(tvLine, "line")
-            val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1)
-            startActivity(intent, options.toBundle())
-        }
-
-        val height = getHeightNavigation()
+        val height = getHeightNavigationBottom()
 
         blurNav.layoutParams.height = height
+    }
 
-        val tokenReturn = PreferenceUtil(this).getToken()
-        val tokenReturn_ =  SharedPreferenceHelper.getInstance(this).getToken()
-
-        if (tokenReturn != null) {
-            token = tokenReturn
-            presenter.startGetUser(token)
-        }
+    /**
+     * Function get height of navigation bottom
+     */
+    private fun getHeightNavigationBottom(): Int {
 
 
-//        val height = getHeightNavigation()
-//
-//        blurNav.layoutParams.height = height
+
+        val resources = this.resources
+        val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
+        return if (resourceId > 0) {
+            resources.getDimensionPixelSize(resourceId)
+        } else 0
     }
 
     override fun onGetUserSuccess(result: User) {
 
-        PreferenceUtil(this).setUser(result)
         SharedPreferenceHelper.getInstance(this).setUser(result)
-        startActivity(Intent(this, ChatActivity::class.java))
 
+        setUser()
+
+        //startActivity(Intent(this, ChatActivity::class.java))
+        //startActivity(Intent(this, CaptureActivity::class.java))
+        //startActivity(Intent(this, SignUpActivity::class.java))
     }
 
     override fun showProgress(isShow: Boolean) {
@@ -118,7 +163,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     override fun showError(message: String) {
         Log.e("Error return", message)
         count++
-        if (count < 10)
+        if (count < MAX_RETRY)
             Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                     .setAction(RETRY) {
                         presenter.startGetUser(token)
@@ -146,12 +191,5 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     }
 
-    private fun getHeightNavigation(): Int {
 
-        val resources = this.resources
-        val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
-        return if (resourceId > 0) {
-            resources.getDimensionPixelSize(resourceId)
-        } else 0
-    }
 }
