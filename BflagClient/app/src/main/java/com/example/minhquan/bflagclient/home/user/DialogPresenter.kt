@@ -7,7 +7,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class UserPresenter( var view: DialogContract.View): DialogContract.Presenter{
+class DialogPresenter(var view: DialogContract.View): DialogContract.Presenter{
 
     //Instance of interface created for Retrofit API calls
     private val service by lazy {

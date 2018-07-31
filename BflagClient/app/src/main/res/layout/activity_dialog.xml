@@ -22,9 +22,9 @@
             android:id="@+id/home"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:colorNormal="#2196F3"
-            app:colorPressed="#1E88E5"
-            app:icon="@drawable/ic_home" />
+            app:colorNormal="@color/colorPrimary"
+            app:colorPressed="@color/colorPrimary"
+            app:icon="@drawable/ic_home_white" />
 
         <com.imangazaliev.circlemenu.CircleMenuButton
             android:id="@+id/search"
@@ -32,7 +32,15 @@
             android:layout_height="wrap_content"
             app:colorNormal="#4CAF50"
             app:colorPressed="#43A047"
-            app:icon="@drawable/ic_search" />
+            app:icon="@drawable/ic_search_white" />
+
+        <com.imangazaliev.circlemenu.CircleMenuButton
+            android:id="@+id/logout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:colorNormal="#e91717"
+            app:colorPressed="#e11203"
+            app:icon="@drawable/ic_logout" />
 
     </com.imangazaliev.circlemenu.CircleMenu>
 
