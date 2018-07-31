@@ -105,6 +105,8 @@ dependencies {
     kapt "android.arch.persistence.room:compiler:$room_version"
     implementation "android.arch.persistence.room:rxjava2:$room_version"
     implementation "android.arch.persistence.room:guava:$room_version"
+    //Lottie File
+    implementation 'com.airbnb.android:lottie:2.5.5'
 
 
 
