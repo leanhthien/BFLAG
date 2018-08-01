@@ -3,9 +3,9 @@ package com.example.minhquan.bflagclient.adapter
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
-import com.example.minhquan.bflagclient.resetpassword.CodeFragment
+import com.example.minhquan.bflagclient.resetpassword.code.CodeFragment
 import com.example.minhquan.bflagclient.resetpassword.email.EmailFragment
-import com.example.minhquan.bflagclient.resetpassword.NewPasswordFragment
+import com.example.minhquan.bflagclient.resetpassword.newpassword.NewPasswordFragment
 
 class PagerAdapterResetPassword(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 

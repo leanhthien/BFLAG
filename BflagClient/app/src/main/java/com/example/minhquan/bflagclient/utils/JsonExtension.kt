@@ -2,9 +2,9 @@ package com.example.minhquan.bflagclient.utils
 
 import com.google.gson.JsonObject
 
-fun JsonObject.buildSignUpJson(email: String, password: String, username: String, firstName: String, lastName: String) : JsonObject {
+fun JsonObject.buildSignUpJson(email: String, password: String, username: String, firstName: String, lastName: String): JsonObject {
 
-    addProperty("email",email)
+    addProperty("email", email)
     addProperty("password", password)
     addProperty("username", username)
     addProperty("first_name", firstName)
@@ -13,15 +13,15 @@ fun JsonObject.buildSignUpJson(email: String, password: String, username: String
     return this
 }
 
-fun JsonObject.buildSignInJson(email: String, password: String) : JsonObject {
+fun JsonObject.buildSignInJson(email: String, password: String): JsonObject {
 
-    addProperty("email",email)
+    addProperty("email", email)
     addProperty("password", password)
 
     return this
 }
 
-fun JsonObject.buildAuthJson(token: String) : JsonObject {
+fun JsonObject.buildAuthJson(token: String): JsonObject {
 
     addProperty("Token", token)
 
@@ -29,7 +29,7 @@ fun JsonObject.buildAuthJson(token: String) : JsonObject {
 }
 
 
-fun JsonObject.buildEditJson(username: String?, firstName: String?, lastName: String?) : JsonObject {
+fun JsonObject.buildEditJson(username: String?, firstName: String?, lastName: String?): JsonObject {
 
     addProperty("username", username)
     addProperty("first_name", firstName)
@@ -45,7 +45,14 @@ fun JsonObject.buildResetJson(email: String): JsonObject {
     return this
 }
 
-fun JsonObject.buildResetAuthJson(email: String, resetCode: String, password: String?) : JsonObject {
+fun JsonObject.buildCodeJson(email: String, resetCode: String): JsonObject {
+    addProperty("email", email)
+    addProperty("reset_code", resetCode)
+
+    return this
+}
+
+fun JsonObject.buildResetAuthJson(email: String, resetCode: String, password: String?): JsonObject {
 
     addProperty("email", email)
     addProperty("reset_code", resetCode)
