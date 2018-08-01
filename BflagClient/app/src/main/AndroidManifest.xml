@@ -27,6 +27,9 @@
         <activity android:name=".saveimage.SaveImage"></activity>
         <activity android:name=".splash.Splash"
             android:theme="@style/AppTheme.NoTitleBar.FullScreen">
+
+        </activity>
+        <activity android:name=".resetpassword.ResetPasswordActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

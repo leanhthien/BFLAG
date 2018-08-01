@@ -41,6 +41,8 @@ interface BflagApiService {
     fun getUser(@Header("token") token: String)
             : Observable<User>
 
-
+    @POST("/api/v1/reset_password")
+    fun getReset(@Body body: JsonObject)
+            : Observable<SuccessResponse>
 
 }

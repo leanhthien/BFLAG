@@ -38,3 +38,18 @@ fun JsonObject.buildEditJson(username: String?, firstName: String?, lastName: St
     return this
 }
 
+fun JsonObject.buildResetJson(email: String): JsonObject {
+
+    addProperty("email", email)
+
+    return this
+}
+
+fun JsonObject.buildResetAuthJson(email: String, resetCode: String, password: String?) : JsonObject {
+
+    addProperty("email", email)
+    addProperty("reset_code", resetCode)
+    addProperty("password", password)
+
+    return this
+}
