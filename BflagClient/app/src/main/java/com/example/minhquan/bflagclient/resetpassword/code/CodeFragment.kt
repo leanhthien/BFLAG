@@ -13,10 +13,7 @@ import android.view.ViewGroup
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.resetpassword.newpassword.NewPasswordContract
-import com.example.minhquan.bflagclient.utils.ConnectivityUtil
-import com.example.minhquan.bflagclient.utils.NETWORK_ERROR
-import com.example.minhquan.bflagclient.utils.TIME_OUT
-import com.example.minhquan.bflagclient.utils.buildCodeJson
+import com.example.minhquan.bflagclient.utils.*
 import com.google.gson.JsonObject
 
 import kotlinx.android.synthetic.main.fragment_resetpassword_code.*
@@ -42,8 +39,8 @@ class CodeFragment : Fragment(), NewPasswordContract.View {
             if(TextUtils.isEmpty(edt_resetpassword_code.text.toString()))
                 edt_resetpassword_code.error = EMPTY_ERROR
             else {
-                body = JsonObject().buildCodeJson(activity!!.edt_resetpassword_email.text.toString()
-                        ,edt_resetpassword_code.text.toString())
+                body = JsonObject().buildResetAuthJson(activity!!.edt_resetpassword_email.text.toString()
+                        ,edt_resetpassword_code.text.toString(), null)
                 presenter.startResetPassword(body)
             }
         }

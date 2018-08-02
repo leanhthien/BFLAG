@@ -220,7 +220,7 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
     private fun sendChat(text: String?, image: String?) {
 
         chat = Chat(
-                Friend(user.email, user.username, user.profileImage?.url),
+                Friend(user.email, user.username, user.profileImage),
                 Message(text, image),
                 sdf.format(Date()))
 

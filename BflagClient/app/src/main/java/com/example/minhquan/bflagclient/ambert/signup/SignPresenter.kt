@@ -101,14 +101,14 @@ class SignPresenter(private val view: SignContract.View) : SignContract.Presente
     override fun startResetAuth(body: JsonObject) {
         view.showProgress(true)
 
-        disposable  = service.getResetAuth(body)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object: CallbackWrapper<SuccessResponse>(view) {
-                    override fun onSuccess(result: SuccessResponse) {
-                        view.onResetAuthSuccess(result)
-                    }
-                })
+//        disposable  = service.getResetAuth(body)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeWith(object: CallbackWrapper<SuccessResponse>(view) {
+//                    override fun onSuccess(result: SuccessResponse) {
+//                        view.onResetAuthSuccess(result)
+//                    }
+//                })
     }
 
 

@@ -90,13 +90,13 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
 
                 Glide.with(context)
                         .load(Uri.fromFile(File(chat.message!!.imgUrl)))
-                        .apply(bitmapTransform(RoundedCornersTransformation(20, 0, RoundedCornersTransformation.CornerType.ALL)))
+                        .apply(bitmapTransform(RoundedCornersTransformation(64, 0, RoundedCornersTransformation.CornerType.ALL)))
                         .into(holder.imgChatShare)
             }
             else
                 Glide.with(context)
                     .load(chat.message!!.imgUrl)
-                    .apply(bitmapTransform(RoundedCornersTransformation(20, 0, RoundedCornersTransformation.CornerType.ALL)))
+                    .apply(bitmapTransform(RoundedCornersTransformation(64, 0, RoundedCornersTransformation.CornerType.ALL)))
                     .into(holder.imgChatShare)
 
 
