@@ -1,10 +1,10 @@
-package com.example.minhquan.bflagclient.sign
+package com.example.minhquan.bflagclient.splash
 
 import com.example.minhquan.bflagclient.base.BaseView
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.google.gson.JsonObject
 
-interface SignContract {
+interface SplashContract {
 
     interface View: BaseView<Presenter> {
 

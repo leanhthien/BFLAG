@@ -1,5 +1,7 @@
 package com.example.minhquan.bflagclient.ambert.signup
 
+import android.util.Log
+import com.example.minhquan.bflagclient.base.BaseResponse
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.CallbackWrapper
@@ -10,6 +12,8 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class SignPresenter(private val view: SignContract.View) : SignContract.Presenter {
+
+
 
     //Instance of interface created for Retrofit API calls
     private val service by lazy {
@@ -78,6 +82,33 @@ class SignPresenter(private val view: SignContract.View) : SignContract.Presente
                     }
                 })
 
+    }
+
+    override fun startResetPassword(body: JsonObject) {
+        view.showProgress(true)
+
+        disposable  = service.getReset(body)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object: CallbackWrapper<SuccessResponse>(view) {
+                    override fun onSuccess(result: SuccessResponse) {
+                        view.onResetSuccess(result)
+                    }
+                })
+
+    }
+
+    override fun startResetAuth(body: JsonObject) {
+        view.showProgress(true)
+
+//        disposable  = service.getResetAuth(body)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribeWith(object: CallbackWrapper<SuccessResponse>(view) {
+//                    override fun onSuccess(result: SuccessResponse) {
+//                        view.onResetAuthSuccess(result)
+//                    }
+//                })
     }
 
 

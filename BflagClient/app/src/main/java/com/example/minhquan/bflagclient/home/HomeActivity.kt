@@ -164,7 +164,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         Log.e("Error return", message)
         count++
         if (count < MAX_RETRY)
-            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
                     .setAction(RETRY) {
                         presenter.startGetUser(token)
                     }
