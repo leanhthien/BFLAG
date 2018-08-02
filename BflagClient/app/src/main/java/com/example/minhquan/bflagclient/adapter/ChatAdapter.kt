@@ -31,6 +31,7 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
     fun setData(message: Chat): Int {
         data.add(message)
         notifyItemInserted(data.size - 1)
+        
         return data.size
     }
 
