@@ -39,6 +39,8 @@ class CodeFragment : Fragment(), NewPasswordContract.View {
             if(TextUtils.isEmpty(edt_resetpassword_code.text.toString()))
                 edt_resetpassword_code.error = EMPTY_ERROR
             else {
+                animation_reset_code.visibility = View.VISIBLE
+                animation_reset_code.playAnimation()
                 body = JsonObject().buildResetAuthJson(activity!!.edt_resetpassword_email.text.toString()
                         ,edt_resetpassword_code.text.toString(), null)
                 presenter.startResetPassword(body)
@@ -47,6 +49,8 @@ class CodeFragment : Fragment(), NewPasswordContract.View {
     }
 
     override fun onResetPasswordSuccess(result: SuccessResponse) {
+        animation_reset_code.pauseAnimation()
+        animation_reset_code.visibility = View.INVISIBLE
         activity?.findViewById<ViewPager>(R.id.vpg_reset_password)?.currentItem = 2
     }
 
@@ -55,8 +59,11 @@ class CodeFragment : Fragment(), NewPasswordContract.View {
     override fun setPresenter(presenter: NewPasswordContract.Presenter) {
         this.presenter = presenter
     }
+
     override fun showError(message: String) {
         Log.e("Error return", message)
+        animation_reset_code.pauseAnimation()
+        animation_reset_code.visibility = View.INVISIBLE
 
         Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                 .show()

@@ -68,6 +68,8 @@ class EmailFragment : Fragment(), EmailContract.View {
         if (count < MAX_RETRY)
             Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                     .setAction(RETRY) {
+                        animation_reset_mail.visibility = View.VISIBLE
+                        animation_reset_mail.playAnimation()
                         body = JsonObject().buildResetJson(edt_resetpassword_email.text.toString())
                         presenter.startResetPassword(body)
                     }
