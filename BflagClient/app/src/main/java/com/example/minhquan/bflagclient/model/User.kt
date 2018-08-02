@@ -18,6 +18,7 @@ data class User(
 
 data class Room(
         @SerializedName("room_id") val id: Int?,
+        @SerializedName("name") val name: String?,
         @SerializedName("list_friends") val listFriends: List<Friend>?,
         @SerializedName("list_chats") val listChats: List<Chat>?)
 

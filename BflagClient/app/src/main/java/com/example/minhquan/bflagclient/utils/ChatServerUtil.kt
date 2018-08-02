@@ -52,7 +52,6 @@ class ChatServerUtil {
             subscription.onRejected = {
                 // Called when the subscription is rejected by the server
                 Log.d("Subscription status","Rejected")
-
             }
 
             subscription.onReceived = { data: Any? ->
@@ -78,17 +77,6 @@ class ChatServerUtil {
 
             subscription.onFailed = {
                 // Called when the subscription encounters any error
-
-                /*  if (count < 5) {
-                      Handler().postDelayed({
-                          count++
-                          consumer.connect()
-                      }, 2000)
-                  }
-                  else {
-                      Log.d("Subscription status", "Error")
-                      view.showError("Error")
-                  }*/
 
                 if (count++ > 10) {
                     Log.d("Subscription status", "Error")

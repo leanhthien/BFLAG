@@ -1,5 +1,6 @@
 package com.example.minhquan.bflagclient.api
 
+import com.example.minhquan.bflagclient.model.HistoryChatResponse
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.model.User
 import com.google.gson.JsonObject
@@ -56,5 +57,9 @@ interface BflagApiService {
                      @Part filePart: MultipartBody.Part)
             : Observable<SuccessResponse>
 
-
+    @GET("/api/v1/rooms/{id}/{offset}")
+    fun getHistoryChat(@Header("token") token: String,
+                       @Path("id") id: Int,
+                       @Path("offset") offset: Int)
+            : Observable<HistoryChatResponse>
 }
