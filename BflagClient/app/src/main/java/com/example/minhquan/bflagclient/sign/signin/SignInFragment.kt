@@ -29,6 +29,7 @@ import com.google.android.gms.tasks.Task
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_signin.*
 import android.preference.PreferenceManager
+import com.example.minhquan.bflagclient.resetpassword.ResetPasswordActivity
 import java.util.*
 
 const val GOOGLE_SIGN_IN_CODE = 100
@@ -60,6 +61,10 @@ class SignInFragment : Fragment(), SignInContract.View {
 
         tvSignUp.setOnClickListener {
             activity?.findViewById<ViewPager>(R.id.viewPager)?.currentItem = 1
+        }
+        tvForgotPassword.setOnClickListener {
+            startActivity(Intent(this@SignInFragment.activity,ResetPasswordActivity::class.java))
+            this@SignInFragment.activity!!.finish()
         }
 
         getStateCheckBox()

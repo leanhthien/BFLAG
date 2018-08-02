@@ -1,5 +1,6 @@
 package com.example.minhquan.bflagclient.resetpassword.newpassword
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -11,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.model.SuccessResponse
+import com.example.minhquan.bflagclient.sign.SignActivity
 import com.example.minhquan.bflagclient.utils.*
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_resetpassword_code.*
@@ -44,6 +46,8 @@ class NewPasswordFragment : Fragment(), NewPasswordContract.View {
                 edt_resetpassword_newpass1.error = EQUAL_ERROR
                 edt_resetpassword_newpass2.error = EQUAL_ERROR
             } else{
+                animation_reset_newpass.visibility = View.VISIBLE
+                animation_reset_newpass.playAnimation()
                 body = JsonObject().buildResetAuthJson( activity!!.edt_resetpassword_email.text.toString(),
                         activity!!.edt_resetpassword_code.text.toString(),edt_resetpassword_newpass2.text.toString())
                 presenter.startResetPassword(body)
@@ -56,6 +60,12 @@ class NewPasswordFragment : Fragment(), NewPasswordContract.View {
 
     override fun onResetPasswordSuccess(result: SuccessResponse) {
         Toast.makeText(context,"result ${result.status}",Toast.LENGTH_SHORT).show()
+        animation_reset_newpass.pauseAnimation()
+        animation_reset_newpass.visibility = View.INVISIBLE
+        // start SignActivity and delete data
+        startActivity(Intent(this@NewPasswordFragment.activity,SignActivity::class.java))
+        this@NewPasswordFragment.activity!!.finish()
+        SharedPreferenceHelper.getInstance(context!!).removeAll()
     }
 
     override fun showProgress(isShow: Boolean) {}
@@ -66,7 +76,8 @@ class NewPasswordFragment : Fragment(), NewPasswordContract.View {
 
     override fun showError(message: String) {
         Log.e("Error return", message)
-
+        animation_reset_newpass.pauseAnimation()
+        animation_reset_newpass.visibility = View.INVISIBLE
         Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                 .show()
     }
