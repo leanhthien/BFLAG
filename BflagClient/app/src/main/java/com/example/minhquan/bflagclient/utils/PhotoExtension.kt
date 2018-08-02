@@ -1,13 +1,12 @@
 package com.example.minhquan.bflagclient.utils
 
 import android.content.Context
-import android.content.Intent
 import android.graphics.Bitmap
 import android.media.MediaScannerConnection
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
-import com.example.minhquan.bflagclient.chat.IMAGE_DIRECTORY_PATH
+import com.example.minhquan.bflagclient.chat.roomchat.IMAGE_DIRECTORY_PATH
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
