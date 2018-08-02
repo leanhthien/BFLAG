@@ -64,7 +64,6 @@ class SignInFragment : Fragment(), SignInContract.View {
         }
         tvForgotPassword.setOnClickListener {
             startActivity(Intent(this@SignInFragment.activity,ResetPasswordActivity::class.java))
-            this@SignInFragment.activity!!.finish()
         }
 
         getStateCheckBox()

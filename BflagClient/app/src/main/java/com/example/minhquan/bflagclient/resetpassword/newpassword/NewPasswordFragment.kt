@@ -63,7 +63,7 @@ class NewPasswordFragment : Fragment(), NewPasswordContract.View {
         animation_reset_newpass.pauseAnimation()
         animation_reset_newpass.visibility = View.INVISIBLE
         // start SignActivity and delete data
-        startActivity(Intent(this@NewPasswordFragment.activity,SignActivity::class.java))
+        //startActivity(Intent(this@NewPasswordFragment.activity,SignActivity::class.java))
         this@NewPasswordFragment.activity!!.finish()
         SharedPreferenceHelper.getInstance(context!!).removeAll()
     }
