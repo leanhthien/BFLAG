@@ -12,3 +12,7 @@ data class MessageResponse(
         @SerializedName("room_id") val roomId: String?,
         @SerializedName("content") val content: String?)
 
+data class OnlineResponse(
+        @SerializedName("email") val email: String?,
+        @SerializedName("username") val username: String?,
+        @SerializedName("online") val online: Boolean?): BaseResponse()

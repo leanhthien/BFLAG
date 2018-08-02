@@ -1,4 +1,4 @@
-package com.example.minhquan.bflagclient.sign
+package com.example.minhquan.bflagclient.splash
 
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.utils.CallbackWrapper
@@ -8,7 +8,7 @@ import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
-class SignPresenter(private val view: SignContract.View): SignContract.Presenter {
+class SplashPresenter(private val view: SplashContract.View): SplashContract.Presenter {
 
     //Instance of interface created for Retrofit API calls
     private val service by lazy {

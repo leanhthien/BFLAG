@@ -214,7 +214,7 @@ class SignInFragment : Fragment(), SignInContract.View {
 
         count++
         if (count < MAX_RETRY)
-            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
                     .setAction(RETRY) {
                         presenter.startSignIn(body)
                     }

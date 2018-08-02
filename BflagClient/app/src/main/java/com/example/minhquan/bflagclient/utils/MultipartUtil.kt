@@ -18,11 +18,11 @@ fun prepareFilePart(partName: String, fileUri: Uri, context: Context): Multipart
             file
     )
 
-    val requestFile_ =
+    /*val requestFile_ =
     RequestBody.create(
             MediaType.parse(context.contentResolver.getType(fileUri)),
             file
-    )
+    )*/
 
     // MultipartBody.Part is used to send also the actual file name
     return MultipartBody.Part.createFormData(partName, file.name, requestFile)
@@ -30,11 +30,12 @@ fun prepareFilePart(partName: String, fileUri: Uri, context: Context): Multipart
 
 
 
-fun HashMap<String, RequestBody>.buildRequestBody(firstName: String?, lastName: String?, username: String?) : HashMap<String, RequestBody> {
+fun HashMap<String, RequestBody>.buildRequestBody(firstName: String?, lastName: String?, username: String?, password: String?) : HashMap<String, RequestBody> {
 
     put("first_name", createPartFromString(firstName))
     put("last_name", createPartFromString(lastName))
     put("username", createPartFromString(username))
+    put("password", createPartFromString(password))
 
     return this
 }
@@ -43,3 +44,5 @@ fun HashMap<String, RequestBody>.buildRequestBody(firstName: String?, lastName: 
 private fun createPartFromString(partString: String?): RequestBody {
     return RequestBody.create(MultipartBody.FORM, partString)
 }
+
+

@@ -7,16 +7,13 @@ import android.widget.Toast
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.model.User
-import com.example.minhquan.bflagclient.utils.ConnectivityUtil
-import com.example.minhquan.bflagclient.utils.buildEditJson
-import com.example.minhquan.bflagclient.utils.buildSignUpJson
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.activity_signup.*
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import android.content.Intent
-import com.example.minhquan.bflagclient.utils.SharedPreferenceHelper
+import com.example.minhquan.bflagclient.utils.*
 import com.facebook.CallbackManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.Task
@@ -32,6 +29,7 @@ const val GOOGLE_SIGN_IN_CODE = 100
 const val EMAIL = "email"
 
 class SignUpActivity : AppCompatActivity(), SignContract.View {
+
 
 
     private lateinit var presenter: SignContract.Presenter
@@ -58,15 +56,20 @@ class SignUpActivity : AppCompatActivity(), SignContract.View {
                 "anhthien",
                 "Le Anh",
                 "Thien")
-        val body_2 = JsonObject().buildEditJson(null, null, null)
+        val body_2 = JsonObject().buildEditJson(null, null, null,null)
         val token = SharedPreferenceHelper.getInstance(this).getToken()!!
 
+        val body_3 = JsonObject().buildResetJson("leanhthienhcmut@gmail.com")
+        val body_4 = JsonObject().buildResetAuthJson("leanhthienhcmut@gmail.com",
+                "108244","vinova123")
 
         btn_test.setOnClickListener{
             //presenter.startSignUp(body)
             //presenter.startSignIn(body_1)
             //presenter.startEdit(token, body_2)
-            presenter.startSignOut(token)
+            //presenter.startSignOut(token)
+            //presenter.startResetPassword(body_3)
+            presenter.startResetAuth(body_4)
 
             /*if (isNetworkConnected())
                 Log.d("Network status","Connected")
@@ -189,12 +192,6 @@ class SignUpActivity : AppCompatActivity(), SignContract.View {
         }
     }
 
-    public override fun onDestroy() {
-        super.onDestroy()
-        accessTokenTracker.stopTracking()
-    }
-
-
     /**
      * Functions on request API return successful
      */
@@ -215,6 +212,13 @@ class SignUpActivity : AppCompatActivity(), SignContract.View {
         SharedPreferenceHelper.getInstance(this).removeAll()
     }
 
+    override fun onResetSuccess(result: SuccessResponse) {
+        Log.d("Reset password return",result.status)
+    }
+
+    override fun onResetAuthSuccess(result: SuccessResponse) {
+        Log.d("Reset auth return",result.status)
+    }
 
     override fun showProgress(isShow: Boolean) {
 

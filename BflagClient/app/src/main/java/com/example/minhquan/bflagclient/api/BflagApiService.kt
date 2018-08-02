@@ -48,4 +48,13 @@ interface BflagApiService {
     @POST("/api/v1/reset_password/auth")
     fun getResetPassword(@Body body: JsonObject)
             : Observable<SuccessResponse>
+
+    @Multipart
+    @POST("/api/v1/images")
+    fun getSendImage(@Header("token") token: String,
+                     @Part("room_id") roomId: Int,
+                     @Part filePart: MultipartBody.Part)
+            : Observable<SuccessResponse>
+
+
 }

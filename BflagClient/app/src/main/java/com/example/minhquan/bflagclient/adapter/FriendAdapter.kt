@@ -1,6 +1,7 @@
 package com.example.minhquan.bflagclient.adapter
 
 import android.content.Context
+import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
@@ -11,9 +12,10 @@ import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.minhquan.bflagclient.R
+import com.example.minhquan.bflagclient.chat.ChatActivity
 import com.example.minhquan.bflagclient.model.Friend
 
-class FriendAdapter(private var context: Context) : RecyclerView.Adapter<FriendAdapter.ViewHolder>() {
+class FriendAdapter(private var context: ChatActivity) : RecyclerView.Adapter<FriendAdapter.ViewHolder>() {
     internal var data: MutableList<Friend> = mutableListOf()
     private lateinit var friend: Friend
 
@@ -34,14 +36,12 @@ class FriendAdapter(private var context: Context) : RecyclerView.Adapter<FriendA
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         friend = data[position]
 
-        Glide.with(context).load(friend.profileImage).apply(RequestOptions.circleCropTransform())
+        Glide.with(context)
+                .load(friend.profileImage)
+                .apply(RequestOptions.circleCropTransform())
                 .into(holder.imgFriendAvatar)
         holder.tvFriendName.text = friend.username
 
-        holder.imgFriendAvatar.setOnClickListener {
-            //context.findViewById<ViewPager>(R.id.vpg_chat_friend).currentItem = position
-
-        }
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -54,6 +54,7 @@ class FriendAdapter(private var context: Context) : RecyclerView.Adapter<FriendA
 
         override fun onClick(v: View?) {
             Toast.makeText(context.applicationContext, "item Click ", Toast.LENGTH_SHORT).show()
+            context.findViewById<ViewPager>(R.id.vpg_chat_friend).currentItem = layoutPosition
         }
     }
 }
