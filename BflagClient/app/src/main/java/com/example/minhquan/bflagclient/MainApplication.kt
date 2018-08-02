@@ -31,7 +31,7 @@ class MainApplication: Application(), BaseWebSocket<Any> {
 
     override fun onReceiveLogChatSuccess(message: BaseResponse) {
         val data = message as OnlineResponse
-        Log.d("Server response", data.username + "is online")
+        Log.d("Server response", data.username + " is online")
     }
 
     override fun showProgress(isShow: Boolean) {}

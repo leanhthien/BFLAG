@@ -103,7 +103,8 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
         // Set up listener for button open camera to take a photo
         img_chat_camera.setOnClickListener {
             disposable = rxPermissions
-                    .request(Manifest.permission.CAMERA)
+                    .request(Manifest.permission.CAMERA,
+                            Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .subscribe { granted ->
                         if (granted)
                             takePhotoFromCamera()
@@ -187,7 +188,7 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
                     sendChat(null, path, contentURI)
 
                 }
-                catch (e: IOException) {
+                catch (e: Throwable) {
                     e.printStackTrace()
                     Toast.makeText(context!!, "Failed!", Toast.LENGTH_SHORT).show()
                 }
