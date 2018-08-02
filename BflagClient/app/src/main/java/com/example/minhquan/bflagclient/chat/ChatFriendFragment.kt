@@ -16,6 +16,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.adapter.ChatAdapter
+import com.example.minhquan.bflagclient.base.BaseResponse
 import com.example.minhquan.bflagclient.model.*
 import com.example.minhquan.bflagclient.utils.*
 import com.github.ybq.android.spinkit.style.Circle
@@ -33,6 +34,7 @@ const val GALLERY_REQUEST_CODE = 200
 const val IMAGE_DIRECTORY_PATH = "/Bflag"
 
 class ChatFriendFragment : Fragment(), ChatContract.View {
+
 
     private lateinit var presenter: ChatContract.Presenter
     private lateinit var chatAdapter: ChatAdapter
@@ -123,7 +125,7 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
         }
 
         // Set up for connecting to server
-        presenter.startConnectWebSocket(token, room)
+        ChatServerUtil.startConnectWebSocket(this, token, room, CHAT)
 
     }
 
@@ -134,19 +136,21 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
         showProgress(false)
     }
 
-    override fun onSendLogChatSuccess(data: Chat) {
-
+    override fun onReceiveLogChatSuccess(message: BaseResponse) {
         activity!!.runOnUiThread {
 
-            chat = data
+            chat = message as Chat
 
-            if (data.friend!!.email != SharedPreferenceHelper.getInstance(context!!).getUser()!!.email) {
+            if (chat.friend!!.email != SharedPreferenceHelper.getInstance(context!!).getUser()!!.email) {
 
                 smoothScroll = chatAdapter.setData(chat)
                 rv_chat.smoothScrollToPosition(smoothScroll)
             }
             historyChat.add(chat)
         }
+    }
+
+    override fun onSendImageChatSuccess(result: SuccessResponse) {
 
     }
 
@@ -242,19 +246,9 @@ class ChatFriendFragment : Fragment(), ChatContract.View {
     override fun showError(message: String) {
         Log.e("Error return", message)
 
-        count++
-        if (count < MAX_RETRY)
-            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
-                    .setAction(RETRY) {
-                        if (isNetworkConnected()) {
-                            Log.d("TAG", "Ready to send to server")
-                            presenter.startSendLogChat(ACTION_TYPE, localChat, subscription)
-                        }
-                    }
-                    .show()
-        else
-            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
-                    .show()
+        Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+                .show()
+
     }
 
     override fun setPresenter(presenter: ChatContract.Presenter) {

@@ -54,7 +54,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="4dp"
         android:layout_marginBottom="4dp"
-        android:src="@drawable/ic_gallery"
+        android:src="@drawable/background_login"
         android:visibility="visible"
         android:scaleType="fitStart"
         android:adjustViewBounds="true"

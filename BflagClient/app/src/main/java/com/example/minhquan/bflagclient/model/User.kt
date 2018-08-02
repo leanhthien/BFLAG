@@ -36,7 +36,7 @@ data class Friend(
 data class Chat(
         @SerializedName("friend") val friend: Friend?,
         @SerializedName("message") val message: Message?,
-        @SerializedName("time") val time: String?)
+        @SerializedName("time") val time: String?) : BaseResponse()
 
 data class Message(
         @SerializedName("content") val content: String?,

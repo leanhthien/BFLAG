@@ -95,7 +95,7 @@ class SignUpFragment : Fragment(), SignUpContract.View {
 
         count++
         if (count < MAX_RETRY)
-            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
                 .setAction(RETRY) {
                         presenter.startSignUp(body)
                 }
