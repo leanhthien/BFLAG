@@ -69,18 +69,18 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
                             .circleCropTransform())
                     .into(holder.imgChatAvatar!!)
         //Set length text
-        if (chat.message!!.content != null ) {
+        if (chat.content != null ) {
 
             holder.txtChatMessage.visibility = View.VISIBLE
             holder.imgChatShare.visibility = View.GONE
 
-            if (chat.message!!.content!!.length > MAX_LENGTH) {
+            if (chat.content!!.length > MAX_LENGTH) {
                 val lp = holder.txtChatMessage.layoutParams
                                                 as ViewGroup.LayoutParams
                 lp.width = 0
                 holder.txtChatMessage.layoutParams = lp
             }
-            holder.txtChatMessage.text = chat.message!!.content
+            holder.txtChatMessage.text = chat.content
         }
         else {
 
@@ -90,13 +90,13 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
             if (holder.itemViewType == SENDER) {
 
                 Glide.with(context)
-                        .load(Uri.fromFile(File(chat.message!!.imgUrl)))
+                        .load(Uri.fromFile(File(chat.imgUrl)))
                         .apply(bitmapTransform(RoundedCornersTransformation(64, 0, RoundedCornersTransformation.CornerType.ALL)))
                         .into(holder.imgChatShare)
             }
             else
                 Glide.with(context)
-                    .load(chat.message!!.imgUrl)
+                    .load(chat.imgUrl)
                     .apply(bitmapTransform(RoundedCornersTransformation(64, 0, RoundedCornersTransformation.CornerType.ALL)))
                     .into(holder.imgChatShare)
 

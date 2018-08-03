@@ -43,7 +43,6 @@ class SignInFragment : Fragment(), SignInContract.View {
     private lateinit var body: JsonObject
     private lateinit var googleSignInClient : GoogleSignInClient
     private lateinit var callbackManager: CallbackManager
-    private lateinit var accessTokenTracker : AccessTokenTracker
 
     private var count: Int = 0
 
@@ -216,16 +215,16 @@ class SignInFragment : Fragment(), SignInContract.View {
 
     override fun showError(message: String) {
         Log.e("Error return", message)
-
+        val error = if (message == TIME_OUT || message == NETWORK_ERROR) message else UNKNOWN_ERROR
         count++
         if (count < MAX_RETRY)
-            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(activity!!.findViewById(android.R.id.content), error, Snackbar.LENGTH_INDEFINITE)
                     .setAction(RETRY) {
                         presenter.startSignIn(body)
                     }
                     .show()
         else
-            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+            Snackbar.make(activity!!.findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG)
                     .show()
     }
 
