@@ -23,6 +23,11 @@
 
         <activity android:name=".sign.SignActivity"
             android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity android:name=".saveimage.SaveImage"></activity>
         <activity android:name=".splash.Splash"
@@ -40,7 +45,6 @@
         <activity android:name=".roomdata.activity.RoomActivity">
             <!--Rock Lee Run demo save database with room-->
         </activity>
-        <!--<activity android:name=".sign.SignActivity" />-->
         <activity android:name=".home.HomeActivity"
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".home.SearchActivity"
