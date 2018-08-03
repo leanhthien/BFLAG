@@ -92,16 +92,16 @@ class SignUpFragment : Fragment(), SignUpContract.View {
 
     override fun showError(message: String) {
         Log.e("Error return", message)
-
+        val error = if (message == TIME_OUT || message == NETWORK_ERROR) message else UNKNOWN_ERROR
         count++
         if (count < MAX_RETRY)
-            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(activity!!.findViewById(android.R.id.content), error, Snackbar.LENGTH_INDEFINITE)
                 .setAction(RETRY) {
                         presenter.startSignUp(body)
                 }
                 .show()
         else
-            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+            Snackbar.make(activity!!.findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG)
                     .show()
     }
 

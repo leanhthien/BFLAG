@@ -9,6 +9,8 @@ import com.example.minhquan.bflagclient.model.Friend
 import kotlinx.android.synthetic.main.activity_chat.*
 import android.support.design.widget.Snackbar
 import android.util.Log
+import com.example.minhquan.bflagclient.adapter.RoomAdapter
+import com.example.minhquan.bflagclient.model.Room
 import com.example.minhquan.bflagclient.utils.*
 
 
@@ -23,9 +25,17 @@ class ChatActivity : FragmentActivity(), ChatContract.View {
     private lateinit var pagerAdapterFriend: PagerAdapterChatRoom
     private lateinit var listFriends : MutableList<Friend>
 
+    private lateinit var roomAdapter: RoomAdapter
+    private lateinit var pagerAdapterRoom: PagerAdapterChatRoom
+    private var listRooms : MutableList<Room> = mutableListOf()
+
+    private lateinit var listRoomId: List<Int>
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_chat)
+
+        // TODO: Get bundle from HomeActivity include: room_id, listChatRoom
 
         ChatPresenter(this)
 
@@ -34,19 +44,24 @@ class ChatActivity : FragmentActivity(), ChatContract.View {
 
     private fun setupView() {
 
-        val room = listOf(1,2,3,4,5)
+        listRoomId = listOf(1,2,3,4,5)
 
-        listFriends = mutableListOf()
-        createListFriend(listFriends)
+        //listFriends = mutableListOf()
+        //createListFriend(listFriends)
 
-        // Set up adapter for list friends on top
-        friendAdapter = FriendAdapter(this)
-        friendAdapter.setData(listFriends)
-        rv_friend.adapter = friendAdapter
+        // Set up adapter for list friend chat room on top
+        //friendAdapter = FriendAdapter(this)
+        //friendAdapter.setData(listFriends)
+        //rv_friend.adapter = friendAdapter
+
+        // Set up adapter for list group chat room on top
+        roomAdapter = RoomAdapter(this)
+        roomAdapter.setData(listRooms.createListRoom())
+        rv_friend.adapter = roomAdapter
 
         // Set up Pager chat room
         pagerAdapterFriend = PagerAdapterChatRoom(supportFragmentManager)
-        pagerAdapterFriend.setFragment(room)
+        pagerAdapterFriend.setFragment(listRoomId)
         vpg_chat_friend.adapter = pagerAdapterFriend
         vpg_chat_friend.offscreenPageLimit = PAGE_LIMIT /* save page in viewpager */
     }
@@ -58,6 +73,19 @@ class ChatActivity : FragmentActivity(), ChatContract.View {
         listFriends.add(Friend(null, "Friend4", "https://images-eu.ssl-images-amazon.com/images/G/31/IN-hq/2017/img/Pets%20Products/XCM_1070839_Manual_750x475_Dogjpg_PetsHome_ShopByCategory_Dog_Birds._V515025031_.jpg"))
         listFriends.add(Friend(null, "Friend5", "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSwMFoeG86Nz19Ve8Cf2FqpdiMd9Q8r6cYS1lgmPKZCxJfvb7kK"))
     }
+
+    private fun MutableList<Room>.createListRoom(): MutableList<Room> {
+
+        add(Room(1,"Hello",null,null))
+        add(Room(2,"My",null,null))
+        add(Room(3,"Name",null,null))
+        add(Room(4,"Is",null,null))
+        add(Room(5,"Bflag",null,null))
+
+        return this
+    }
+
+
 
 
     override fun showProgress(isShow: Boolean) {
@@ -71,15 +99,18 @@ class ChatActivity : FragmentActivity(), ChatContract.View {
 
     override fun showError(message: String) {
         Log.e("Error return", message)
+
+        val error = if (message == TIME_OUT || message == NETWORK_ERROR) message else UNKNOWN_ERROR
+
         count++
         if (count < MAX_RETRY)
-            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), error, Snackbar.LENGTH_INDEFINITE)
                     .setAction(RETRY) {
-                        //presenter.startGetUser(token)
+
                     }
                     .show()
         else
-            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG)
                     .show()
     }
 

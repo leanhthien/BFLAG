@@ -10,6 +10,7 @@ import android.util.Log
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.home.HomeActivity
 import com.example.minhquan.bflagclient.model.SuccessResponse
+import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.sign.SignActivity
 import com.example.minhquan.bflagclient.utils.*
 import com.google.gson.JsonObject
@@ -21,11 +22,12 @@ const val AUTH = 2
 
 class Splash : AppCompatActivity(), SplashContract.View {
 
-    private lateinit var presenter: SplashContract.Presenter
-    private lateinit var data: JsonObject
 
-    private var count: Int = 0
-    @Volatile private var check: Int = NOT_YET
+    private lateinit var presenter: SplashContract.Presenter
+    private lateinit var token: String
+
+    private var count = 0
+    @Volatile private var check = NOT_YET
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,25 +75,24 @@ class Splash : AppCompatActivity(), SplashContract.View {
 
         /*if ((GoogleSignIn.getLastSignedInAccount(this) != null)
                 || ( AccessToken.getCurrentAccessToken() != null))
-            startActivity(Intent(this, HomeActivity::class.java))*/
+            check = AUTH*/
 
         val tokenReturn = SharedPreferenceHelper.getInstance(this).getToken()
 
         if (tokenReturn != null) {
-            data = JsonObject().buildAuthJson(tokenReturn)
-            presenter.startAuth(data)
+            token = tokenReturn
+            presenter.startGetUser(token)
         }
         else
             check = UN_AUTH
     }
 
-    override fun onAuthSuccess(result: SuccessResponse) {
-        check = if (result.status == "ok") AUTH else UN_AUTH
+    override fun onGetUserSuccess(result: User) {
+        SharedPreferenceHelper.getInstance(this).setUser(result)
+        check = AUTH
     }
 
-    override fun showProgress(isShow: Boolean) {
-
-    }
+    override fun showProgress(isShow: Boolean) {}
 
     override fun setPresenter(presenter: SplashContract.Presenter) {
         this.presenter = presenter
@@ -100,17 +101,21 @@ class Splash : AppCompatActivity(), SplashContract.View {
     override fun showError(message: String) {
         Log.e("Error return", message)
 
+        val error = if (message == TIME_OUT || message == NETWORK_ERROR) message
+        else UNKNOWN_ERROR
+
         count++
-        if (count < MAX_RETRY)
-            Snackbar.make(this.findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(RETRY) {
-                        presenter.startAuth(data)
-                    }
-                    .setActionTextColor(ContextCompat.getColor(baseContext, R.color.colorPrimary))
+        if (count < MAX_RETRY) {
+            Snackbar.make(this.findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG)
                     .show()
-        else
-            Snackbar.make(this.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+            presenter.startGetUser(token)
+        }
+        else {
+            check = UN_AUTH
+            Snackbar.make(this.findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG)
                     .show()
+        }
+
     }
 
     override fun onUnknownError(error: String) {

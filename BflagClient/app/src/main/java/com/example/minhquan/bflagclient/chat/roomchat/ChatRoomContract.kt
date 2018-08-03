@@ -21,7 +21,7 @@ interface ChatRoomContract {
 
         fun startGetHistoryChat(token: String, id: Int, offset: Int)
 
-        fun startSendLogChat(actionType: String, localChat: MutableList<Chat>, subscription: Subscription)
+        fun startSendLogChat(actionType: String, chat: Chat, subscription: Subscription)
 
         fun startSendImageChat(token: String, filePart: MultipartBody.Part, roomId: Int)
     }
