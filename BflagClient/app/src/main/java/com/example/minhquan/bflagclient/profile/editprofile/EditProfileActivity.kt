@@ -1,70 +1,101 @@
-package com.example.minhquan.bflagclient.ambert.capture
+package com.example.minhquan.bflagclient.profile.editprofile
 
 import android.Manifest
 import android.app.Activity
+import android.os.Bundle
+import android.support.v7.app.AppCompatActivity
+import com.example.minhquan.bflagclient.R
+
+import android.view.animation.AnimationUtils
+import kotlinx.android.synthetic.main.activity_edit_profile.*
+import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.media.MediaScannerConnection
-import android.os.Bundle
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.design.widget.Snackbar
-import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
-import com.example.minhquan.bflagclient.R
+import com.example.minhquan.bflagclient.ambert.capture.*
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.*
+import com.tbruyelle.rxpermissions2.RxPermissions
+import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.activity_capture.*
+import okhttp3.RequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
 import java.io.FileOutputStream
 import java.io.IOException
 import java.util.*
-import io.reactivex.disposables.Disposable
-import com.tbruyelle.rxpermissions2.RxPermissions
-import okhttp3.RequestBody
-import kotlin.collections.HashMap
+import java.text.SimpleDateFormat
 
 
-const val CAMERA_REQUEST_CODE = 1
-const val GALLERY_REQUEST_CODE = 2
+class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
 
-
-class CaptureActivity : AppCompatActivity(), CaptureContract.View {
-
+    private val myCalendar = Calendar.getInstance()
     private var disposable: Disposable? = null
     private lateinit var path: String
-    private lateinit var presenter: CaptureContract.Presenter
+    private lateinit var presenter: EditProfileContract.Presenter
     private lateinit var token: String
 
     private var count: Int = 0
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_capture)
+        setContentView(R.layout.activity_edit_profile)
 
-        CapturePresenter(this)
+        val animation = AnimationUtils.loadAnimation(this, R.anim.bouncing)
+        constraint.startAnimation(animation)
+
+        setSupportActionBar(toolbar)
+        supportActionBar!!.title = ""
+
+        tvCancel.setOnClickListener {
+            onBackPressed()
+        }
+
+        setUpBirthday()
+
+
+        setUpProfilePicture()
+
+    }
+
+    private fun setUpBirthday() {
+
+
+        val date = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+            myCalendar.set(Calendar.YEAR, year)
+            myCalendar.set(Calendar.MONTH, monthOfYear)
+            myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
+            updateLabel()
+        }
+
+        edtBirthday.setOnClickListener {
+            DatePickerDialog(this@EditProfileActivity, date, myCalendar
+                    .get(Calendar.YEAR), myCalendar.get(Calendar.MONTH),
+                    myCalendar.get(Calendar.DAY_OF_MONTH)).show()
+        }
+    }
+
+    private fun updateLabel() {
+        val myFormat = "MM/dd/yyyy" //In which you need put here
+        val sdf = SimpleDateFormat(myFormat, Locale.US)
+
+        edtBirthday.setText(sdf.format(myCalendar.time))
+    }
+
+
+    private fun setUpProfilePicture() {
+        EditProfilePresenter(this)
 
         val rxPermissions = RxPermissions(this)
         rxPermissions.setLogging(true)
 
-        btn_camera.setOnClickListener {
-
-            disposable = rxPermissions
-                    .request(Manifest.permission.CAMERA)
-                    .subscribe { granted ->
-                        if (granted)
-                            takePhotoFromCamera()
-                        else
-                            Toast.makeText(this,
-                                    "Permission denied, can't open Camera!",
-                                    Toast.LENGTH_SHORT).show()
-                    }
-        }
-
-
-        btn_gallery.setOnClickListener {
+        imgProfile.setOnClickListener {
 
             disposable = rxPermissions
                     .request(Manifest.permission.READ_EXTERNAL_STORAGE)
@@ -75,23 +106,10 @@ class CaptureActivity : AppCompatActivity(), CaptureContract.View {
                             Toast.makeText(this,
                                     "Permission denied, can't open photo Gallery!",
                                     Toast.LENGTH_SHORT).show()
-                        }
+                    }
 
         }
-
         token =  SharedPreferenceHelper.getInstance(this).getToken()!!
-
-
-
-    }
-
-    /**
-     * Function for take photo from camera by making an ACTION_IMAGE_CAPTURE Intent
-     */
-    private fun takePhotoFromCamera() {
-
-        val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
-        startActivityForResult(cameraIntent, CAMERA_REQUEST_CODE)
 
     }
 
@@ -119,28 +137,28 @@ class CaptureActivity : AppCompatActivity(), CaptureContract.View {
             return
 
         when (requestCode) {
-            CAMERA_REQUEST_CODE -> {
-                val thumbnail = data!!.extras!!.get("data") as Bitmap
-                path = savePhoto(thumbnail)
-                img_capture!!.setImageBitmap(thumbnail)
-                Toast.makeText(this@CaptureActivity, "Image Saved!", Toast.LENGTH_SHORT).show()
-            }
+//            CAMERA_REQUEST_CODE -> {
+//                val thumbnail = data!!.extras!!.get("data") as Bitmap
+//                path = savePhoto(thumbnail)
+//                img_capture!!.setImageBitmap(thumbnail)
+//                Toast.makeText(this@EditProfileActivity, "Image Saved!", Toast.LENGTH_SHORT).show()
+//            }
             GALLERY_REQUEST_CODE -> {
                 val contentURI = data?.data
                 try {
                     val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
                     path = savePhoto(bitmap)
-                    img_capture!!.setImageBitmap(bitmap)
-                    Toast.makeText(this@CaptureActivity, "Image Loaded!", Toast.LENGTH_SHORT).show()
+                    imgProfile!!.setImageBitmap(bitmap)
+                    Toast.makeText(this@EditProfileActivity, "Image Loaded!", Toast.LENGTH_SHORT).show()
 
                     val filePart = prepareFilePart("profile_image",contentURI!!, this)
                     val mapPart = HashMap<String, RequestBody>()
-                            .buildRequestBody("Thien","Le","anhthien")
+                            .buildRequestBody("Quan","Nguyen","minhquan")
                     presenter.startEdit(token, filePart, mapPart)
                 }
                 catch (e: IOException) {
                     e.printStackTrace()
-                    Toast.makeText(this@CaptureActivity, "Failed!", Toast.LENGTH_SHORT).show()
+                    Toast.makeText(this@EditProfileActivity, "Failed!", Toast.LENGTH_SHORT).show()
                 }
             }
         }
@@ -156,7 +174,7 @@ class CaptureActivity : AppCompatActivity(), CaptureContract.View {
         val bytes = ByteArrayOutputStream()
         myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes)
         val photoDirectory = File(
-                (Environment.getExternalStorageDirectory()).toString() + IMAGE_DIRECTORY_PATH)
+                (Environment.getExternalStorageDirectory()).toString() + CaptureActivity.IMAGE_DIRECTORY_PATH)
 
         // Have the object build the directory structure, if needed.
         Log.d("Directory path", photoDirectory.toString())
@@ -186,17 +204,12 @@ class CaptureActivity : AppCompatActivity(), CaptureContract.View {
         return ""
     }
 
-    companion object {
-        const val IMAGE_DIRECTORY_PATH = "/Bflag"
-    }
 
 
     override fun onEditSuccess(result: User) {
-
     }
 
     override fun showProgress(isShow: Boolean) {
-
     }
 
     override fun showError(message: String) {
@@ -213,7 +226,7 @@ class CaptureActivity : AppCompatActivity(), CaptureContract.View {
                     .show()
     }
 
-    override fun setPresenter(presenter: CaptureContract.Presenter) {
+    override fun setPresenter(presenter: EditProfileContract.Presenter) {
         this.presenter = presenter
     }
 
@@ -234,5 +247,8 @@ class CaptureActivity : AppCompatActivity(), CaptureContract.View {
 
     }
 
-}
+    companion object {
+        const val IMAGE_DIRECTORY_PATH = "/Bflag"
+    }
 
+}

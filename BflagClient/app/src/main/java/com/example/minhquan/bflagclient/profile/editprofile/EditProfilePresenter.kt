@@ -1,13 +1,16 @@
-package com.example.minhquan.bflagclient.home.user
+package com.example.minhquan.bflagclient.ambert.capture
 
-import com.example.minhquan.bflagclient.model.SuccessResponse
+import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.CallbackWrapper
 import com.example.minhquan.bflagclient.utils.RetrofitUtil
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 
-class DialogPresenter(var view: DialogContract.View): DialogContract.Presenter{
+class EditProfilePresenter(private val view: EditProfileContract.View): EditProfileContract.Presenter {
+
 
     //Instance of interface created for Retrofit API calls
     private val service by lazy {
@@ -22,17 +25,18 @@ class DialogPresenter(var view: DialogContract.View): DialogContract.Presenter{
         this.view.setPresenter(this)
     }
 
-    override fun startSignOut(token: String) {
+    override fun startEdit(token: String, filePart: MultipartBody.Part, mapPart: HashMap<String, RequestBody>) {
         view.showProgress(true)
 
-        disposable  = service.getSignOut(token)
+        disposable  = service.getEdit(token, filePart, mapPart)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object: CallbackWrapper<SuccessResponse>(view) {
-                    override fun onSuccess(result: SuccessResponse) {
-                        view.onSignOutSuccess(result)
+                .subscribeWith(object: CallbackWrapper<User>(view) {
+                    override fun onSuccess(result: User) {
+                        view.onEditSuccess(result)
                     }
                 })
+
     }
 
 }

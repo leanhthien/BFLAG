@@ -5,7 +5,8 @@
     <color name="colorPrimaryDark">#264e86</color>
     <color name="colorAccent">#0074e4</color>
     <color name="colorWhite">#FFF</color>
-    <color name="colorGrey">#e1dede</color>
+    <color name="colorGrey">#bab9b9</color>
+    <color name="colorGreyBackground">#f1eeee</color>
 
     <!--Color in chat-->
     <color name="colorGreyFacebookLight">#f1f0f0</color>

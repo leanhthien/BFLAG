@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.design.widget.CoordinatorLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/coordinator"
@@ -16,14 +15,14 @@
 
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/collapsing"
-            app:title="Ginn"
-            app:expandedTitleMarginStart="112dp"
-            app:expandedTitleMarginBottom="48dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
             app:contentScrim="@color/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed">
+            app:expandedTitleMarginBottom="48dp"
+            app:expandedTitleMarginStart="112dp"
+            app:layout_scrollFlags="scroll|exitUntilCollapsed"
+            app:title="Ginn">
 
             <RelativeLayout
                 android:layout_width="match_parent"
@@ -34,25 +33,28 @@
                 <ImageView
                     android:id="@+id/ivCover"
                     android:layout_width="match_parent"
+                    android:layout_height="250dp"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentTop="true"
                     android:background="@drawable/cover"
                     android:scaleType="centerCrop"
                     android:transitionName="cover"
-                    android:layout_height="250dp"
                     tools:ignore="ContentDescription" />
             </RelativeLayout>
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
-                android:layout_height="64dp"
-                android:layout_marginTop="32dp"
-                app:titleMarginStart="8dp"
+                android:layout_height="?attr/actionBarSize"
+                android:layout_marginTop="24dp"
+                app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                app:layout_collapseMode="pin">
+                app:titleMarginStart="8dp">
+
                 <Space
                     android:id="@+id/circle_collapsed_target"
                     android:layout_width="32dp"
-                    android:layout_height="32dp"/>
+                    android:layout_height="32dp" />
             </android.support.v7.widget.Toolbar>
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -62,15 +64,15 @@
         android:id="@+id/nestedScroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scrollbars="none"
         android:fillViewport="true"
+        android:scrollbars="none"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"
         tools:ignore="PrivateResource">
 
         <android.support.constraint.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/colorWhite"
+            android:background="@color/colorGreyBackground"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
             <TextView
@@ -106,10 +108,10 @@
             <TextView
                 android:id="@+id/textView"
                 android:layout_width="0dp"
-                android:layout_height="1dp"
+                android:layout_height="0.5dp"
                 android:layout_marginStart="16dp"
-                android:text="TextView"
                 android:background="@color/colorGrey"
+                android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvFullname" />
@@ -135,11 +137,11 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:background="@color/colorWhite"
-                android:textColor="@color/colorBlack"
                 android:gravity="center|start"
                 android:paddingStart="16dp"
-                android:text="Nam"
                 android:paddingBottom="8dp"
+                android:text="Nam"
+                android:textColor="@color/colorBlack"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -149,7 +151,7 @@
             <TextView
                 android:id="@+id/textView9"
                 android:layout_width="0dp"
-                android:layout_height="1dp"
+                android:layout_height="0.5dp"
                 android:layout_marginStart="16dp"
                 android:background="@color/colorGrey"
                 android:text="TextView"
@@ -179,10 +181,10 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorWhite"
                 android:gravity="center|start"
-                android:textColor="@color/colorBlack"
                 android:paddingStart="16dp"
                 android:paddingBottom="8dp"
                 android:text="19/05/1997"
+                android:textColor="@color/colorBlack"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -192,9 +194,9 @@
             <TextView
                 android:id="@+id/textView11"
                 android:layout_width="0dp"
-                android:layout_height="1dp"
-                android:background="@color/colorGrey"
+                android:layout_height="0.5dp"
                 android:layout_marginStart="16dp"
+                android:background="@color/colorGrey"
                 android:text="TextView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -206,8 +208,8 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorWhite"
                 android:gravity="center|start"
-                android:paddingTop="8dp"
                 android:paddingStart="16dp"
+                android:paddingTop="8dp"
                 android:text="@string/email"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -220,24 +222,34 @@
                 android:id="@+id/tvEmail"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:textColor="@color/colorBlack"
                 android:background="@color/colorWhite"
                 android:gravity="center|start"
                 android:paddingStart="16dp"
                 android:paddingBottom="8dp"
                 android:text="example@gmail.com"
+                android:textColor="@color/colorBlack"
                 android:textSize="20sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/email"
                 tools:ignore="RtlSymmetry" />
 
+            <View
+                android:id="@+id/view2"
+                android:layout_width="0dp"
+                android:layout_height="0dp"
+                android:background="@color/colorWhite"
+                app:layout_constraintBottom_toBottomOf="@+id/textView10"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
+
             <Button
                 android:id="@+id/btnEditInfo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="8dp"
-                android:layout_marginTop="24dp"
+                android:layout_marginTop="16dp"
                 android:background="@drawable/button"
                 android:paddingStart="64dp"
                 android:paddingRight="64dp"
@@ -249,20 +261,33 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/tvEmail" />
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fabMenu"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="48dp"
-                android:layout_marginEnd="48dp"
-                android:backgroundTint="@color/colorWhite"
-                android:src="@drawable/menu"
-                android:transitionName="menuCircle"
-                android:elevation="6dp"
-                app:borderWidth="1dp"
-                app:fabSize="normal"
+
+            <TextView
+                android:id="@+id/textView10"
+                android:layout_width="0dp"
+                android:layout_height="1dp"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorGrey"
                 app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/btnEditInfo" />
+
+            <TextView
+                android:id="@+id/tvChangePassword"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:background="@drawable/text_lines_grey"
+                android:layout_marginTop="24dp"
+                android:gravity="center|start"
+                android:text="Change Your Password"
+                android:paddingStart="16dp"
+                android:textColor="@color/colorPrimary"
+                android:textSize="20sp"
+                android:drawableRight="@drawable/ic_navigate_next"
+                android:paddingRight="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/view2" />
 
 
         </android.support.constraint.ConstraintLayout>
@@ -272,17 +297,32 @@
         android:id="@+id/circle_image_view"
         android:layout_width="80dp"
         android:layout_height="80dp"
+        android:layout_gravity="start"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="144dp"
+        android:elevation="8dp"
         android:src="@drawable/shin"
         android:transitionName="profile"
-        android:layout_marginTop="144dp"
-        android:layout_marginStart="16dp"
-        android:layout_gravity="start"
-        android:elevation="8dp"
         app:civ_border_color="@color/colorPrimary"
         app:civ_border_width="1dp"
         app:collapsedTarget="@id/circle_collapsed_target"
-        app:layout_behavior="com.example.minhquan.bflagclient.home.user.CollapsingImageBehavior"/>
+        app:layout_behavior="com.example.minhquan.bflagclient.profile.CollapsingImageBehavior">
 
+    </de.hdodenhof.circleimageview.CircleImageView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fabMenu"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="32dp"
+        android:layout_marginBottom="56dp"
+        android:backgroundTint="@color/colorWhite"
+        android:elevation="6dp"
+        android:src="@drawable/menu"
+        android:transitionName="menuCircle"
+        android:layout_gravity="bottom|right"
+        app:borderWidth="1dp"
+        app:fabSize="normal" />
 
 
 </android.support.design.widget.CoordinatorLayout>

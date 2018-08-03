@@ -14,12 +14,7 @@ import android.support.v4.util.Pair
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import com.example.minhquan.bflagclient.home.user.UserActivity
-import android.widget.Toast
-import com.example.minhquan.bflagclient.ambert.capture.CaptureActivity
-import com.example.minhquan.bflagclient.ambert.capture.CapturePresenter
-import com.example.minhquan.bflagclient.ambert.signup.SignUpActivity
-import com.example.minhquan.bflagclient.chat.ChatActivity
+import com.example.minhquan.bflagclient.profile.ProfileActivity
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.*
 
@@ -88,9 +83,10 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
 
         // animation shared element when click image profile
-        imgProfile.setImageResource(R.drawable.shin)
+        imgProfile.setImageResource(R.drawable.img_profile)
+
         imgProfile.setOnClickListener {
-            val intent = Intent(this, UserActivity::class.java)
+            val intent = Intent(this, ProfileActivity::class.java)
             val p1 = Pair.create<View, String>(imgProfile, "profile")
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1)
             startActivity(intent, options.toBundle())

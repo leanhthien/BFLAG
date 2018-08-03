@@ -1,4 +1,4 @@
-package com.example.minhquan.bflagclient.home.user
+package com.example.minhquan.bflagclient.profile.dialog
 
 import com.example.minhquan.bflagclient.base.BaseView
 import com.example.minhquan.bflagclient.model.SuccessResponse

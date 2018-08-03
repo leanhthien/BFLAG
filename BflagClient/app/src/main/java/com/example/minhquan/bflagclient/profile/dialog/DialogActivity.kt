@@ -1,4 +1,4 @@
-package com.example.minhquan.bflagclient.home.user
+package com.example.minhquan.bflagclient.profile.dialog
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.util.Log
 import android.view.Window
 import android.widget.Toast
 import com.example.minhquan.bflagclient.R
+import com.example.minhquan.bflagclient.home.HomeActivity
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.sign.SignActivity
 import com.example.minhquan.bflagclient.utils.*
@@ -35,6 +36,7 @@ class DialogActivity : AppCompatActivity(), DialogContract.View {
             when (it.id) {
                 R.id.home -> {
                     Toast.makeText(this@DialogActivity, "Home!!", Toast.LENGTH_SHORT).show()
+                    startActivity(Intent(this@DialogActivity,HomeActivity::class.java))
                 }
                 R.id.search -> Toast.makeText(this@DialogActivity, "Search!!", Toast.LENGTH_SHORT).show()
                 R.id.logout -> {
