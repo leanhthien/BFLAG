@@ -153,7 +153,7 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
 
                     val filePart = prepareFilePart("profile_image",contentURI!!, this)
                     val mapPart = HashMap<String, RequestBody>()
-                            .buildRequestBody("Quan","Nguyen","minhquan")
+                            .buildRequestBody("Quan","Nguyen","minhquan", null)
                     presenter.startEdit(token, filePart, mapPart)
                 }
                 catch (e: IOException) {

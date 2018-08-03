@@ -14,6 +14,7 @@ import android.support.v4.util.Pair
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
+import com.example.minhquan.bflagclient.chat.ChatActivity
 import com.example.minhquan.bflagclient.profile.ProfileActivity
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.*
