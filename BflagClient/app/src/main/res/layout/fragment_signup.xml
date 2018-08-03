@@ -19,7 +19,7 @@
         android:inputType="textPersonName|textNoSuggestions"
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_chat"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintStart_toStartOf="@+id/guideline_center"
         app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
@@ -54,7 +54,7 @@
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintStart_toStartOf="@+id/guideline_center"
         app:layout_constraintTop_toBottomOf="@+id/edtFirstname" />
 
     <EditText
@@ -73,7 +73,7 @@
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintStart_toStartOf="@+id/guideline_center"
         app:layout_constraintTop_toBottomOf="@+id/edtUsername" />
 
     <EditText
@@ -92,7 +92,7 @@
         android:paddingBottom="16dp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintStart_toStartOf="@+id/guideline_center"
         app:layout_constraintTop_toBottomOf="@+id/edtEmailSignUp" />
 
     <Button
@@ -108,11 +108,11 @@
         android:textColor="@color/colorWhite"
         android:textSize="20sp"
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
-        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintStart_toStartOf="@+id/guideline_center"
         app:layout_constraintTop_toBottomOf="@+id/edtPasswordSignUp" />
 
     <android.support.constraint.Guideline
-        android:id="@+id/guideline_left"
+        android:id="@+id/guideline_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"

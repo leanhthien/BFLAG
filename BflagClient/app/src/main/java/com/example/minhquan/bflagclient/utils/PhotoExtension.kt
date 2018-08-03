@@ -19,6 +19,7 @@ import android.provider.MediaStore
  * @return path - The absolute path of photo for handle
  */
 fun Context.savePhoto(myBitmap: Bitmap) : String {
+
     val bytes = ByteArrayOutputStream()
     myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes)
     val photoDirectory = File(
