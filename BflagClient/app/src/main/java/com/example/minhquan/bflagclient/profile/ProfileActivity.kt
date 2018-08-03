@@ -18,7 +18,7 @@ import com.example.minhquan.bflagclient.utils.*
 
 
 class ProfileActivity : AppCompatActivity(){
-    lateinit var user: User
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -44,6 +44,8 @@ class ProfileActivity : AppCompatActivity(){
 
         collapsing.title = user.username
         tvFullname.text = user.firstName + " " + user.lastName
+        tvGender.text = user.gender
+        tvBirthday.text = user.birthday
         tvEmail.text = user.email
 
         btnEditInfo.setOnClickListener {

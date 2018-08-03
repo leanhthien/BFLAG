@@ -13,3 +13,6 @@ data class OnlineResponse(
         @SerializedName("online") val online: Boolean?): BaseResponse()
 
 data class HistoryChatResponse(val listChats: List<Chat>?): BaseResponse()
+
+//data class UserResponse(
+//        @SerializedName("user") val user: User?) : BaseResponse()

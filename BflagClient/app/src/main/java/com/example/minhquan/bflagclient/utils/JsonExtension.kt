@@ -1,6 +1,7 @@
 package com.example.minhquan.bflagclient.utils
 
 import com.google.gson.JsonObject
+import java.util.*
 
 fun JsonObject.buildSignUpJson(email: String, password: String, username: String, firstName: String, lastName: String): JsonObject {
 
@@ -29,12 +30,15 @@ fun JsonObject.buildAuthJson(token: String) : JsonObject {
 }
 
 
-fun JsonObject.buildEditJson(username: String?, firstName: String?, lastName: String?, password: String?) : JsonObject {
+fun JsonObject.buildEditJson(username: String?, firstName: String?, lastName: String?, password: String?, gender: String?, birthday: String?) : JsonObject {
 
     addProperty(USERNAME, username)
     addProperty(FIRST_NAME, firstName)
     addProperty(LAST_NAME, lastName)
     addProperty(PASSWORD, password)
+    addProperty(GENDER, gender)
+    addProperty(BIRTH_DAY, birthday)
+
 
     return this
 }
@@ -61,3 +65,5 @@ const val FIRST_NAME = "first_name"
 const val LAST_NAME = "last_name"
 const val PASSWORD = "password"
 const val RESET_CODE = "reset_code"
+const val BIRTH_DAY = "birth"
+const val GENDER = "gender"

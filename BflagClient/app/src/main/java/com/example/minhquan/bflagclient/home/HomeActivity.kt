@@ -144,7 +144,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
         setUser()
 
-        startActivity(Intent(this, ChatActivity::class.java))
+        //startActivity(Intent(this, ChatActivity::class.java))
         //startActivity(Intent(this, CaptureActivity::class.java))
         //startActivity(Intent(this, SignUpActivity::class.java))
     }

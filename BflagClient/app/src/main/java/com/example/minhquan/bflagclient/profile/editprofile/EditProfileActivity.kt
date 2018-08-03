@@ -16,13 +16,13 @@ import android.os.Environment
 import android.provider.MediaStore
 import android.support.design.widget.Snackbar
 import android.util.Log
+import android.widget.TextView
 import android.widget.Toast
 import com.example.minhquan.bflagclient.ambert.capture.*
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.*
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.activity_capture.*
 import okhttp3.RequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -39,6 +39,7 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
     private lateinit var path: String
     private lateinit var presenter: EditProfileContract.Presenter
     private lateinit var token: String
+    private lateinit var user: User
 
     private var count: Int = 0
 
@@ -59,8 +60,12 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
 
         setUpBirthday()
 
-
         setUpProfilePicture()
+
+        user =  SharedPreferenceHelper.getInstance(this).getUser()!!
+
+        edtUsername.setText(user.username, TextView.BufferType.EDITABLE)
+
 
     }
 
@@ -82,7 +87,7 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
     }
 
     private fun updateLabel() {
-        val myFormat = "MM/dd/yyyy" //In which you need put here
+        val myFormat = "dd/MM/yyyy" //In which you need put here
         val sdf = SimpleDateFormat(myFormat, Locale.US)
 
         edtBirthday.setText(sdf.format(myCalendar.time))
