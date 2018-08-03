@@ -33,6 +33,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".resetpassword.ResetPasswordActivity">
+
+        </activity>
 
         <activity android:name=".roomdata.activity.RoomActivity">
             <!--Rock Lee Run demo save database with room-->

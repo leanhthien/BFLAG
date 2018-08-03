@@ -1,5 +1,6 @@
 package com.example.minhquan.bflagclient.api
 
+import com.example.minhquan.bflagclient.model.HistoryChatResponse
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.model.User
 import com.google.gson.JsonObject
@@ -41,6 +42,24 @@ interface BflagApiService {
     fun getUser(@Header("token") token: String)
             : Observable<User>
 
+    @POST("/api/v1/reset_password")
+    fun getReset(@Body body: JsonObject)
+            : Observable<SuccessResponse>
 
+    @POST("/api/v1/reset_password/auth")
+    fun getResetPassword(@Body body: JsonObject)
+            : Observable<SuccessResponse>
 
+    @Multipart
+    @POST("/api/v1/images")
+    fun getSendImage(@Header("token") token: String,
+                     @Part("room_id") roomId: Int,
+                     @Part filePart: MultipartBody.Part)
+            : Observable<SuccessResponse>
+
+    @GET("/api/v1/rooms/{id}/{offset}")
+    fun getHistoryChat(@Header("token") token: String,
+                       @Path("id") id: Int,
+                       @Path("offset") offset: Int)
+            : Observable<HistoryChatResponse>
 }

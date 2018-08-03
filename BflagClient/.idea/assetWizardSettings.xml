@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/D:/Software/AndroidStudioBeta/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/navigation/ic_close_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/E:/androidstudio-3.2beta4/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/communication/ic_vpn_key_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,7 +28,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="outputName" value="close" />
+                            <entry key="color" value="0e00ff" />
+                            <entry key="outputName" value="key" />
                             <entry key="sourceFile" value="C:\Users\Minh Quan" />
                           </map>
                         </option>

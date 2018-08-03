@@ -1,6 +1,5 @@
 package com.example.minhquan.bflagclient.adapter
 
-import android.content.Context
 import android.support.v4.view.ViewPager
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -13,18 +12,19 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.chat.ChatActivity
-import com.example.minhquan.bflagclient.model.Friend
+import com.example.minhquan.bflagclient.model.Room
 
-class FriendAdapter(private var context: ChatActivity) : RecyclerView.Adapter<FriendAdapter.ViewHolder>() {
-    internal var data: MutableList<Friend> = mutableListOf()
-    private lateinit var friend: Friend
+class RoomAdapter(private var context: ChatActivity) : RecyclerView.Adapter<RoomAdapter.ViewHolder>() {
 
-    fun setData(listNewFriend: MutableList<Friend>) {
+    internal var data: MutableList<Room> = mutableListOf()
+    private lateinit var room: Room
+
+    fun setData(listNewFriend: MutableList<Room>) {
         this.data = listNewFriend
         notifyItemInserted(data.size - listNewFriend.size)
     }
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RoomAdapter.ViewHolder {
         val view = LayoutInflater.from(parent.context).inflate(R.layout.item_friend, parent, false)
         return ViewHolder(view)
     }
@@ -34,14 +34,13 @@ class FriendAdapter(private var context: ChatActivity) : RecyclerView.Adapter<Fr
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        friend = data[position]
+        room = data[position]
 
         Glide.with(context)
-                .load(friend.profileImage)
+                .load("")
                 .apply(RequestOptions.circleCropTransform())
                 .into(holder.imgFriendAvatar)
-        holder.tvFriendName.text = friend.username
-
+        holder.tvFriendName.text = room.name
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView), View.OnClickListener {
@@ -57,4 +56,5 @@ class FriendAdapter(private var context: ChatActivity) : RecyclerView.Adapter<Fr
             context.findViewById<ViewPager>(R.id.vpg_chat_friend).currentItem = layoutPosition
         }
     }
+
 }

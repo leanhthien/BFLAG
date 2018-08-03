@@ -12,6 +12,7 @@ class SharedPreferenceHelper private constructor(context: Context) {
     val TOKEN_GOOGLE = "token_google"
     val TOKEN_FACEBOOK = "token_facebook"
     val USER = "user"
+    val EMAIL = "email"
 
     var instance : SharedPreferences
 
@@ -50,6 +51,14 @@ class SharedPreferenceHelper private constructor(context: Context) {
 
     fun getUser() : User? {
         return Gson().fromJson(instance.getString(USER, null), User::class.java)
+    }
+
+    fun setEmail(token: String?) {
+        instance.edit().putString(EMAIL, token).apply()
+    }
+
+    fun getEmail() : String? {
+        return instance.getString(EMAIL, null)
     }
 
     fun removeAll() {

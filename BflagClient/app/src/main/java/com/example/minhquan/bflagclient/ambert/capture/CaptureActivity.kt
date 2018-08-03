@@ -135,7 +135,7 @@ class CaptureActivity : AppCompatActivity(), CaptureContract.View {
 
                     val filePart = prepareFilePart("profile_image",contentURI!!, this)
                     val mapPart = HashMap<String, RequestBody>()
-                            .buildRequestBody("Thien","Le","anhthien")
+                            .buildRequestBody("Thien","Le","anhthien", null)
                     presenter.startEdit(token, filePart, mapPart)
                 }
                 catch (e: IOException) {

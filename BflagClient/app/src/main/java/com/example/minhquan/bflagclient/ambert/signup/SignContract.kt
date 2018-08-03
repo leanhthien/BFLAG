@@ -17,7 +17,9 @@ interface SignContract {
 
         fun onSignOutSuccess(result: SuccessResponse)
 
+        fun onResetSuccess(result: SuccessResponse)
 
+        fun onResetAuthSuccess(result: SuccessResponse)
 
     }
 
@@ -30,6 +32,10 @@ interface SignContract {
         fun startEdit(token: String, body: JsonObject)
 
         fun startSignOut(token: String)
+
+        fun startResetPassword(body: JsonObject)
+
+        fun startResetAuth(body: JsonObject)
 
     }
 }

@@ -18,6 +18,7 @@ import com.example.minhquan.bflagclient.model.Chat
 import com.example.minhquan.bflagclient.utils.RECEIVER
 import com.example.minhquan.bflagclient.utils.SENDER
 import com.example.minhquan.bflagclient.utils.SharedPreferenceHelper
+import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import java.io.File
 
 const val MAX_LENGTH = 30
@@ -30,6 +31,7 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
     fun setData(message: Chat): Int {
         data.add(message)
         notifyItemInserted(data.size - 1)
+
         return data.size
     }
 
@@ -89,11 +91,13 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
 
                 Glide.with(context)
                         .load(Uri.fromFile(File(chat.message!!.imgUrl)))
+                        .apply(bitmapTransform(RoundedCornersTransformation(64, 0, RoundedCornersTransformation.CornerType.ALL)))
                         .into(holder.imgChatShare)
             }
             else
                 Glide.with(context)
                     .load(chat.message!!.imgUrl)
+                    .apply(bitmapTransform(RoundedCornersTransformation(64, 0, RoundedCornersTransformation.CornerType.ALL)))
                     .into(holder.imgChatShare)
 
 

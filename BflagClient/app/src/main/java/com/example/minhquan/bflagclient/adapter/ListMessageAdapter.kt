@@ -2,6 +2,7 @@ package com.example.minhquan.bflagclient.adapter
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.content.Intent
 import android.support.v7.widget.RecyclerView
 import android.util.Log
 import android.view.LayoutInflater
@@ -14,6 +15,7 @@ import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.view.animation.AlphaAnimation
 import android.view.animation.DecelerateInterpolator
+import com.example.minhquan.bflagclient.chat.ChatActivity
 
 class ListMessageAdapter(var context: Context) : RecyclerView.Adapter<ListMessageAdapter.ViewHolder>() {
     //val data = List<Message>
@@ -67,6 +69,8 @@ class ListMessageAdapter(var context: Context) : RecyclerView.Adapter<ListMessag
 
         override fun onClick(p0: View?) {
             Toast.makeText(context, "Clicked!", Toast.LENGTH_SHORT).show()
+            context.startActivity(Intent(context, ChatActivity::class.java))
+
         }
     }
 
