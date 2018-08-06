@@ -14,7 +14,6 @@ import android.support.v4.util.Pair
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import com.example.minhquan.bflagclient.home.user.UserActivity
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
