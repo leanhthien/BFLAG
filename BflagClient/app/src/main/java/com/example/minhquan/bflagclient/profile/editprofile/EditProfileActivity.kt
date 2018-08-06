@@ -12,17 +12,22 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.media.MediaScannerConnection
+import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.design.widget.Snackbar
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import com.example.minhquan.bflagclient.ambert.capture.*
+import com.bumptech.glide.Glide
+import com.example.minhquan.bflagclient.chat.roomchat.GALLERY_REQUEST_CODE
 import com.example.minhquan.bflagclient.model.User
+import com.example.minhquan.bflagclient.profile.ProfileActivity
 import com.example.minhquan.bflagclient.utils.*
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.disposables.Disposable
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -32,7 +37,7 @@ import java.util.*
 import java.text.SimpleDateFormat
 
 
-class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
+class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
 
     private val myCalendar = Calendar.getInstance()
     private var disposable: Disposable? = null
@@ -40,6 +45,9 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
     private lateinit var presenter: EditProfileContract.Presenter
     private lateinit var token: String
     private lateinit var user: User
+    private lateinit var filePart: MultipartBody.Part
+    private var check: Boolean = false
+    private var contentURI: Uri? = null
 
     private var count: Int = 0
 
@@ -47,9 +55,6 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
-
-        val animation = AnimationUtils.loadAnimation(this, R.anim.bouncing)
-        constraint.startAnimation(animation)
 
         setSupportActionBar(toolbar)
         supportActionBar!!.title = ""
@@ -62,17 +67,41 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
 
         setUpProfilePicture()
 
-        user =  SharedPreferenceHelper.getInstance(this).getUser()!!
+        user = SharedPreferenceHelper.getInstance(this).getUser()!!
+        token = SharedPreferenceHelper.getInstance(this).getToken()!!
 
+        Glide.with(this).load(user.profileImage).into(imgProfile)
         edtUsername.setText(user.username, TextView.BufferType.EDITABLE)
+        edtFirstName.setText(user.firstName, TextView.BufferType.EDITABLE)
+        edtLastName.setText(user.lastName, TextView.BufferType.EDITABLE)
+        if (user.gender.equals("male")){
+            radioMale.isChecked = true
+        }
+        else radioFemale.isChecked = true
+        edtBirthday.setText(user.birthday, TextView.BufferType.EDITABLE)
 
+        tvSave.setOnClickListener {
+
+            if (check) {
+                filePart = prepareFilePart("profile_image", contentURI!!, this)
+                val mapPart = HashMap<String, RequestBody>()
+                        .buildRequestBody(edtFirstName.text.toString(), edtLastName.text.toString(), edtUsername.text.toString(), null, if (radioFemale.isChecked) "male" else "female", edtBirthday.text.toString())
+                presenter.startEdit(token, filePart, mapPart)
+            } else {
+                val mapPart = HashMap<String, RequestBody>()
+                        .buildRequestBody(edtFirstName.text.toString(), edtLastName.text.toString(), edtUsername.text.toString(), null, if (radioMale.isChecked) "male" else "female", edtBirthday.text.toString())
+                presenter.startEdit(token, null, mapPart)
+            }
+
+
+        }
 
     }
 
+
     private fun setUpBirthday() {
 
-
-        val date = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        val date = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             myCalendar.set(Calendar.YEAR, year)
             myCalendar.set(Calendar.MONTH, monthOfYear)
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -114,7 +143,6 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
                     }
 
         }
-        token =  SharedPreferenceHelper.getInstance(this).getToken()!!
 
     }
 
@@ -134,7 +162,7 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
      * @param requestCode param to determine action type: camera or gallery
      *
      */
-    public override fun onActivityResult(requestCode:Int, resultCode:Int, data: Intent?) {
+    public override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
 
         super.onActivityResult(requestCode, resultCode, data)
 
@@ -149,19 +177,15 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
 //                Toast.makeText(this@EditProfileActivity, "Image Saved!", Toast.LENGTH_SHORT).show()
 //            }
             GALLERY_REQUEST_CODE -> {
-                val contentURI = data?.data
+                contentURI = data?.data
                 try {
                     val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
-                    path = savePhoto(bitmap)
+                    path = this.getPath(contentURI!!)
                     imgProfile!!.setImageBitmap(bitmap)
                     Toast.makeText(this@EditProfileActivity, "Image Loaded!", Toast.LENGTH_SHORT).show()
+                    check = true
 
-                    val filePart = prepareFilePart("profile_image",contentURI!!, this)
-                    val mapPart = HashMap<String, RequestBody>()
-                            .buildRequestBody("Quan","Nguyen","minhquan", null)
-                    presenter.startEdit(token, filePart, mapPart)
-                }
-                catch (e: IOException) {
+                } catch (e: IOException) {
                     e.printStackTrace()
                     Toast.makeText(this@EditProfileActivity, "Failed!", Toast.LENGTH_SHORT).show()
                 }
@@ -179,7 +203,7 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
         val bytes = ByteArrayOutputStream()
         myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes)
         val photoDirectory = File(
-                (Environment.getExternalStorageDirectory()).toString() + CaptureActivity.IMAGE_DIRECTORY_PATH)
+                (Environment.getExternalStorageDirectory()).toString() + EditProfileActivity.IMAGE_DIRECTORY_PATH)
 
         // Have the object build the directory structure, if needed.
         Log.d("Directory path", photoDirectory.toString())
@@ -201,8 +225,7 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
             Log.d("TAG", "File Saved::--->" + f.absolutePath)
 
             return f.absolutePath
-        }
-        catch (e: IOException) {
+        } catch (e: IOException) {
             e.printStackTrace()
         }
 
@@ -210,14 +233,19 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
     }
 
 
-
     override fun onEditSuccess(result: User) {
+        Toast.makeText(this,"success",Toast.LENGTH_SHORT).show()
+        SharedPreferenceHelper.getInstance(this).setUser(result)
+        onBackPressed()
+
     }
 
     override fun showProgress(isShow: Boolean) {
+        progressBar.visibility = if (isShow) View.VISIBLE else View.GONE
     }
 
     override fun showError(message: String) {
+        progressBar.visibility = View.GONE
         Log.e("Error return", message)
         count++
         if (count < MAX_RETRY)
@@ -254,6 +282,13 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View{
 
     companion object {
         const val IMAGE_DIRECTORY_PATH = "/Bflag"
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this, ProfileActivity::class.java))
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        finish()
     }
 
 }

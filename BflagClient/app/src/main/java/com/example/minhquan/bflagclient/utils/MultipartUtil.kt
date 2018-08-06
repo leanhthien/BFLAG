@@ -9,14 +9,14 @@ import java.io.File
 
 
 fun prepareFilePart(partName: String, fileUri: Uri, context: Context): MultipartBody.Part {
-    val file = File(FileUtil().getPath(context,fileUri))
+    val file = File(FileUtil().getPath(context, fileUri))
 
     // create RequestBody instance from file
     val requestFile =
-    RequestBody.create(
-            MediaType.parse("image/*"),
-            file
-    )
+            RequestBody.create(
+                    MediaType.parse("image/*"),
+                    file
+            )
 
     /*val requestFile_ =
     RequestBody.create(
@@ -29,13 +29,20 @@ fun prepareFilePart(partName: String, fileUri: Uri, context: Context): Multipart
 }
 
 
+fun HashMap<String, RequestBody>.buildRequestBody(firstName: String?, lastName: String?, username: String?, password: String?, gender: String?, birthday: String?): HashMap<String, RequestBody> {
 
-fun HashMap<String, RequestBody>.buildRequestBody(firstName: String?, lastName: String?, username: String?, password: String?) : HashMap<String, RequestBody> {
-
-    put("first_name", createPartFromString(firstName))
-    put("last_name", createPartFromString(lastName))
-    put("username", createPartFromString(username))
-    put("password", createPartFromString(password))
+    if (firstName != null)
+        put("first_name", createPartFromString(firstName))
+    if (lastName != null)
+        put("last_name", createPartFromString(lastName))
+    if (username != null)
+        put("username", createPartFromString(username))
+    if (password != null)
+        put("password", createPartFromString(password))
+    if (gender != null)
+        put("gender", createPartFromString(gender))
+    if (birthday != null)
+        put("birth", createPartFromString(birthday))
 
     return this
 }

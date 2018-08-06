@@ -10,6 +10,7 @@ import android.widget.Toast
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.home.HomeActivity
 import com.example.minhquan.bflagclient.model.SuccessResponse
+import com.example.minhquan.bflagclient.profile.ProfileActivity
 import com.example.minhquan.bflagclient.sign.SignActivity
 import com.example.minhquan.bflagclient.utils.*
 import kotlinx.android.synthetic.main.activity_dialog.*
@@ -28,7 +29,7 @@ class DialogActivity : AppCompatActivity(), DialogContract.View {
 
         DialogPresenter(this)
 
-        token =  SharedPreferenceHelper.getInstance(this!!).getToken()!!
+        token =  SharedPreferenceHelper.getInstance(this).getToken()!!
 
 
         // handle click for item of circle menu
@@ -37,6 +38,8 @@ class DialogActivity : AppCompatActivity(), DialogContract.View {
                 R.id.home -> {
                     Toast.makeText(this@DialogActivity, "Home!!", Toast.LENGTH_SHORT).show()
                     startActivity(Intent(this@DialogActivity,HomeActivity::class.java))
+                    finish()
+                    
                 }
                 R.id.search -> Toast.makeText(this@DialogActivity, "Search!!", Toast.LENGTH_SHORT).show()
                 R.id.logout -> {

@@ -1,4 +1,4 @@
-package com.example.minhquan.bflagclient.ambert.capture
+package com.example.minhquan.bflagclient.profile.editprofile
 
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.CallbackWrapper
@@ -25,7 +25,7 @@ class EditProfilePresenter(private val view: EditProfileContract.View): EditProf
         this.view.setPresenter(this)
     }
 
-    override fun startEdit(token: String, filePart: MultipartBody.Part, mapPart: HashMap<String, RequestBody>) {
+    override fun startEdit(token: String, filePart: MultipartBody.Part?, mapPart: HashMap<String, RequestBody>?) {
         view.showProgress(true)
 
         disposable  = service.getEdit(token, filePart, mapPart)
