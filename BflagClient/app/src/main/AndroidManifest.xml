@@ -14,7 +14,7 @@
     <application
         android:name="com.example.minhquan.bflagclient.MainApplication"
         android:allowBackup="true"
-        android:icon="@drawable/ic_home"
+        android:icon="@drawable/ic_bflag"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"

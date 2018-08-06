@@ -52,36 +52,9 @@ class ChangePasswordActivity : AppCompatActivity(), SignInContract.View {
         token = SharedPreferenceHelper.getInstance(this).getToken()!!
 
         btnSaveChanges.setOnClickListener {
-            Toast.makeText(this,user.email.toString(),Toast.LENGTH_SHORT).show()
-            Toast.makeText(this,edtCurrentPassword.text.toString(),Toast.LENGTH_SHORT).show()
             body = JsonObject().buildSignInJson(user.email.toString(), edtCurrentPassword.text.toString())
             presenter.startSignIn(body)
 
-//            var check = true
-//            if (TextUtils.isEmpty(edtCurrentPassword.text.toString())) {
-//                edtCurrentPassword.error = EMPTY_ERROR
-//                check = false
-//            } else if (!success) {
-//                edtCurrentPassword.error = INCORRECT_PASSWORD
-//                check = false
-//            }
-//            if (TextUtils.isEmpty(edtNewPassword.text.toString())) {
-//                edtNewPassword.error = EMPTY_ERROR
-//                check = false
-//            }
-//            if (TextUtils.isEmpty(edtRetypeNewpassword.text.toString())) {
-//                edtRetypeNewpassword.error = EMPTY_ERROR
-//                check = false
-//            } else if (edtRetypeNewpassword.text.toString() != edtNewPassword.text.toString()) {
-//                edtRetypeNewpassword.error = INCORRECT_PASSWORD
-//                check = false
-//            }
-//            if (check) {
-//                val mapPart = HashMap<String, RequestBody>()
-//                        .buildRequestBody(null, null, null, edtRetypeNewpassword.text.toString(), null, null)
-//                startEdit(token, null, mapPart)
-//                onBackPressed()
-//            }
         }
 
         btnCancel.setOnClickListener {
@@ -144,7 +117,6 @@ class ChangePasswordActivity : AppCompatActivity(), SignInContract.View {
 
     override fun showError(message: String) {
         Log.e("Error return", message)
-        Toast.makeText(this,message, Toast.LENGTH_SHORT).show()
         edtCurrentPassword.error = INCORRECT_PASSWORD
 
     }

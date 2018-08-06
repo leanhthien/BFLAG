@@ -53,6 +53,7 @@ class ProfileActivity : AppCompatActivity(){
 
         btnEditInfo.setOnClickListener {
             startActivity(Intent(this@ProfileActivity, EditProfileActivity::class.java))
+            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
             finish()
         }
 

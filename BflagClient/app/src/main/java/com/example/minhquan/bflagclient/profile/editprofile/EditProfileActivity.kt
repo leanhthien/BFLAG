@@ -56,9 +56,6 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_edit_profile)
 
-        val animation = AnimationUtils.loadAnimation(this, R.anim.bouncing)
-        constraint.startAnimation(animation)
-
         setSupportActionBar(toolbar)
         supportActionBar!!.title = ""
 
@@ -77,7 +74,10 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
         edtUsername.setText(user.username, TextView.BufferType.EDITABLE)
         edtFirstName.setText(user.firstName, TextView.BufferType.EDITABLE)
         edtLastName.setText(user.lastName, TextView.BufferType.EDITABLE)
-        radioMale.isChecked = user.gender == "male"
+        if (user.gender.equals("male")){
+            radioMale.isChecked = true
+        }
+        else radioFemale.isChecked = true
         edtBirthday.setText(user.birthday, TextView.BufferType.EDITABLE)
 
         tvSave.setOnClickListener {
