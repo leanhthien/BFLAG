@@ -65,7 +65,7 @@ class ActiveFragment : Fragment(), ActiveContract.View{
 
         showProgress(false)
 
-        if (result.size <= 1) {
+        if (result.isEmpty()) {
             tv_empty.visibility = View.VISIBLE
             tv_empty.text = EMPTY_USER
         }
