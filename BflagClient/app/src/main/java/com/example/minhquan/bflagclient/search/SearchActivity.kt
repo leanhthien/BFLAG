@@ -53,8 +53,7 @@ class SearchActivity : AppCompatActivity(), SearchContract.View{
 
         edtSearch.addTextChangedListener(object: TextWatcher {
             override fun afterTextChanged(p0: Editable?) {
-                query = edtSearch.text.toString()
-                presenter.startSearchRoom(token, query)
+
             }
 
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -62,7 +61,8 @@ class SearchActivity : AppCompatActivity(), SearchContract.View{
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
+                query = p0.toString()
+                presenter.startSearchRoom(token, query)
             }
 
         })

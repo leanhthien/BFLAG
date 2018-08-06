@@ -91,4 +91,10 @@ class ProfileActivity : AppCompatActivity(){
     }
 
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this,HomeActivity::class.java))
+        finish()
+    }
+
 }

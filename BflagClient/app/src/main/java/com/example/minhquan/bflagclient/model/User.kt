@@ -22,20 +22,21 @@ data class User(
 data class Room(
         @SerializedName("id") val id: Int?,
         @SerializedName("name") val name: String?,
-        @SerializedName("creator") val creator: String?,
+        @SerializedName("creator") val creator: Friend?,
         @SerializedName("friends") val listFriends: List<Friend>?,
         @SerializedName("last_message") val lastMessage: Chat?): BaseResponse(), Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readValue(Int::class.java.classLoader) as? Int,
             parcel.readString(),
-            parcel.readString(),
+            parcel.readParcelable(Friend::class.java.classLoader),
             parcel.createTypedArrayList(Friend),
-            parcel.readParcelable(Chat::class.java.classLoader)) {}
+            parcel.readParcelable(Chat::class.java.classLoader)) {
+    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeValue(id)
         parcel.writeString(name)
-        parcel.writeString(creator)
+        parcel.writeParcelable(creator, flags)
         parcel.writeTypedList(listFriends)
         parcel.writeParcelable(lastMessage, flags)
     }
@@ -53,6 +54,7 @@ data class Room(
             return arrayOfNulls(size)
         }
     }
+
 }
 
 data class Friend(

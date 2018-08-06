@@ -194,45 +194,6 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
 
     }
 
-    /**
-     * Function for preparing photo and returning the absolute path of photo
-     * @return path - The absolute path of photo for handle
-     */
-    private fun savePhoto(myBitmap: Bitmap): String {
-
-        val bytes = ByteArrayOutputStream()
-        myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes)
-        val photoDirectory = File(
-                (Environment.getExternalStorageDirectory()).toString() + EditProfileActivity.IMAGE_DIRECTORY_PATH)
-
-        // Have the object build the directory structure, if needed.
-        Log.d("Directory path", photoDirectory.toString())
-
-        if (!photoDirectory.exists()) photoDirectory.mkdirs()
-
-        try {
-            Log.d("Directory path after", photoDirectory.toString())
-            val f = File(photoDirectory, ((Calendar.getInstance()
-                    .timeInMillis).toString() + ".jpg"))
-            f.createNewFile()
-            val fo = FileOutputStream(f)
-            fo.write(bytes.toByteArray())
-            MediaScannerConnection.scanFile(this,
-                    arrayOf(f.path),
-                    arrayOf("image/jpeg"),
-                    null)
-            fo.close()
-            Log.d("TAG", "File Saved::--->" + f.absolutePath)
-
-            return f.absolutePath
-        } catch (e: IOException) {
-            e.printStackTrace()
-        }
-
-        return ""
-    }
-
-
     override fun onEditSuccess(result: User) {
         Toast.makeText(this,"success",Toast.LENGTH_SHORT).show()
         SharedPreferenceHelper.getInstance(this).setUser(result)
