@@ -51,10 +51,9 @@ class ActiveFragment : Fragment(), ActiveContract.View{
         val tokenReturn = SharedPreferenceHelper.getInstance(context!!).getToken()
         val userReturn =  SharedPreferenceHelper.getInstance(context!!).getUser()
 
-        if (userReturn!= null)
-            user = userReturn
-
         if (tokenReturn != null) {
+            if (userReturn!= null)
+                user = userReturn
             token = tokenReturn
             presenter.startGetOnlineUsers(token)
         }
