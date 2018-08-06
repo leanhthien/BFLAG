@@ -44,10 +44,8 @@
             android:windowSoftInputMode="adjustPan"/>
         <activity android:name=".search.SearchActivity"
             android:windowSoftInputMode="stateAlwaysVisible"/>
-        <activity android:name=".ambert.signup.SignUpActivity" />
         <activity android:name=".chat.ChatActivity"
             android:windowSoftInputMode="adjustResize" />
-        <activity android:name=".ambert.capture.CaptureActivity" />
         <activity android:name=".profile.ProfileActivity" />
         <activity android:name=".profile.dialog.DialogActivity"
             android:theme="@style/NoTitleDialog" />
