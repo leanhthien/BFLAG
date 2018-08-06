@@ -27,7 +27,7 @@
         <TextView
             android:gravity="center"
             android:layout_gravity="center"
-            android:text="Edit Info"
+            android:text="Edit Profile"
             android:textColor="@color/colorWhite"
             android:textSize="24sp"
             android:layout_width="wrap_content"
@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/textlines"
+        android:background="@drawable/text_lines_grey"
         android:ems="10"
         android:inputType="textPersonName|textNoSuggestions"
         android:padding="8dp"
@@ -106,11 +106,11 @@
         android:id="@+id/fullname"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
         android:paddingStart="8dp"
-        android:textSize="18sp"
         android:text="@string/full_name"
+        android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/imgProfile" />
 
@@ -118,12 +118,12 @@
         android:id="@+id/edtFullName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/textlines"
-        android:padding="8dp"
+        android:background="@drawable/text_lines_grey"
         android:ems="10"
         android:inputType="textPersonName|textNoSuggestions"
+        android:padding="8dp"
+        android:paddingStart="16dp"
         android:text="Name"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/fullname" />
@@ -132,22 +132,23 @@
         android:id="@+id/gender"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
+        android:paddingStart="8dp"
         android:text="@string/gender"
         android:textSize="18sp"
-        android:paddingStart="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/edtFullName" />
 
-    <android.support.constraint.ConstraintLayout
+    <RadioGroup
         android:id="@+id/constraintLayout2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/textlines"
+        android:background="@drawable/text_lines_grey"
         android:padding="4dp"
+        android:paddingStart="8dp"
+        android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/gender">
@@ -159,9 +160,7 @@
             android:buttonTint="@color/colorPrimary"
             android:text="Male"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+             />
 
         <RadioButton
             android:id="@+id/radioFemale"
@@ -171,20 +170,18 @@
             android:buttonTint="@color/colorPrimary"
             android:text="Female"
             android:textSize="15sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/radioMale"
-            app:layout_constraintTop_toTopOf="parent" />
-    </android.support.constraint.ConstraintLayout>
+            />
+    </RadioGroup>
 
     <TextView
         android:id="@+id/birthday"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="24dp"
+        android:paddingStart="8dp"
         android:text="@string/birthday"
         android:textSize="18sp"
-        android:paddingStart="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/constraintLayout2" />
 
@@ -192,14 +189,15 @@
         android:id="@+id/edtBirthday"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:background="@drawable/text_lines_grey"
         android:ems="10"
-        android:text="MM/DD/YYYY"
         android:focusable="false"
-        android:textSize="18sp"
         android:padding="8dp"
-        android:background="@drawable/textlines"
+        android:paddingStart="16dp"
+        android:text="DD/MM/YYYY"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/birthday" />
 

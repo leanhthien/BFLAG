@@ -11,11 +11,11 @@ import android.os.Bundle
 
 class PagerAdapterChatRoom(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 
-    lateinit var fragmentFirst: ChatRoomFragment
-    lateinit var fragmentSecond: ChatRoomFragment
-    lateinit var fragmentThird: ChatRoomFragment
-    lateinit var fragmentFourth: ChatRoomFragment
-    lateinit var fragmentFifth: ChatRoomFragment
+    private lateinit var fragmentFirst: ChatRoomFragment
+    private lateinit var fragmentSecond: ChatRoomFragment
+    private lateinit var fragmentThird: ChatRoomFragment
+    private lateinit var fragmentFourth: ChatRoomFragment
+    private lateinit var fragmentFifth: ChatRoomFragment
 
     override fun getItem(p0: Int): Fragment? {
 
@@ -33,18 +33,20 @@ class PagerAdapterChatRoom(fragmentManager: FragmentManager) : FragmentPagerAdap
         return 5
     }
 
-    fun setFragment(room: List<Int>) {
+    fun setFragment(listRoom: List<Int>) {
+
+
         fragmentFirst = ChatRoomFragment()
         fragmentSecond = ChatRoomFragment()
         fragmentThird = ChatRoomFragment()
         fragmentFourth = ChatRoomFragment()
         fragmentFifth = ChatRoomFragment()
 
-        fragmentFirst.setRoom(room[0])
-        fragmentSecond.setRoom(room[1])
-        fragmentThird.setRoom(room[2])
-        fragmentFourth.setRoom(room[3])
-        fragmentFifth.setRoom(room[4])
+        fragmentFirst.setRoom(listRoom[0])
+        fragmentSecond.setRoom(listRoom[1])
+        fragmentThird.setRoom(listRoom[2])
+        fragmentFourth.setRoom(listRoom[3])
+        fragmentFifth.setRoom(listRoom[4])
 
     }
 

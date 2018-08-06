@@ -56,7 +56,7 @@ class SignUpActivity : AppCompatActivity(), SignContract.View {
                 "anhthien",
                 "Le Anh",
                 "Thien")
-        val body_2 = JsonObject().buildEditJson(null, null, null,null)
+        val body_2 = JsonObject().buildEditJson(null, null, null,null, null, null)
         val token = SharedPreferenceHelper.getInstance(this).getToken()!!
 
         val body_3 = JsonObject().buildResetJson("leanhthienhcmut@gmail.com")

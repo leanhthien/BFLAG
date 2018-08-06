@@ -61,6 +61,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:transitionName="profile"
+        android:src="@drawable/shin"
         app:civ_border_color="@color/colorPrimary"
         app:civ_border_width="1dp"
         app:layout_constraintBottom_toTopOf="@+id/tabLayout"
@@ -102,6 +103,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:realtimeBlurRadius="20dp" />
+
 
 
 

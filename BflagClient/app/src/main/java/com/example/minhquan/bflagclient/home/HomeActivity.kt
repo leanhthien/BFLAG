@@ -16,10 +16,13 @@ import android.view.View
 import android.view.WindowManager
 import com.example.minhquan.bflagclient.home.user.UserActivity
 import android.widget.Toast
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
 import com.example.minhquan.bflagclient.ambert.capture.CaptureActivity
 import com.example.minhquan.bflagclient.ambert.capture.CapturePresenter
 import com.example.minhquan.bflagclient.ambert.signup.SignUpActivity
 import com.example.minhquan.bflagclient.chat.ChatActivity
+import com.example.minhquan.bflagclient.profile.ProfileActivity
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.*
 
@@ -28,18 +31,21 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     private lateinit var presenter: HomeContract.Presenter
     private lateinit var token: String
+    private lateinit var user: User
     private var count: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
 
+        HomePresenter(this)
+
         setUpView()
 
     }
 
     private fun setUpView() {
-        HomePresenter(this)
+
 
         // set up adapter for view pager
         val adapter = PagerHomeAdapter(this, supportFragmentManager)
@@ -58,19 +64,21 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
         setUpStatusBar()
 
-        //setUser()
-
-
         // get height of navigation bottom bar
         val height = getHeightNavigationBottom()
         // and set for view blur
         blurNav.layoutParams.height = height
 
 
-        if (!isNetworkConnected()) {
-            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), WORKING_OFFLINE, Snackbar.LENGTH_LONG)
-                    .show()
-            setUser()
+        val userReturn = SharedPreferenceHelper.getInstance(this).getUser()
+
+        if (userReturn != null) {
+
+            if (!isNetworkConnected())
+                Snackbar.make(this.window.decorView.findViewById(android.R.id.content), WORKING_OFFLINE, Snackbar.LENGTH_LONG)
+                        .show()
+            setUser(userReturn)
+
         }
         else {
             val tokenReturn =  SharedPreferenceHelper.getInstance(this).getToken()
@@ -80,21 +88,34 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
                 presenter.startGetUser(token)
             }
         }
-
     }
 
-    private fun setUser() {
-        val user = SharedPreferenceHelper.getInstance(this).getUser()
-
+    private fun setUser(user: User) {
 
         // animation shared element when click image profile
-        imgProfile.setImageResource(R.drawable.shin)
+        //imgProfile.setImageResource(user.profileImage)
+
+        if (isNetworkConnected())
+            Glide.with(this)
+                .load(user.profileImage)
+                .apply(RequestOptions
+                        .circleCropTransform())
+                .into(imgProfile)
+        else {
+            // TODO: Show offline profile image
+
+        }
+
         imgProfile.setOnClickListener {
-            val intent = Intent(this, UserActivity::class.java)
+            val intent = Intent(this, ProfileActivity::class.java)
             val p1 = Pair.create<View, String>(imgProfile, "profile")
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1)
             startActivity(intent, options.toBundle())
         }
+
+        startActivity(Intent(this, ChatActivity::class.java))
+        //startActivity(Intent(this, CaptureActivity::class.java))
+        //startActivity(Intent(this, SignUpActivity::class.java))
     }
 
 
@@ -132,8 +153,6 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
      */
     private fun getHeightNavigationBottom(): Int {
 
-
-
         val resources = this.resources
         val resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android")
         return if (resourceId > 0) {
@@ -145,11 +164,8 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
         SharedPreferenceHelper.getInstance(this).setUser(result)
 
-        setUser()
+        setUser(result)
 
-        startActivity(Intent(this, ChatActivity::class.java))
-        //startActivity(Intent(this, CaptureActivity::class.java))
-        //startActivity(Intent(this, SignUpActivity::class.java))
     }
 
     override fun showProgress(isShow: Boolean) {
@@ -162,15 +178,18 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     override fun showError(message: String) {
         Log.e("Error return", message)
+
+        val error = if (message == TIME_OUT || message == NETWORK_ERROR) message else UNKNOWN_ERROR
+
         count++
         if (count < MAX_RETRY)
-            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), error, Snackbar.LENGTH_INDEFINITE)
                     .setAction(RETRY) {
                         presenter.startGetUser(token)
                     }
                     .show()
         else
-            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG)
                     .show()
     }
 

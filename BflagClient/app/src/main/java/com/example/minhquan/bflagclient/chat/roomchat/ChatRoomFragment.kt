@@ -44,12 +44,11 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
     private lateinit var chat: Chat
     private lateinit var subscription : Subscription
 
-
     private var historyChat: MutableList<Chat> = mutableListOf()
     private var localChat: MutableList<Chat> = mutableListOf()
     private var disposable: Disposable? = null
     private var offset = 0
-    private var smoothScroll: Int = 10
+    private var smoothScroll = 10
     private var connected = false
 
     private var room = 1
@@ -57,7 +56,6 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
     private var localImage: MutableList<String> = mutableListOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-
         return inflater.inflate(R.layout.fragment_chat_room, container, false) as ViewGroup
     }
 
@@ -71,8 +69,6 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
         user =  SharedPreferenceHelper.getInstance(context!!).getUser()!!
 
         setupView()
-
-        //edt_chat.setText(room)
 
     }
 
@@ -89,14 +85,26 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
         val rxPermissions = RxPermissions(this)
         rxPermissions.setLogging(true)
 
+        // Ask for store image on external storage
+        disposable = rxPermissions
+                .request(Manifest.permission.CAMERA,
+                        Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                .subscribe { granted ->
+                    if (granted)
+                        Toast.makeText(context!!,
+                                "Now all images would stored offline",
+                                Toast.LENGTH_SHORT).show()
+                    else
+                        Toast.makeText(context!!,
+                                "Permission denied, can't store image offline!",
+                                Toast.LENGTH_SHORT).show()
+                }
 
         // Set up listener for button send message
         img_chat_sender.setOnClickListener {
 
             if(!edt_chat.text.isEmpty()) {
-
                 sendChat(edt_chat.text.toString(), null, null)
-
             }
         }
 
@@ -105,6 +113,17 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
             disposable = rxPermissions
                     .request(Manifest.permission.CAMERA,
                             Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                    .subscribe { granted ->
+                        if (granted)
+                            takePhotoFromCamera()
+                        else
+                            Toast.makeText(context!!,
+                                    "Permission denied, can't open Camera!",
+                                    Toast.LENGTH_SHORT).show()
+                    }
+
+            disposable = rxPermissions
+                    .request(Manifest.permission.WRITE_EXTERNAL_STORAGE)
                     .subscribe { granted ->
                         if (granted)
                             takePhotoFromCamera()
@@ -198,7 +217,7 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
 
     private fun sendChat(text: String?, image: String?, uri: Uri?) {
 
-        chat = Chat(Friend(user.email, user.username, user.profileImage), Message(text, image),
+        chat = Chat(Friend(user.email, user.username, user.profileImage),text, image,
                 sdf.format(Date()))
 
         if (text != null) edt_chat.text = null
@@ -210,7 +229,7 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
         if (isNetworkConnected()) {
             Log.d("TAG", "Ready to send to server")
             if (text != null && connected)
-                presenter.startSendLogChat(ACTION_TYPE, localChat, subscription)
+                presenter.startSendLogChat(ACTION_TYPE, chat, subscription)
             else {
                 val filePart = prepareFilePart(IMAGE, uri!!, context!!)
                 presenter.startSendImageChat(token, filePart, room)
@@ -228,11 +247,14 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
 
     override fun onGetHistoryChatSuccess(result: HistoryChatResponse) {
 
-        for (i in 0 until result.listChats!!.size) {
-            smoothScroll = chatAdapter.setData(result.listChats[i])
+        if (result.listChats != null && result.listChats.isNotEmpty()) {
+            for (i in 0 until result.listChats.size) {
+                smoothScroll = chatAdapter.setData(result.listChats[i])
+            }
+
+            rv_chat.smoothScrollToPosition(smoothScroll)
         }
 
-        rv_chat.smoothScrollToPosition(smoothScroll)
     }
 
     override fun onReceiveLogChatSuccess(message: BaseResponse) {
@@ -240,8 +262,7 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
 
             chat = message as Chat
 
-            if (chat.friend!!.email != SharedPreferenceHelper.getInstance(context!!).getUser()!!.email) {
-
+            if (chat.friend!!.email != user.email) {
                 smoothScroll = chatAdapter.setData(chat)
                 rv_chat.smoothScrollToPosition(smoothScroll)
             }
@@ -262,7 +283,12 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
     override fun showError(message: String) {
         Log.e("Error return", message)
 
-        Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
+        val error =
+                if (message == TIME_OUT || message == NETWORK_ERROR || message == SERVER_ERROR)
+                    message
+                else UNKNOWN_ERROR
+
+        Snackbar.make(activity!!.findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG)
                 .show()
 
     }

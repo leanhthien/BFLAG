@@ -1,4 +1,4 @@
-package com.example.minhquan.bflagclient.home.user
+package com.example.minhquan.bflagclient.profile
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -10,20 +10,22 @@ import android.support.v7.app.AppCompatActivity
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.model.User
 import jp.wasabeef.blurry.Blurry
-import kotlinx.android.synthetic.main.activity_user.*
+import kotlinx.android.synthetic.main.activity_profile.*
 import android.view.*
+import com.example.minhquan.bflagclient.profile.dialog.DialogActivity
+import com.example.minhquan.bflagclient.profile.editprofile.EditProfileActivity
 import com.example.minhquan.bflagclient.utils.*
 
 
-class UserActivity : AppCompatActivity(){
-    lateinit var user: User
+class ProfileActivity : AppCompatActivity(){
+    private lateinit var user: User
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_user)
+        setContentView(R.layout.activity_profile)
 
         setSupportActionBar(toolbar)
-        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        //supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         setUpStatusBar()
 
@@ -36,14 +38,18 @@ class UserActivity : AppCompatActivity(){
            startActivity(intent, options.toBundle())
        }
 
+        circle_image_view.setImageResource(R.drawable.img_profile)
+
         user =  SharedPreferenceHelper.getInstance(this).getUser()!!
 
         collapsing.title = user.username
         tvFullname.text = user.firstName + " " + user.lastName
+        tvGender.text = user.gender
+        tvBirthday.text = user.birthday
         tvEmail.text = user.email
 
         btnEditInfo.setOnClickListener {
-            startActivity(Intent(this@UserActivity,EditInfoActivity::class.java))
+            startActivity(Intent(this@ProfileActivity, EditProfileActivity::class.java))
         }
     }
 

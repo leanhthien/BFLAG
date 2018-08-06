@@ -1,18 +1,18 @@
 package com.example.minhquan.bflagclient.splash
 
 import com.example.minhquan.bflagclient.base.BaseView
-import com.example.minhquan.bflagclient.model.SuccessResponse
+import com.example.minhquan.bflagclient.model.User
 import com.google.gson.JsonObject
 
 interface SplashContract {
 
     interface View: BaseView<Presenter> {
 
-        fun onAuthSuccess(result: SuccessResponse)
+        fun onGetUserSuccess(result: User)
     }
 
     interface Presenter {
 
-        fun startAuth(data: JsonObject)
+        fun startGetUser(token: String)
     }
 }

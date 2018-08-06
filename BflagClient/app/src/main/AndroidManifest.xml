@@ -49,10 +49,10 @@
         <activity android:name=".chat.ChatActivity"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".ambert.capture.CaptureActivity" />
-        <activity android:name=".home.user.UserActivity" />
-        <activity android:name=".home.user.DialogActivity"
+        <activity android:name="com.example.minhquan.bflagclient.profile.ProfileActivity" />
+        <activity android:name="com.example.minhquan.bflagclient.profile.dialog.DialogActivity"
             android:theme="@style/NoTitleDialog" />
-        <activity android:name=".home.user.EditInfoActivity"/>
+        <activity android:name="com.example.minhquan.bflagclient.profile.editprofile.EditProfileActivity"/>
 
         <uses-library
             android:name="com.google.android.maps"

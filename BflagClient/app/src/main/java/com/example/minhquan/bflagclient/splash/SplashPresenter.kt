@@ -1,6 +1,7 @@
 package com.example.minhquan.bflagclient.splash
 
 import com.example.minhquan.bflagclient.model.SuccessResponse
+import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.CallbackWrapper
 import com.example.minhquan.bflagclient.utils.RetrofitUtil
 import com.google.gson.JsonObject
@@ -23,15 +24,16 @@ class SplashPresenter(private val view: SplashContract.View): SplashContract.Pre
         this.view.setPresenter(this)
     }
 
-    override fun startAuth(data: JsonObject) {
+    override fun startGetUser(token: String) {
+
         view.showProgress(true)
 
-        disposable  = service.getAuth(data)
+        disposable  = service.getUser(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object: CallbackWrapper<SuccessResponse>(view) {
-                    override fun onSuccess(result: SuccessResponse) {
-                        view.onAuthSuccess(result)
+                .subscribeWith(object: CallbackWrapper<User>(view) {
+                    override fun onSuccess(result: User) {
+                        view.onGetUserSuccess(result)
                     }
                 })
     }
