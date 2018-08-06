@@ -9,6 +9,7 @@
     <color name="colorGreyBackground">#f1eeee</color>
 
     <!--Color in chat-->
+    <color name="colorGreyFacebookSuperLight">#33bab9b9</color>
     <color name="colorGreyFacebookLight">#f1f0f0</color>
     <color name="colorGreyFacebook">#7f7f7f</color>
     <color name="colorBlueFacebook">#4267b2</color>

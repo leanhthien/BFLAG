@@ -106,8 +106,6 @@ class Splash : AppCompatActivity(), SplashContract.View {
 
         count++
         if (count < MAX_RETRY) {
-            Snackbar.make(this.findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG)
-                    .show()
             presenter.startGetUser(token)
         }
         else {

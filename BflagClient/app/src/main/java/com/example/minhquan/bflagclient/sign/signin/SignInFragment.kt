@@ -15,7 +15,6 @@ import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.home.HomeActivity
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.utils.*
-import com.facebook.AccessTokenTracker
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -28,12 +27,15 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_signin.*
-import android.preference.PreferenceManager
+import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.resetpassword.ResetPasswordActivity
+import com.example.minhquan.bflagclient.sign.SignActivity
+import com.facebook.login.LoginManager
 import java.util.*
 
 const val GOOGLE_SIGN_IN_CODE = 100
-const val EMAIL = "email"
+const val PUBLIC_PROFILE = "public_profile"
+const val USER_FRIENDS = "user_friends"
 const val EMPTY_ERROR = "The value cannot be empty!"
 
 
@@ -58,23 +60,6 @@ class SignInFragment : Fragment(), SignInContract.View {
 
         setupView()
 
-        tvSignUp.setOnClickListener {
-            activity?.findViewById<ViewPager>(R.id.viewPager)?.currentItem = 1
-        }
-        tvForgotPassword.setOnClickListener {
-            startActivity(Intent(this@SignInFragment.activity,ResetPasswordActivity::class.java))
-            this@SignInFragment.activity!!.finish()
-        }
-
-        getStateCheckBox()
-
-    }
-
-    private fun getStateCheckBox() {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(activity!!.baseContext)
-        val checked = prefs.getBoolean("checked", false)
-        checkBox.isChecked = checked
-
     }
 
     private fun setupView() {
@@ -86,21 +71,27 @@ class SignInFragment : Fragment(), SignInContract.View {
                 edtEmail.error = EMPTY_ERROR
                 check = false
             }
+
             if (TextUtils.isEmpty(edtPassword.text.toString())){
                 edtPassword.error = EMPTY_ERROR
                 check = false
             }
+
             if(check){
 
                 body = JsonObject().buildSignInJson(edtEmail.text.toString(), edtPassword.text.toString())
-                // save state of checkbox
-                val prefs = PreferenceManager.getDefaultSharedPreferences(activity!!.baseContext)
-                prefs.edit().putBoolean("checked", checkBox.isChecked).apply()
-
-                val body = JsonObject().buildSignInJson(edtEmail.text.toString(), edtPassword.text.toString())
                 presenter.startSignIn(body)
             }
 
+        }
+
+        tvSignUp.setOnClickListener {
+            activity?.findViewById<ViewPager>(R.id.viewPager)?.currentItem = 1
+        }
+
+        tvForgotPassword.setOnClickListener {
+            startActivity(Intent(this@SignInFragment.activity,ResetPasswordActivity::class.java))
+            this@SignInFragment.activity!!.finish()
         }
 
         getSignInGoogle()
@@ -127,20 +118,19 @@ class SignInFragment : Fragment(), SignInContract.View {
 
         callbackManager = CallbackManager.Factory.create()
 
-        btn_facebook_sign_in.setReadPermissions(Arrays.asList(EMAIL))
-        btn_facebook_sign_in.fragment = this
-        btn_facebook_sign_in.registerCallback(callbackManager,
+        LoginManager.getInstance().registerCallback(callbackManager,
                 object : FacebookCallback<LoginResult> {
                     override fun onSuccess(loginResult: LoginResult) {
                         // TODO:
                         Log.i("Sig up with Facebook", "Success")
-                        Log.d("Token facebook", loginResult.accessToken.userId)
-                        SharedPreferenceHelper.getInstance(context!!).setTokenFacebook(loginResult.accessToken.userId)
+                        Log.d("Token facebook", loginResult.accessToken.token)
+                        SharedPreferenceHelper.getInstance(context!!).setTokenFacebook(loginResult.accessToken.token)
                     }
 
                     override fun onCancel() {
                         // TODO:
                         Log.i("Sig up with Facebook","Canceled")
+
 
                     }
 
@@ -149,11 +139,20 @@ class SignInFragment : Fragment(), SignInContract.View {
                         Log.e("Sig up with Facebook", exception.localizedMessage)
                     }
                 })
+
+        img_facebook.setOnClickListener {
+            LoginManager.getInstance().logInWithReadPermissions(this,
+                    Arrays.asList(PUBLIC_PROFILE, USER_FRIENDS))
+        }
+
     }
 
     override fun onSignInSuccess(result: SuccessResponse) {
+
         Toast.makeText(context, "Sign in success!!", Toast.LENGTH_SHORT).show()
         Log.d("Sign in return", result.token)
+
+        showProgress(false)
 
         SharedPreferenceHelper.getInstance(context!!).setToken(result.token)
 
@@ -174,7 +173,8 @@ class SignInFragment : Fragment(), SignInContract.View {
                 val task = GoogleSignIn.getSignedInAccountFromIntent(data)
                 handleSignInResult(task)
             }
-            else -> callbackManager.onActivityResult(requestCode, resultCode, data)
+            else ->  {
+                callbackManager.onActivityResult(requestCode, resultCode, data)}
         }
     }
 
@@ -183,17 +183,24 @@ class SignInFragment : Fragment(), SignInContract.View {
             val account = completedTask.getResult(ApiException::class.java)
 
             // Signed in successfully, show authenticated UI.
-            val body = JsonObject().buildSignUpJson(account.email!!,
-                    "123456",
-                    account.displayName!!,
-                    account.givenName!!,
-                    account.familyName!!)
-            Log.d("Google Account", body.toString())
-            Log.d("Token google", account.idToken)
-            SharedPreferenceHelper.getInstance(context!!).setTokenFacebook(account.idToken)
 
-            //TODO: Auto sign up or just fill require fields with Google account info
-            //presenter.startSignUp(body)
+            SharedPreferenceHelper.getInstance(context!!).setTokenGoogle(account.idToken)
+
+            val username = account.email!!.split('@')[0]
+            val user = User(null,
+                            account.email,
+                            null,
+                            username,
+                            account.givenName,
+                            account.familyName,
+                            null,
+                            null,
+                            null)
+
+            val signActivity= activity as SignActivity
+            signActivity.getAutoSignup(user)
+            activity?.findViewById<ViewPager>(R.id.viewPager)?.currentItem = 1
+
 
         } catch (e: ApiException) {
             // The ApiException status code indicates the detailed failure reason.
@@ -204,9 +211,23 @@ class SignInFragment : Fragment(), SignInContract.View {
 
     }
 
-    override fun showProgress(isShow: Boolean) {
-        progressBar.visibility = if (isShow) View.VISIBLE else View.GONE
+    override fun onStop() {
+        super.onStop()
+        LoginManager.getInstance().unregisterCallback(callbackManager)
+    }
 
+    override fun showProgress(isShow: Boolean) {
+
+        when (isShow) {
+            true -> {
+                loader_sign_in.visibility = View.VISIBLE
+                loader_sign_in.playAnimation()
+            }
+            false -> {
+                loader_sign_in.visibility = View.GONE
+                loader_sign_in.pauseAnimation()
+            }
+        }
     }
 
     override fun setPresenter(presenter: SignInContract.Presenter) {
@@ -215,6 +236,9 @@ class SignInFragment : Fragment(), SignInContract.View {
 
     override fun showError(message: String) {
         Log.e("Error return", message)
+
+        showProgress(false)
+
         val error = if (message == TIME_OUT || message == NETWORK_ERROR) message else UNKNOWN_ERROR
         count++
         if (count < MAX_RETRY)

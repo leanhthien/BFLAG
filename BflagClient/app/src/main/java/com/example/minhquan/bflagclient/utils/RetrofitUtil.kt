@@ -2,6 +2,9 @@ package com.example.minhquan.bflagclient.utils
 
 import com.example.minhquan.bflagclient.api.BFLAG_BASE_URL
 import com.example.minhquan.bflagclient.api.BflagApiService
+import com.example.minhquan.bflagclient.chat.roomchat.DATE_TIME_FORMAT
+import com.google.gson.Gson
+import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
@@ -20,12 +23,23 @@ class RetrofitUtil {
         fun builderBflagService(): BflagApiService {
             val retrofit = Retrofit.Builder()
                     .addConverterFactory(ScalarsConverterFactory.create())
-                    .addConverterFactory(GsonConverterFactory.create())
+                    .addConverterFactory(GsonConverterFactory.create(gsonDate()))
                     .baseUrl(BFLAG_BASE_URL)
                     .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                     .client(client())
                     .build()
             return retrofit.create(BflagApiService::class.java)
+        }
+
+        /**
+         * Builder for set up Date Format
+         */
+        private fun gsonDate(): Gson {
+
+            return GsonBuilder()
+                    .setDateFormat(DATE_TIME_FORMAT)
+                    .setDateFormat(DATE_FORMAT)
+                    .create()
         }
 
 

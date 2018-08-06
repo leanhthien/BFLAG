@@ -17,6 +17,8 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.adapter.ChatAdapter
+import com.example.minhquan.bflagclient.adapter.NEW_CHAT
+import com.example.minhquan.bflagclient.adapter.OLD_CHAT
 import com.example.minhquan.bflagclient.base.BaseResponse
 import com.example.minhquan.bflagclient.model.*
 import com.example.minhquan.bflagclient.utils.*
@@ -25,15 +27,13 @@ import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.fragment_chat_room.*
 import java.io.File
-import java.io.IOException
-import java.text.SimpleDateFormat
-import java.util.*
 
 const val ACTION_TYPE = "send_data"
 const val CAMERA_REQUEST_CODE = 100
 const val GALLERY_REQUEST_CODE = 200
 const val IMAGE_DIRECTORY_PATH = "/Bflag"
 const val IMAGE = "image"
+const val DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss"
 
 class ChatRoomFragment : Fragment(), ChatRoomContract.View {
 
@@ -44,15 +44,13 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
     private lateinit var chat: Chat
     private lateinit var subscription : Subscription
 
-    private var historyChat: MutableList<Chat> = mutableListOf()
-    private var localChat: MutableList<Chat> = mutableListOf()
+    private var historyChat: List<Chat> =listOf()
     private var disposable: Disposable? = null
     private var offset = 0
     private var smoothScroll = 10
     private var connected = false
 
     private var room = 1
-    private val sdf : SimpleDateFormat = SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.US)
     private var localImage: MutableList<String> = mutableListOf()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -91,16 +89,14 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
                         Manifest.permission.WRITE_EXTERNAL_STORAGE)
                 .subscribe { granted ->
                     if (granted)
-                        Toast.makeText(context!!,
-                                "Now all images would stored offline",
-                                Toast.LENGTH_SHORT).show()
+
                     else
                         Toast.makeText(context!!,
                                 "Permission denied, can't store image offline!",
                                 Toast.LENGTH_SHORT).show()
                 }
 
-        // Set up listener for button send message
+        // Set up listener for button send item_active
         img_chat_sender.setOnClickListener {
 
             if(!edt_chat.text.isEmpty()) {
@@ -217,14 +213,12 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
 
     private fun sendChat(text: String?, image: String?, uri: Uri?) {
 
-        chat = Chat(Friend(user.email, user.username, user.profileImage),text, image,
-                sdf.format(Date()))
+        chat = Chat(null,Friend(user.email, user.username, user.profileImage),text, image)
 
         if (text != null) edt_chat.text = null
 
-        smoothScroll = chatAdapter.setData(chat)
+        smoothScroll = chatAdapter.setData(chat, NEW_CHAT)
         rv_chat.smoothScrollToPosition(smoothScroll)
-        localChat.add(chat)
 
         if (isNetworkConnected()) {
             Log.d("TAG", "Ready to send to server")
@@ -247,14 +241,22 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
 
     override fun onGetHistoryChatSuccess(result: HistoryChatResponse) {
 
+        if (offset >= 10 || result.listChats!!.isEmpty())
+            swipe_refresh.isRefreshing = false
+
         if (result.listChats != null && result.listChats.isNotEmpty()) {
-            for (i in 0 until result.listChats.size) {
-                smoothScroll = chatAdapter.setData(result.listChats[i])
+
+            val listChat = result.listChats.sortedBy { it -> it.time }.asReversed()
+
+            for (i in 0 until listChat.size) {
+                smoothScroll = chatAdapter.setData(listChat[i], OLD_CHAT)
             }
 
-            rv_chat.smoothScrollToPosition(smoothScroll)
+            swipe_refresh.setOnRefreshListener {
+                offset += 10
+                presenter.startGetHistoryChat(token, room, offset)
+            }
         }
-
     }
 
     override fun onReceiveLogChatSuccess(message: BaseResponse) {
@@ -263,10 +265,10 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
             chat = message as Chat
 
             if (chat.friend!!.email != user.email) {
-                smoothScroll = chatAdapter.setData(chat)
+                smoothScroll = chatAdapter.setData(chat, NEW_CHAT)
                 rv_chat.smoothScrollToPosition(smoothScroll)
             }
-            historyChat.add(chat)
+
         }
     }
 
@@ -276,13 +278,13 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
 
     override fun showProgress(isShow: Boolean) {
         activity!!.runOnUiThread {
-            loader.visibility = if (isShow) View.VISIBLE else View.GONE
+
         }
     }
 
     override fun showError(message: String) {
         Log.e("Error return", message)
-
+        swipe_refresh.isRefreshing = false
         val error =
                 if (message == TIME_OUT || message == NETWORK_ERROR || message == SERVER_ERROR)
                     message

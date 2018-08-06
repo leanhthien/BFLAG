@@ -4,7 +4,6 @@ import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
-import android.text.TextUtils
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -20,8 +19,9 @@ import kotlinx.android.synthetic.main.fragment_resetpassword_email.*
 import kotlinx.android.synthetic.main.fragment_resetpassword_newpassword.*
 
 
-const val EMPTY_ERROR = "The value can't < 6 !"
+const val EMPTY_ERROR = "The length of password must greater than 6 !"
 const val EQUAL_ERROR = "Check for password!"
+
 class NewPasswordFragment : Fragment(), NewPasswordContract.View {
     private lateinit var presenter: NewPasswordContract.Presenter
     private lateinit var body: JsonObject
@@ -39,36 +39,45 @@ class NewPasswordFragment : Fragment(), NewPasswordContract.View {
     private fun setupView() {
         btn_resetpassword_newpass.setOnClickListener {
             //check password 1 == password 2 && password1 < 6
-            if(edt_resetpassword_newpass1.text.toString().trim().length < 6){
-                edt_resetpassword_newpass1.error = EMPTY_ERROR
+            when {
+                edt_resetpassword_newpass1.text.toString().trim().length < 6 -> edt_resetpassword_newpass1.error = EMPTY_ERROR
+                edt_resetpassword_newpass1.text.toString() != edt_resetpassword_newpass2.text.toString() -> {
+                    edt_resetpassword_newpass1.error = EQUAL_ERROR
+                    edt_resetpassword_newpass2.error = EQUAL_ERROR
+                }
+                else -> {
+                    body = JsonObject().buildResetAuthJson( activity!!.edt_resetpassword_email.text.toString(),
+                            activity!!.edt_resetpassword_code.text.toString(),edt_resetpassword_newpass2.text.toString())
+                    presenter.startResetPassword(body)
+                    //Toast.makeText(context, activity!!.edt_resetpassword_email.text.toString(),Toast.LENGTH_SHORT).show()
+                }
             }
-            else if(edt_resetpassword_newpass1.text.toString() != edt_resetpassword_newpass2.text.toString()){
-                edt_resetpassword_newpass1.error = EQUAL_ERROR
-                edt_resetpassword_newpass2.error = EQUAL_ERROR
-            } else{
-                animation_reset_newpass.visibility = View.VISIBLE
-                animation_reset_newpass.playAnimation()
-                body = JsonObject().buildResetAuthJson( activity!!.edt_resetpassword_email.text.toString(),
-                        activity!!.edt_resetpassword_code.text.toString(),edt_resetpassword_newpass2.text.toString())
-                presenter.startResetPassword(body)
-                //Toast.makeText(context, activity!!.edt_resetpassword_email.text.toString(),Toast.LENGTH_SHORT).show()
-            }
-
         }
-
     }
 
     override fun onResetPasswordSuccess(result: SuccessResponse) {
         Toast.makeText(context,"result ${result.status}",Toast.LENGTH_SHORT).show()
-        animation_reset_newpass.pauseAnimation()
-        animation_reset_newpass.visibility = View.INVISIBLE
-        // start SignActivity and delete data
+
+        showProgress(false)
+
+        // Start SignActivity and delete data
         startActivity(Intent(this@NewPasswordFragment.activity,SignActivity::class.java))
         this@NewPasswordFragment.activity!!.finish()
         SharedPreferenceHelper.getInstance(context!!).removeAll()
     }
 
-    override fun showProgress(isShow: Boolean) {}
+    override fun showProgress(isShow: Boolean) {
+        when (isShow) {
+            true -> {
+                loader_password.visibility = View.VISIBLE
+                loader_password.playAnimation()
+            }
+            false -> {
+                loader_password.visibility = View.GONE
+                loader_password.pauseAnimation()
+            }
+        }
+    }
 
     override fun setPresenter(presenter: NewPasswordContract.Presenter) {
         this.presenter = presenter
@@ -76,8 +85,9 @@ class NewPasswordFragment : Fragment(), NewPasswordContract.View {
 
     override fun showError(message: String) {
         Log.e("Error return", message)
-        animation_reset_newpass.pauseAnimation()
-        animation_reset_newpass.visibility = View.INVISIBLE
+
+        showProgress(false)
+
         Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                 .show()
     }

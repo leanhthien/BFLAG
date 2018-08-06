@@ -5,12 +5,14 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import com.example.minhquan.bflagclient.adapter.PagerSignAdapter
 import com.example.minhquan.bflagclient.R
+import com.example.minhquan.bflagclient.model.User
 import kotlinx.android.synthetic.main.activity_sign.*
 
 
 class SignActivity : AppCompatActivity() {
 
     private var pagerAdapter: PagerSignAdapter? = null
+    private lateinit var listener: SignListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -23,4 +25,15 @@ class SignActivity : AppCompatActivity() {
         tvBflag.typeface = typeface
     }
 
+    interface SignListener {
+        fun onAutoSignUp(user: User)
+    }
+
+    fun setListener(listener: SignListener) {
+        this.listener = listener
+    }
+
+    fun getAutoSignup(user: User) {
+        listener.onAutoSignUp(user)
+    }
 }

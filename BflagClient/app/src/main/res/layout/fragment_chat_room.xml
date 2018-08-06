@@ -5,14 +5,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <android.support.v4.widget.SwipeRefreshLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/view_bottom">
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_chat"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:orientation="vertical"
-        app:layout_constraintBottom_toTopOf="@+id/view_bottom"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/swipe_refresh"
+        app:layout_constraintStart_toStartOf="@+id/swipe_refresh"
+        app:layout_constraintBottom_toBottomOf="@+id/swipe_refresh"
+        app:layout_constraintTop_toTopOf="@+id/swipe_refresh"
         app:layout_constraintVertical_bias="0.0"/>
+
+    </android.support.v4.widget.SwipeRefreshLayout>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_bottom"
@@ -82,14 +96,5 @@
         app:layout_constraintStart_toEndOf="@id/edt_chat"
         app:layout_constraintTop_toBottomOf="@id/guideline_bottom" />
 
-    <ProgressBar
-        android:id="@+id/loader"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        app:layout_constraintBottom_toTopOf="@+id/guideline_bottom"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
 
 </android.support.constraint.ConstraintLayout>

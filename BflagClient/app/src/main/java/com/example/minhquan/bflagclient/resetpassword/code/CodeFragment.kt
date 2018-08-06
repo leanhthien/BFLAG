@@ -39,8 +39,6 @@ class CodeFragment : Fragment(), NewPasswordContract.View {
             if(TextUtils.isEmpty(edt_resetpassword_code.text.toString()))
                 edt_resetpassword_code.error = EMPTY_ERROR
             else {
-                animation_reset_code.visibility = View.VISIBLE
-                animation_reset_code.playAnimation()
                 body = JsonObject().buildResetAuthJson(activity!!.edt_resetpassword_email.text.toString()
                         ,edt_resetpassword_code.text.toString(), null)
                 presenter.startResetPassword(body)
@@ -49,12 +47,24 @@ class CodeFragment : Fragment(), NewPasswordContract.View {
     }
 
     override fun onResetPasswordSuccess(result: SuccessResponse) {
-        animation_reset_code.pauseAnimation()
-        animation_reset_code.visibility = View.INVISIBLE
+
+        showProgress(false)
+
         activity?.findViewById<ViewPager>(R.id.vpg_reset_password)?.currentItem = 2
     }
 
-    override fun showProgress(isShow: Boolean) {}
+    override fun showProgress(isShow: Boolean) {
+        when (isShow) {
+            true -> {
+                loader_code.visibility = View.VISIBLE
+                loader_code.playAnimation()
+            }
+            false -> {
+                loader_code.visibility = View.GONE
+                loader_code.pauseAnimation()
+            }
+        }
+    }
 
     override fun setPresenter(presenter: NewPasswordContract.Presenter) {
         this.presenter = presenter
@@ -62,8 +72,8 @@ class CodeFragment : Fragment(), NewPasswordContract.View {
 
     override fun showError(message: String) {
         Log.e("Error return", message)
-        animation_reset_code.pauseAnimation()
-        animation_reset_code.visibility = View.INVISIBLE
+
+        showProgress(false)
 
         Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                 .show()

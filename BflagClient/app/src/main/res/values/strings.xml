@@ -38,4 +38,17 @@
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
 
+    <!--Reset Password-->
+    <string name="send_email">SEND EMAIL</string>
+    <string name="verify">VERIFY</string>
+    <string name="update_password">UPDATE PASSWORD</string>
+    <string name="new_password">New Password</string>
+    <string name="retype">Retype Password</string>
+
+    <!--Create room-->
+    <string name="new_room">New chat room</string>
+    <string name="name">Name</string>
+    <string name="ok">OK</string>
+    <string name="cancel_room">CANCEL</string>
+
 </resources>

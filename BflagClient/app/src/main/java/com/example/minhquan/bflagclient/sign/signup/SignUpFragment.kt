@@ -13,17 +13,22 @@ import android.widget.Toast
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.home.HomeActivity
 import com.example.minhquan.bflagclient.model.SuccessResponse
+import com.example.minhquan.bflagclient.model.User
+import com.example.minhquan.bflagclient.sign.SignActivity
 import com.example.minhquan.bflagclient.utils.*
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_signup.*
 
+
 const val EMPTY_ERROR = "The value cannot be empty!"
 
-class SignUpFragment : Fragment(), SignUpContract.View {
+class SignUpFragment : Fragment(), SignUpContract.View, SignActivity.SignListener {
 
     private lateinit var presenter: SignUpContract.Presenter
     private lateinit var body: JsonObject
     private var count: Int = 0
+    private lateinit var user: User
+    private lateinit var signActivity: SignActivity
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         return inflater.inflate(R.layout.fragment_signup, container, false)
@@ -33,6 +38,9 @@ class SignUpFragment : Fragment(), SignUpContract.View {
         super.onViewCreated(view, savedInstanceState)
 
         SignUpPresenter(this)
+
+        signActivity = activity as SignActivity
+        signActivity.setListener(this)
 
         setupView()
     }
@@ -73,9 +81,20 @@ class SignUpFragment : Fragment(), SignUpContract.View {
         }
     }
 
+    override fun onAutoSignUp(user: User) {
+
+        edtEmailSignUp.setText(user.email)
+        edtUsername.setText(user.username)
+        edtFirstname.setText(user.firstName)
+        edtLastname.setText(user.lastName)
+    }
+
+
     override fun onSignUpSuccess(result: SuccessResponse) {
         Toast.makeText(context, "Sign up success!!", Toast.LENGTH_SHORT).show()
         Log.d("Sign up return", result.status)
+
+        showProgress(false)
 
         SharedPreferenceHelper.getInstance(context!!).setToken(result.token)
 
@@ -83,7 +102,16 @@ class SignUpFragment : Fragment(), SignUpContract.View {
     }
 
     override fun showProgress(isShow: Boolean) {
-
+        when (isShow) {
+            true -> {
+                loader_sign_up.visibility = View.VISIBLE
+                loader_sign_up.playAnimation()
+            }
+            false -> {
+                loader_sign_up.visibility = View.GONE
+                loader_sign_up.pauseAnimation()
+            }
+        }
     }
 
     override fun setPresenter(presenter: SignUpContract.Presenter) {
@@ -92,16 +120,18 @@ class SignUpFragment : Fragment(), SignUpContract.View {
 
     override fun showError(message: String) {
         Log.e("Error return", message)
-        val error = if (message == TIME_OUT || message == NETWORK_ERROR) message else UNKNOWN_ERROR
+
+        showProgress(false)
+
         count++
         if (count < MAX_RETRY)
-            Snackbar.make(activity!!.findViewById(android.R.id.content), error, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
                 .setAction(RETRY) {
                         presenter.startSignUp(body)
                 }
                 .show()
         else
-            Snackbar.make(activity!!.findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG)
+            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                     .show()
     }
 

@@ -4,21 +4,23 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@android:color/white"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" >
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    android:clipToPadding="false" >
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_left"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.15" />
+        app:layout_constraintGuide_percent="0.12" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_right"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        app:layout_constraintGuide_percent="0.85" />
+        app:layout_constraintGuide_percent="0.88" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/rv_friend"
@@ -35,14 +37,16 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintStart_toEndOf="@+id/guideline_left"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.0"
+        android:clipChildren="false"
+        android:clipToPadding="false"/>
 
     <ImageView
         android:id="@+id/img_back"
         android:layout_width="20dp"
         android:layout_height="20dp"
         android:layout_marginStart="8dp"
-        android:layout_marginEnd="20dp"
+        android:layout_marginEnd="18dp"
         android:src="@drawable/ic_back"
         app:layout_constraintBottom_toTopOf="@+id/guideline_center"
         app:layout_constraintEnd_toStartOf="@+id/guideline_left"
@@ -53,13 +57,14 @@
         android:id="@+id/img_more"
         android:layout_width="20dp"
         android:layout_height="20dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="18dp"
         android:src="@drawable/ic_more_filled"
         app:layout_constraintBottom_toTopOf="@+id/guideline_center"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/guideline_right"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
 
     <android.support.v4.view.ViewPager
         android:id="@+id/vpg_chat_friend"
@@ -71,16 +76,14 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline_center"
-        android:clipChildren="false"
-        android:clipToPadding="false" />
+        app:layout_constraintTop_toBottomOf="@+id/guideline_center" />
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline_center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        app:layout_constraintGuide_percent="0.12" />
+        app:layout_constraintGuide_begin="80dp" />
 
     <View
         android:id="@+id/divider"

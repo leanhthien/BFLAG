@@ -21,10 +21,6 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
 
-        <activity android:name=".sign.SignActivity"
-            android:windowSoftInputMode="adjustPan">
-        </activity>
-        <activity android:name=".saveimage.SaveImage"></activity>
         <activity android:name=".splash.Splash"
             android:theme="@style/AppTheme.NoTitleBar.FullScreen">
             <intent-filter>
@@ -32,6 +28,9 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity android:name=".sign.SignActivity"
+            android:windowSoftInputMode="adjustPan">
         </activity>
         <activity android:name=".resetpassword.ResetPasswordActivity">
 
@@ -43,16 +42,16 @@
         <!--<activity android:name=".sign.SignActivity" />-->
         <activity android:name=".home.HomeActivity"
             android:windowSoftInputMode="adjustPan"/>
-        <activity android:name=".home.SearchActivity"
+        <activity android:name=".search.SearchActivity"
             android:windowSoftInputMode="stateAlwaysVisible"/>
         <activity android:name=".ambert.signup.SignUpActivity" />
         <activity android:name=".chat.ChatActivity"
-            android:windowSoftInputMode="adjustPan" />
+            android:windowSoftInputMode="adjustResize" />
         <activity android:name=".ambert.capture.CaptureActivity" />
-        <activity android:name="com.example.minhquan.bflagclient.profile.ProfileActivity" />
-        <activity android:name="com.example.minhquan.bflagclient.profile.dialog.DialogActivity"
+        <activity android:name=".profile.ProfileActivity" />
+        <activity android:name=".profile.dialog.DialogActivity"
             android:theme="@style/NoTitleDialog" />
-        <activity android:name="com.example.minhquan.bflagclient.profile.editprofile.EditProfileActivity"/>
+        <activity android:name=".profile.editprofile.EditProfileActivity"/>
 
         <uses-library
             android:name="com.google.android.maps"

@@ -15,11 +15,11 @@
                           <map>
                             <entry key="assetSourceType" value="FILE" />
                             <entry key="color" value="0e00ff" />
-                            <entry key="height" value="492" />
-                            <entry key="outputName" value="ic_back_thin" />
+                            <entry key="height" value="42" />
+                            <entry key="outputName" value="ic_add" />
                             <entry key="overrideSize" value="true" />
-                            <entry key="sourceFile" value="D:\Projects\Vinova-Internship\Document\Images\Week final\ic_back_thin.psd" />
-                            <entry key="width" value="289" />
+                            <entry key="sourceFile" value="D:\Projects\Vinova-Internship\Document\Images\Week final\ic_add.psd" />
+                            <entry key="width" value="42" />
                           </map>
                         </option>
                       </PersistentState>

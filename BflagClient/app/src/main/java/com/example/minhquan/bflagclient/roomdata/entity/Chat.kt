@@ -32,7 +32,7 @@ class Chat {
 
     @ColumnInfo(name = "profile_image")
     var profileimage: String? = null
-    // messange chat
+    // message chat
     @ColumnInfo(name = "content")
     var content: String? = null
 

@@ -1,8 +1,6 @@
 package com.example.minhquan.bflagclient.api
 
-import com.example.minhquan.bflagclient.model.HistoryChatResponse
-import com.example.minhquan.bflagclient.model.SuccessResponse
-import com.example.minhquan.bflagclient.model.User
+import com.example.minhquan.bflagclient.model.*
 import com.google.gson.JsonObject
 import io.reactivex.Observable
 import retrofit2.http.*
@@ -21,10 +19,6 @@ interface BflagApiService {
 
     @POST("/api/v1/user/sign_in")
     fun getSignIn(@Body body: JsonObject)
-            : Observable<SuccessResponse>
-
-    @POST("/api/v1/user/auth")
-    fun getAuth(@Body body: JsonObject)
             : Observable<SuccessResponse>
 
     @Multipart
@@ -62,4 +56,28 @@ interface BflagApiService {
                        @Path("id") id: Int,
                        @Path("offset") offset: Int)
             : Observable<HistoryChatResponse>
+
+    @GET("/api/v1/rooms/subscribed")
+    fun getSubscribedRooms(@Header("Token") token: String)
+            : Observable<ListRoomResponse>
+
+    @GET("/api/v1/online_users")
+    fun getOnlineUsers(@Header("Token") token: String)
+            : Observable<ListOnlineUsers>
+
+    @POST("/api/v1/rooms")
+    fun createRoom(@Header("Token") token: String,
+                  @Body body: JsonObject)
+            : Observable<Room>
+
+    @GET("/api/v1/rooms/search")
+    fun searchRoom(@Header("Token") token: String,
+                   @Query("q") query: String )
+            : Observable<ListRoomResponse>
+
+    @GET("/api/v1/user/search")
+    fun searchUser(@Header("Token") token: String,
+                   @Query("q") query: String )
+            : Observable<ListOnlineUsers>
+
 }

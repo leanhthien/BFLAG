@@ -59,6 +59,12 @@ fun JsonObject.buildResetAuthJson(email: String, resetCode: String, password: St
     return this
 }
 
+fun JsonObject.buildCreateRoom(name: String): JsonObject {
+
+    addProperty(NAME, name)
+    return this
+}
+
 const val EMAIL = "email"
 const val USERNAME = "username"
 const val FIRST_NAME = "first_name"
@@ -67,3 +73,4 @@ const val PASSWORD = "password"
 const val RESET_CODE = "reset_code"
 const val BIRTH_DAY = "birth"
 const val GENDER = "gender"
+const val NAME = "name"

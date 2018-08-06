@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true">
 
-
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
@@ -27,8 +26,7 @@
         app:layout_constraintBottom_toTopOf="@+id/guideline7"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-         />
+        app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.design.widget.TabLayout
         android:id="@+id/tabLayout"
@@ -41,7 +39,6 @@
         app:tabRippleColor="@android:color/transparent"
         app:tabSelectedTextColor="@color/colorPrimary"
         app:tabTextAppearance="@android:style/TextAppearance.Widget.TabWidget" />
-
 
     <TextView
         android:id="@+id/tvLine"
@@ -75,7 +72,7 @@
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
         android:background="@drawable/custom_search"
-        android:drawableLeft="@drawable/ic_search"
+        android:drawableStart="@drawable/ic_search"
         android:drawablePadding="8dp"
         android:ems="10"
         android:focusable="false"
@@ -86,6 +83,17 @@
         app:layout_constraintBottom_toTopOf="@+id/tabLayout"
         app:layout_constraintStart_toEndOf="@+id/imgProfile"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/img_add"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/ic_add"
+        app:layout_constraintBottom_toTopOf="@+id/tabLayout"
+        app:layout_constraintStart_toEndOf="@+id/edtSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <android.support.constraint.Guideline
         android:id="@+id/guideline7"
@@ -104,7 +112,21 @@
         app:layout_constraintStart_toStartOf="parent"
         app:realtimeBlurRadius="20dp" />
 
-
+    <com.airbnb.lottie.LottieAnimationView
+        android:id="@+id/loader_home"
+        app:lottie_fileName="simple_loader.json"
+        app:lottie_loop="true"
+        android:layout_width="0dp"
+        android:layout_height="100dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintVertical_bias="0.8"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 
 </android.support.constraint.ConstraintLayout>

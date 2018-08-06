@@ -1,21 +1,19 @@
 package com.example.minhquan.bflagclient.adapter
 
-import android.content.Context
 import android.support.v4.app.Fragment
 import android.support.v4.app.FragmentManager
 import android.support.v4.app.FragmentPagerAdapter
 import com.example.minhquan.bflagclient.chat.roomchat.ChatRoomFragment
-import android.os.Bundle
-
 
 
 class PagerAdapterChatRoom(fragmentManager: FragmentManager) : FragmentPagerAdapter(fragmentManager) {
 
-    private lateinit var fragmentFirst: ChatRoomFragment
-    private lateinit var fragmentSecond: ChatRoomFragment
-    private lateinit var fragmentThird: ChatRoomFragment
-    private lateinit var fragmentFourth: ChatRoomFragment
-    private lateinit var fragmentFifth: ChatRoomFragment
+    private var fragmentFirst: ChatRoomFragment? = null
+    private var fragmentSecond: ChatRoomFragment? = null
+    private var fragmentThird: ChatRoomFragment? = null
+    private var fragmentFourth: ChatRoomFragment? = null
+    private var fragmentFifth: ChatRoomFragment? = null
+    private var amount = 0
 
     override fun getItem(p0: Int): Fragment? {
 
@@ -30,24 +28,44 @@ class PagerAdapterChatRoom(fragmentManager: FragmentManager) : FragmentPagerAdap
     }
 
     override fun getCount(): Int {
-        return 5
+        return amount
     }
 
     fun setFragment(listRoom: List<Int>) {
 
+        amount = listRoom.size
+        var  count = amount
 
-        fragmentFirst = ChatRoomFragment()
-        fragmentSecond = ChatRoomFragment()
-        fragmentThird = ChatRoomFragment()
-        fragmentFourth = ChatRoomFragment()
-        fragmentFifth = ChatRoomFragment()
+        if(count == 5) {
+            fragmentFifth = ChatRoomFragment()
+            fragmentFifth!!.setRoom(listRoom[4])
+            count--
+        }
 
-        fragmentFirst.setRoom(listRoom[0])
-        fragmentSecond.setRoom(listRoom[1])
-        fragmentThird.setRoom(listRoom[2])
-        fragmentFourth.setRoom(listRoom[3])
-        fragmentFifth.setRoom(listRoom[4])
+        if (count == 4) {
+            fragmentFourth = ChatRoomFragment()
+            fragmentFourth!!.setRoom(listRoom[3])
+            count--
+        }
 
+        if (count == 3) {
+            fragmentThird = ChatRoomFragment()
+            fragmentThird!!.setRoom(listRoom[2])
+            count--
+        }
+
+        if (count == 2) {
+            fragmentSecond = ChatRoomFragment()
+            fragmentSecond!!.setRoom(listRoom[1])
+            count--
+        }
+
+        if (count == 1) {
+            fragmentFirst = ChatRoomFragment()
+            fragmentFirst!!.setRoom(listRoom[0])
+        }
     }
+
+
 
 }

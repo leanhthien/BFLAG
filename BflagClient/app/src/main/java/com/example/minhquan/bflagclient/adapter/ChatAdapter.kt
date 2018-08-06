@@ -22,16 +22,23 @@ import jp.wasabeef.glide.transformations.RoundedCornersTransformation
 import java.io.File
 
 const val MAX_LENGTH = 30
+const val NEW_CHAT = 0
+const val OLD_CHAT = 1
 
 class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapter.ViewHolder>() {
 
     internal val data: MutableList<Chat> = mutableListOf()
     private lateinit var chat: Chat
 
-    fun setData(message: Chat): Int {
-        data.add(message)
-        notifyItemInserted(data.size - 1)
-
+    fun setData(message: Chat, type: Int): Int {
+        if (type == NEW_CHAT) {
+            data.add(message)
+            notifyItemInserted(data.size - 1)
+        }
+        else {
+            data.add(0,message)
+            notifyItemInserted(0)
+        }
         return data.size
     }
 
@@ -102,12 +109,10 @@ class ChatAdapter(private var context: Context) : RecyclerView.Adapter<ChatAdapt
 
 
         }
-        //holder.txtChatMessage.setBackgroundResource(R.drawable.background_friend_chat)
     }
 
     inner class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
-        internal val cardView_: CardView? = itemView.findViewById(R.id.cardView)
         internal var imgChatAvatar: ImageView? = itemView.findViewById(R.id.img_chat_avatar)
         internal var txtChatMessage: TextView = itemView.findViewById(R.id.txt_chat_message)
         internal var imgChatShare: ImageView = itemView.findViewById(R.id.img_share)

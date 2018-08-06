@@ -11,27 +11,32 @@ import kotlinx.android.synthetic.main.activity_home.*
 import android.support.v4.app.ActivityOptionsCompat
 import android.support.v4.content.ContextCompat
 import android.support.v4.util.Pair
+import android.text.TextUtils
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import com.example.minhquan.bflagclient.home.user.UserActivity
+import android.widget.Button
+import android.widget.EditText
 import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.minhquan.bflagclient.ambert.capture.CaptureActivity
-import com.example.minhquan.bflagclient.ambert.capture.CapturePresenter
-import com.example.minhquan.bflagclient.ambert.signup.SignUpActivity
 import com.example.minhquan.bflagclient.chat.ChatActivity
 import com.example.minhquan.bflagclient.profile.ProfileActivity
 import com.example.minhquan.bflagclient.model.User
+import com.example.minhquan.bflagclient.search.SearchActivity
 import com.example.minhquan.bflagclient.utils.*
+import com.afollestad.materialdialogs.MaterialDialog
+import com.example.minhquan.bflagclient.model.Room
+import com.example.minhquan.bflagclient.model.SuccessResponse
+import com.google.gson.JsonObject
 
+
+const val EMPTY_ERROR = "Name can not be empty!"
 
 class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     private lateinit var presenter: HomeContract.Presenter
     private lateinit var token: String
-    private lateinit var user: User
     private var count: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,7 +51,6 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     private fun setUpView() {
 
-
         // set up adapter for view pager
         val adapter = PagerHomeAdapter(this, supportFragmentManager)
         viewPager.adapter = adapter
@@ -60,6 +64,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
             val p2 = Pair.create<View, String>(tvLine, "line")
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1, p2)
             startActivity(intent, options.toBundle())
+            finish()
         }
 
         setUpStatusBar()
@@ -71,7 +76,11 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
 
         val userReturn = SharedPreferenceHelper.getInstance(this).getUser()
+        val tokenReturn =  SharedPreferenceHelper.getInstance(this).getToken()
 
+        if (tokenReturn != null) {
+            token = tokenReturn
+        }
         if (userReturn != null) {
 
             if (!isNetworkConnected())
@@ -81,13 +90,10 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
         }
         else {
-            val tokenReturn =  SharedPreferenceHelper.getInstance(this).getToken()
-
-            if (tokenReturn != null) {
-                token = tokenReturn
-                presenter.startGetUser(token)
-            }
+            presenter.startGetUser(token)
         }
+
+
     }
 
     private fun setUser(user: User) {
@@ -111,13 +117,43 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
             val p1 = Pair.create<View, String>(imgProfile, "profile")
             val options = ActivityOptionsCompat.makeSceneTransitionAnimation(this, p1)
             startActivity(intent, options.toBundle())
+            finish()
         }
 
-        startActivity(Intent(this, ChatActivity::class.java))
-        //startActivity(Intent(this, CaptureActivity::class.java))
-        //startActivity(Intent(this, SignUpActivity::class.java))
-    }
+        img_add.setOnClickListener {
+            // TODO : Feature create a new room
 
+            val wrapInScrollView = true
+
+            val builder = MaterialDialog.Builder(this)
+                    .customView(R.layout.popup_creat_room, wrapInScrollView)
+
+            val dialog = builder.build()
+            val view = dialog.customView
+
+            dialog.show()
+
+            view!!.findViewById<Button>(R.id.btn_ok).setOnClickListener {
+
+                val edtName = view.findViewById<EditText>(R.id.edt_name)
+                if(TextUtils.isEmpty(edtName.text.toString()))
+                    edtName.error = EMPTY_ERROR
+                else {
+                    val body = JsonObject().buildCreateRoom(edtName.text.toString())
+                    presenter.startCreateRoom(token,body)
+                    dialog.dismiss()
+                }
+
+            }
+
+            view.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+                dialog.dismiss()
+            }
+        }
+
+
+
+    }
 
     /**
      * Function set up status bar and navigation bottom
@@ -132,7 +168,6 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
         // clear FLAG_TRANSLUCENT_STATUS flag:
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS)
-
         // add FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS flag to the window
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS)
         // make layout no limit
@@ -161,15 +196,36 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     }
 
     override fun onGetUserSuccess(result: User) {
-
+        showProgress(false)
         SharedPreferenceHelper.getInstance(this).setUser(result)
-
         setUser(result)
 
     }
 
-    override fun showProgress(isShow: Boolean) {
+    override fun onCreateRoomSuccess(result: Room) {
+        showProgress(false)
+        Toast.makeText(this, "New chat room has been created", Toast.LENGTH_SHORT).show()
 
+        val intent = Intent(this, ChatActivity::class.java)
+        val bundle = Bundle()
+        val listRooms = arrayListOf(result)
+
+        bundle.putParcelableArrayList("listRooms", listRooms)
+        intent.putExtra("roomBundle", bundle)
+        this.startActivity(intent)
+    }
+
+    override fun showProgress(isShow: Boolean) {
+        when (isShow) {
+            true -> {
+                loader_home.visibility = View.VISIBLE
+                loader_home.playAnimation()
+            }
+            false -> {
+                loader_home.visibility = View.GONE
+                loader_home.pauseAnimation()
+            }
+        }
     }
 
     override fun setPresenter(presenter: HomeContract.Presenter) {
@@ -179,17 +235,17 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     override fun showError(message: String) {
         Log.e("Error return", message)
 
-        val error = if (message == TIME_OUT || message == NETWORK_ERROR) message else UNKNOWN_ERROR
+        showProgress(false)
 
         count++
         if (count < MAX_RETRY)
-            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), error, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
                     .setAction(RETRY) {
                         presenter.startGetUser(token)
                     }
                     .show()
         else
-            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG)
+            Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                     .show()
     }
 
@@ -207,7 +263,6 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     override fun isNetworkConnected(): Boolean {
         return ConnectivityUtil.isConnected(this)
-
     }
 
 
