@@ -90,19 +90,18 @@ data class Friend(
 data class Chat(
         @SerializedName("time") val time: String?,
         @SerializedName("friend") val friend: Friend?,
-        @SerializedName("content") val content: String?,
-        @SerializedName("img_url") val imgUrl: String?) : BaseResponse(), Parcelable {
+        @SerializedName("message") val message: Message?
+        ) : BaseResponse(), Parcelable {
     constructor(parcel: Parcel) : this(
             parcel.readString(),
             parcel.readParcelable(Friend::class.java.classLoader),
-            parcel.readString(),
-            parcel.readString()) {}
+            parcel.readParcelable(Message::class.java.classLoader)) {
+    }
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
         parcel.writeString(time)
         parcel.writeParcelable(friend, flags)
-        parcel.writeString(content)
-        parcel.writeString(imgUrl)
+        parcel.writeParcelable(message, flags)
     }
 
     override fun describeContents(): Int {
@@ -120,3 +119,64 @@ data class Chat(
     }
 }
 
+data class Message(@SerializedName("content") val content: String?,
+                   @SerializedName("img_url") val imgUrl: String?) : Parcelable {
+    constructor(parcel: Parcel) : this(
+            parcel.readString(),
+            parcel.readString()) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(content)
+        parcel.writeString(imgUrl)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<Message> {
+        override fun createFromParcel(parcel: Parcel): Message {
+            return Message(parcel)
+        }
+
+        override fun newArray(size: Int): Array<Message?> {
+            return arrayOfNulls(size)
+        }
+    }
+}
+
+data class ChatWeb(
+        @SerializedName("time") val time: String?,
+        @SerializedName("friend") val friend: Friend?,
+        @SerializedName("content") val content: String?,
+        @SerializedName("img_url") val imgUrl: String?
+) : BaseResponse(), Parcelable {
+    constructor(parcel: Parcel) : this(
+            parcel.readString(),
+            parcel.readParcelable(Friend::class.java.classLoader),
+            parcel.readString(),
+            parcel.readString()) {
+    }
+
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(time)
+        parcel.writeParcelable(friend, flags)
+        parcel.writeString(content)
+        parcel.writeString(imgUrl)
+    }
+
+    override fun describeContents(): Int {
+        return 0
+    }
+
+    companion object CREATOR : Parcelable.Creator<ChatWeb> {
+        override fun createFromParcel(parcel: Parcel): ChatWeb {
+            return ChatWeb(parcel)
+        }
+
+        override fun newArray(size: Int): Array<ChatWeb?> {
+            return arrayOfNulls(size)
+        }
+    }
+}

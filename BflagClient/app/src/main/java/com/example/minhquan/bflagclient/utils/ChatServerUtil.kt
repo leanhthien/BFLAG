@@ -3,6 +3,7 @@ package com.example.minhquan.bflagclient.utils
 import android.util.Log
 import com.example.minhquan.bflagclient.base.BaseWebSocket
 import com.example.minhquan.bflagclient.model.Chat
+import com.example.minhquan.bflagclient.model.ChatWeb
 import com.example.minhquan.bflagclient.model.OnlineResponse
 import com.google.gson.GsonBuilder
 import com.hosopy.actioncable.ActionCable

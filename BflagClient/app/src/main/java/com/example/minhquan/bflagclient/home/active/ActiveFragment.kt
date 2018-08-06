@@ -51,9 +51,10 @@ class ActiveFragment : Fragment(), ActiveContract.View{
         val tokenReturn = SharedPreferenceHelper.getInstance(context!!).getToken()
         val userReturn =  SharedPreferenceHelper.getInstance(context!!).getUser()
 
+        if (userReturn!= null)
+            user = userReturn
+
         if (tokenReturn != null) {
-            if (userReturn!= null)
-                user = userReturn
             token = tokenReturn
             presenter.startGetOnlineUsers(token)
         }
@@ -69,7 +70,11 @@ class ActiveFragment : Fragment(), ActiveContract.View{
             tv_empty.text = EMPTY_USER
         }
         else {
-            listFriends = emptyList + result.filter { it -> it.email != user.email }.sortedBy { it -> it.username }
+
+
+            //listFriends = emptyList + result.filter { it -> it.email != user.email }.sortedBy { it -> it.username }
+
+            listFriends = emptyList + result.sortedBy { it -> it.username }
 
             tv_empty.visibility = View.GONE
             activeAdapter.setData(listFriends)

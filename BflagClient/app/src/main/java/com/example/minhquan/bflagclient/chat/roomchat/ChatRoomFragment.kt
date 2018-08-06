@@ -213,7 +213,7 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
 
     private fun sendChat(text: String?, image: String?, uri: Uri?) {
 
-        chat = Chat(null,Friend(user.email, user.username, user.profileImage),text, image)
+        chat = Chat(null,Friend(user.email, user.username, user.profileImage), Message(text, image))
 
         if (text != null) edt_chat.text = null
 

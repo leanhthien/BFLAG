@@ -52,7 +52,7 @@ class ChatPresenter (val view: ChatRoomContract.View): ChatRoomContract.Presente
         else if (subscription.onConnected == null)
             view.showError(SERVER_ERROR)
         else
-            subscription.perform(actionType, mapOf(CONTENT to chat.content))
+            subscription.perform(actionType, mapOf(CONTENT to chat.message!!.content))
 
     }
 

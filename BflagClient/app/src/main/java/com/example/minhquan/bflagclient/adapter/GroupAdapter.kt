@@ -76,16 +76,17 @@ class GroupAdapter(var context: Context, val type: Int) : RecyclerView.Adapter<G
         holder.tvRoomName.text = room.name
 
         if (room.lastMessage != null) {
-
-            if (room.lastMessage.content != null) {
-                val message = room.lastMessage.friend!!.username + ": " + room.lastMessage.content
-                holder.tvLastMessage.text = message
+            if (room.lastMessage.message != null) {
+                if ( room.lastMessage.message.content != null) {
+                    val message = room.lastMessage.friend!!.username + ": " + room.lastMessage.message.content
+                    holder.tvLastMessage.text = message
+                }
+                else {
+                    val message = room.lastMessage.friend!!.username + PHOTO_SHARE
+                    holder.tvLastMessage.text = message
+                }
+                holder.tvLastAccess.text = room.lastMessage.time!!.makePrettyDate()
             }
-            else {
-                val message = room.lastMessage.friend!!.username + PHOTO_SHARE
-                holder.tvLastMessage.text = message
-            }
-            holder.tvLastAccess.text = room.lastMessage.time!!.makePrettyDate()
         }
         else {
             holder.tvLastAccess.text = UNKNOWN
