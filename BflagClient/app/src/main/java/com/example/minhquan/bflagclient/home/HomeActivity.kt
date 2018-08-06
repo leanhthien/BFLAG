@@ -14,14 +14,8 @@ import android.support.v4.util.Pair
 import android.util.Log
 import android.view.View
 import android.view.WindowManager
-import com.example.minhquan.bflagclient.home.user.UserActivity
-import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
-import com.example.minhquan.bflagclient.ambert.capture.CaptureActivity
-import com.example.minhquan.bflagclient.ambert.capture.CapturePresenter
-import com.example.minhquan.bflagclient.ambert.signup.SignUpActivity
-import com.example.minhquan.bflagclient.chat.ChatActivity
 import com.example.minhquan.bflagclient.profile.ProfileActivity
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.*
@@ -31,7 +25,6 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     private lateinit var presenter: HomeContract.Presenter
     private lateinit var token: String
-    private lateinit var user: User
     private var count: Int = 0
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -113,7 +106,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
             startActivity(intent, options.toBundle())
         }
 
-        startActivity(Intent(this, ChatActivity::class.java))
+        //startActivity(Intent(this, ChatActivity::class.java))
         //startActivity(Intent(this, CaptureActivity::class.java))
         //startActivity(Intent(this, SignUpActivity::class.java))
     }

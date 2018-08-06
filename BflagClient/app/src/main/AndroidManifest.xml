@@ -23,11 +23,11 @@
 
         <activity android:name=".sign.SignActivity"
             android:windowSoftInputMode="adjustPan">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
         </activity>
         <activity android:name=".saveimage.SaveImage"></activity>
         <activity android:name=".splash.Splash"
@@ -38,6 +38,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".profile.editprofile.ChangePasswordActivity"/>
         <activity android:name=".resetpassword.ResetPasswordActivity">
 
         </activity>

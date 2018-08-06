@@ -12,7 +12,10 @@ import com.example.minhquan.bflagclient.model.User
 import jp.wasabeef.blurry.Blurry
 import kotlinx.android.synthetic.main.activity_profile.*
 import android.view.*
+import com.bumptech.glide.Glide
+import com.example.minhquan.bflagclient.home.HomeActivity
 import com.example.minhquan.bflagclient.profile.dialog.DialogActivity
+import com.example.minhquan.bflagclient.profile.editprofile.ChangePasswordActivity
 import com.example.minhquan.bflagclient.profile.editprofile.EditProfileActivity
 import com.example.minhquan.bflagclient.utils.*
 
@@ -25,7 +28,7 @@ class ProfileActivity : AppCompatActivity(){
         setContentView(R.layout.activity_profile)
 
         setSupportActionBar(toolbar)
-        //supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+        supportActionBar!!.setDisplayHomeAsUpEnabled(true)
 
         setUpStatusBar()
 
@@ -38,10 +41,10 @@ class ProfileActivity : AppCompatActivity(){
            startActivity(intent, options.toBundle())
        }
 
-        circle_image_view.setImageResource(R.drawable.img_profile)
 
         user =  SharedPreferenceHelper.getInstance(this).getUser()!!
 
+        Glide.with(this).load(user.profileImage).into(circle_image_view)
         collapsing.title = user.username
         tvFullname.text = user.firstName + " " + user.lastName
         tvGender.text = user.gender
@@ -50,6 +53,13 @@ class ProfileActivity : AppCompatActivity(){
 
         btnEditInfo.setOnClickListener {
             startActivity(Intent(this@ProfileActivity, EditProfileActivity::class.java))
+            finish()
+        }
+
+        tvChangePassword.setOnClickListener {
+            startActivity(Intent(this,ChangePasswordActivity::class.java))
+            overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
+            finish()
         }
     }
 

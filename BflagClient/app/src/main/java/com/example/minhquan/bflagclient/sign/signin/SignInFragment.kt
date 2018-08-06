@@ -15,7 +15,6 @@ import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.home.HomeActivity
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.utils.*
-import com.facebook.AccessTokenTracker
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
 import com.facebook.FacebookException
@@ -28,7 +27,6 @@ import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.tasks.Task
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_signin.*
-import android.preference.PreferenceManager
 import com.example.minhquan.bflagclient.resetpassword.ResetPasswordActivity
 import java.util.*
 
@@ -66,15 +64,6 @@ class SignInFragment : Fragment(), SignInContract.View {
             this@SignInFragment.activity!!.finish()
         }
 
-        getStateCheckBox()
-
-    }
-
-    private fun getStateCheckBox() {
-        val prefs = PreferenceManager.getDefaultSharedPreferences(activity!!.baseContext)
-        val checked = prefs.getBoolean("checked", false)
-        checkBox.isChecked = checked
-
     }
 
     private fun setupView() {
@@ -93,11 +82,7 @@ class SignInFragment : Fragment(), SignInContract.View {
             if(check){
 
                 body = JsonObject().buildSignInJson(edtEmail.text.toString(), edtPassword.text.toString())
-                // save state of checkbox
-                val prefs = PreferenceManager.getDefaultSharedPreferences(activity!!.baseContext)
-                prefs.edit().putBoolean("checked", checkBox.isChecked).apply()
 
-                val body = JsonObject().buildSignInJson(edtEmail.text.toString(), edtPassword.text.toString())
                 presenter.startSignIn(body)
             }
 

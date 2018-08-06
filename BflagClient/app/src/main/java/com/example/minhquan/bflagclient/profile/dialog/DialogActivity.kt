@@ -28,7 +28,7 @@ class DialogActivity : AppCompatActivity(), DialogContract.View {
 
         DialogPresenter(this)
 
-        token =  SharedPreferenceHelper.getInstance(this!!).getToken()!!
+        token =  SharedPreferenceHelper.getInstance(this).getToken()!!
 
 
         // handle click for item of circle menu

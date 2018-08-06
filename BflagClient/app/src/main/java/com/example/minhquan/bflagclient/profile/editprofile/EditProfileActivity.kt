@@ -12,21 +12,22 @@ import android.app.DatePickerDialog
 import android.content.Intent
 import android.graphics.Bitmap
 import android.media.MediaScannerConnection
+import android.net.Uri
 import android.os.Environment
 import android.provider.MediaStore
 import android.support.design.widget.Snackbar
-import android.text.Editable
-import android.text.TextUtils
-import android.text.TextWatcher
 import android.util.Log
+import android.view.View
 import android.widget.TextView
 import android.widget.Toast
-import com.example.minhquan.bflagclient.ambert.capture.*
+import com.bumptech.glide.Glide
+import com.example.minhquan.bflagclient.chat.roomchat.GALLERY_REQUEST_CODE
 import com.example.minhquan.bflagclient.model.User
-import com.example.minhquan.bflagclient.sign.signin.EMPTY_ERROR
+import com.example.minhquan.bflagclient.profile.ProfileActivity
 import com.example.minhquan.bflagclient.utils.*
 import com.tbruyelle.rxpermissions2.RxPermissions
 import io.reactivex.disposables.Disposable
+import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.io.ByteArrayOutputStream
 import java.io.File
@@ -44,7 +45,9 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
     private lateinit var presenter: EditProfileContract.Presenter
     private lateinit var token: String
     private lateinit var user: User
-    var checkChange : Boolean = false
+    private lateinit var filePart: MultipartBody.Part
+    private var check: Boolean = false
+    private var contentURI: Uri? = null
 
     private var count: Int = 0
 
@@ -68,164 +71,37 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
         setUpProfilePicture()
 
         user = SharedPreferenceHelper.getInstance(this).getUser()!!
+        token = SharedPreferenceHelper.getInstance(this).getToken()!!
+
+        Glide.with(this).load(user.profileImage).into(imgProfile)
         edtUsername.setText(user.username, TextView.BufferType.EDITABLE)
         edtFirstName.setText(user.firstName, TextView.BufferType.EDITABLE)
         edtLastName.setText(user.lastName, TextView.BufferType.EDITABLE)
         radioMale.isChecked = user.gender == "male"
         edtBirthday.setText(user.birthday, TextView.BufferType.EDITABLE)
 
-        checkChangeProfile()
+        tvSave.setOnClickListener {
 
-    }
-
-    private fun checkChangeProfile() {
-
-
-        edtUsername.setOnFocusChangeListener { view, b ->
-            checkChange = tvSave.isClickable
-            edtUsername.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(p0: Editable?) {
-
-                    if (TextUtils.isEmpty(edtUsername.text.toString())){
-                        edtUsername.error = EMPTY_ERROR
-                        tvSave.isClickable = false
-                        tvSave.setTextColor(resources.getColor(R.color.colorPrimary))
-                    }
-
-                }
-
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    tvSave.isClickable = true
-                    tvSave.setTextColor(resources.getColor(R.color.colorPrimaryLight))
-                    if (edtUsername.text.toString() == user.username && !checkChange){
-                        tvSave.isClickable = false
-                        tvSave.setTextColor(resources.getColor(R.color.colorPrimary))
-                    }
-
-                }
-            })
-
-
-        }
-
-        edtFirstName.setOnFocusChangeListener { view, b ->
-            checkChange = tvSave.isClickable
-
-            edtFirstName.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(p0: Editable?) {
-                    if (TextUtils.isEmpty(edtFirstName.text.toString())){
-                        edtFirstName.error = EMPTY_ERROR
-                        tvSave.isClickable = false
-                        tvSave.setTextColor(resources.getColor(R.color.colorPrimary))
-                    }
-
-                }
-
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    tvSave.isClickable = true
-                    tvSave.setTextColor(resources.getColor(R.color.colorPrimaryLight))
-                    if (edtFirstName.text.toString() == user.firstName && !checkChange){
-                        tvSave.isClickable = false
-                        tvSave.setTextColor(resources.getColor(R.color.colorPrimary))
-                    }
-
-                }
-            })
-        }
-
-
-        edtLastName.setOnClickListener {
-            checkChange = tvSave.isClickable
-
-            edtLastName.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(p0: Editable?) {
-                    if (TextUtils.isEmpty(edtLastName.text.toString())){
-                        edtLastName.error = EMPTY_ERROR
-                        tvSave.isClickable = false
-                        tvSave.setTextColor(resources.getColor(R.color.colorPrimary))
-                    }
-
-                }
-
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    tvSave.isClickable = true
-                    tvSave.setTextColor(resources.getColor(R.color.colorPrimaryLight))
-                    if (edtLastName.text.toString() == user.lastName && !checkChange){
-                        tvSave.isClickable = false
-                        tvSave.setTextColor(resources.getColor(R.color.colorPrimary))
-                    }
-
-                }
-            })
-        }
-
-
-
-            radioGroup.setOnCheckedChangeListener { radioGroup, i ->
-                checkChange = tvSave.isClickable
-                if (!checkChange){
-                checkChange = true
-                tvSave.isClickable = true
-                tvSave.setTextColor(resources.getColor(R.color.colorPrimaryLight))
-                if (radioMale.isChecked && user.gender.equals("male") ) {
-                    checkChange = false
-                    tvSave.isClickable = false
-                    tvSave.setTextColor(resources.getColor(R.color.colorPrimary))
-                }
-                else if (radioFemale.isChecked && user.gender.equals("female")){
-                    checkChange = false
-                    tvSave.isClickable = false
-                    tvSave.setTextColor(resources.getColor(R.color.colorPrimary))
-                }
+            if (check) {
+                filePart = prepareFilePart("profile_image", contentURI!!, this)
+                val mapPart = HashMap<String, RequestBody>()
+                        .buildRequestBody(edtFirstName.text.toString(), edtLastName.text.toString(), edtUsername.text.toString(), null, if (radioFemale.isChecked) "male" else "female", edtBirthday.text.toString())
+                presenter.startEdit(token, filePart, mapPart)
+            } else {
+                val mapPart = HashMap<String, RequestBody>()
+                        .buildRequestBody(edtFirstName.text.toString(), edtLastName.text.toString(), edtUsername.text.toString(), null, if (radioMale.isChecked) "male" else "female", edtBirthday.text.toString())
+                presenter.startEdit(token, null, mapPart)
             }
+
+
         }
-
-        edtBirthday.setOnClickListener {
-            checkChange = tvSave.isClickable
-            edtBirthday.addTextChangedListener(object : TextWatcher {
-                override fun afterTextChanged(p0: Editable?) {
-                    if (TextUtils.isEmpty(edtBirthday.text.toString())){
-                        edtBirthday.error = EMPTY_ERROR
-                        tvSave.isClickable = false
-                        tvSave.setTextColor(resources.getColor(R.color.colorPrimary))
-                    }
-
-                }
-
-                override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                }
-
-                override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                    checkChange = true
-                    tvSave.isClickable = true
-                    tvSave.setTextColor(resources.getColor(R.color.colorPrimaryLight))
-                    if (edtBirthday.text.toString() == user.birthday && !checkChange){
-                        tvSave.isClickable = false
-                        tvSave.setTextColor(resources.getColor(R.color.colorPrimary))
-                    }
-
-                }
-            })
-        }
-
 
     }
 
 
     private fun setUpBirthday() {
 
-
-        val date = DatePickerDialog.OnDateSetListener { view, year, monthOfYear, dayOfMonth ->
+        val date = DatePickerDialog.OnDateSetListener { _, year, monthOfYear, dayOfMonth ->
             myCalendar.set(Calendar.YEAR, year)
             myCalendar.set(Calendar.MONTH, monthOfYear)
             myCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth)
@@ -267,7 +143,6 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
                     }
 
         }
-        token = SharedPreferenceHelper.getInstance(this).getToken()!!
 
     }
 
@@ -302,17 +177,14 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
 //                Toast.makeText(this@EditProfileActivity, "Image Saved!", Toast.LENGTH_SHORT).show()
 //            }
             GALLERY_REQUEST_CODE -> {
-                val contentURI = data?.data
+                contentURI = data?.data
                 try {
                     val bitmap = MediaStore.Images.Media.getBitmap(this.contentResolver, contentURI)
                     path = this.getPath(contentURI!!)
                     imgProfile!!.setImageBitmap(bitmap)
                     Toast.makeText(this@EditProfileActivity, "Image Loaded!", Toast.LENGTH_SHORT).show()
+                    check = true
 
-                    val filePart = prepareFilePart("profile_image", contentURI!!, this)
-                    val mapPart = HashMap<String, RequestBody>()
-                            .buildRequestBody("Quan", "Nguyen", "minhquan", null)
-                    presenter.startEdit(token, filePart, mapPart)
                 } catch (e: IOException) {
                     e.printStackTrace()
                     Toast.makeText(this@EditProfileActivity, "Failed!", Toast.LENGTH_SHORT).show()
@@ -331,7 +203,7 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
         val bytes = ByteArrayOutputStream()
         myBitmap.compress(Bitmap.CompressFormat.JPEG, 90, bytes)
         val photoDirectory = File(
-                (Environment.getExternalStorageDirectory()).toString() + CaptureActivity.IMAGE_DIRECTORY_PATH)
+                (Environment.getExternalStorageDirectory()).toString() + EditProfileActivity.IMAGE_DIRECTORY_PATH)
 
         // Have the object build the directory structure, if needed.
         Log.d("Directory path", photoDirectory.toString())
@@ -362,12 +234,18 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
 
 
     override fun onEditSuccess(result: User) {
+        Toast.makeText(this,"success",Toast.LENGTH_SHORT).show()
+        SharedPreferenceHelper.getInstance(this).setUser(result)
+        onBackPressed()
+
     }
 
     override fun showProgress(isShow: Boolean) {
+        progressBar.visibility = if (isShow) View.VISIBLE else View.GONE
     }
 
     override fun showError(message: String) {
+        progressBar.visibility = View.GONE
         Log.e("Error return", message)
         count++
         if (count < MAX_RETRY)
@@ -404,6 +282,13 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
 
     companion object {
         const val IMAGE_DIRECTORY_PATH = "/Bflag"
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this, ProfileActivity::class.java))
+        overridePendingTransition(R.anim.slide_in_left, R.anim.slide_out_right)
+        finish()
     }
 
 }

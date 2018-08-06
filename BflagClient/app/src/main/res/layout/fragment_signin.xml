@@ -72,19 +72,6 @@
         app:layout_constraintEnd_toStartOf="@+id/guideline_right"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/guideline_center"
-        app:layout_constraintTop_toBottomOf="@+id/checkBox" />
-
-    <android.support.v7.widget.AppCompatCheckBox
-        android:id="@+id/checkBox"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="16dp"
-        android:gravity="center"
-        android:text="@string/remember_me"
-        android:textColor="@color/colorBlack"
-        android:theme="@style/MyCheckBox"
-        app:layout_constraintStart_toStartOf="@+id/guideline_center"
         app:layout_constraintTop_toBottomOf="@+id/edtPassword" />
 
     <TextView
