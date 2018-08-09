@@ -88,7 +88,7 @@ class ActiveFragment : Fragment(), ActiveContract.View, HomeContract.Listener{
         showProgress(false)
         swipe_refresh.isRefreshing = false
 
-        if (result.isEmpty()) {
+        if (result.isEmpty() || result.size == 1) {
             tv_empty.visibility = View.VISIBLE
             tv_empty.text = EMPTY_USER
         }
