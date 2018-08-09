@@ -1,4 +1,4 @@
-package com.example.minhquan.bflagclient.profile.editprofile
+package com.example.minhquan.bflagclient.profile.changepassword
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,34 +7,26 @@ import android.text.TextUtils
 import android.util.Log
 import android.view.MenuItem
 import android.view.View
-import android.widget.Toast
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.profile.ProfileActivity
 import com.example.minhquan.bflagclient.sign.signin.EMPTY_ERROR
-import com.example.minhquan.bflagclient.sign.signin.SignInContract
-import com.example.minhquan.bflagclient.sign.signin.SignInPresenter
 import com.example.minhquan.bflagclient.utils.*
 import com.google.gson.JsonObject
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.Disposable
-import io.reactivex.schedulers.Schedulers
 import kotlinx.android.synthetic.main.activity_change_password.*
-import okhttp3.MultipartBody
 import okhttp3.RequestBody
 import java.util.HashMap
 
 const val INCORRECT_PASSWORD = "Your password was incorrect!"
 
 
-class ChangePasswordActivity : AppCompatActivity(), SignInContract.View {
+class ChangePasswordActivity : AppCompatActivity(), ChangePasswordContract.View {
 
-    private lateinit var presenter: SignInContract.Presenter
+    private lateinit var presenter: ChangePasswordContract.Presenter
     private lateinit var body: JsonObject
     private lateinit var user: User
     private lateinit var token: String
-    private var disposable: Disposable? = null
 
     private var success: Boolean = false
 
@@ -47,7 +39,7 @@ class ChangePasswordActivity : AppCompatActivity(), SignInContract.View {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.title = ""
 
-        SignInPresenter(this)
+        ChangePasswordPresenter(this)
         user = SharedPreferenceHelper.getInstance(this).getUser()!!
         token = SharedPreferenceHelper.getInstance(this).getToken()!!
 
@@ -101,7 +93,7 @@ class ChangePasswordActivity : AppCompatActivity(), SignInContract.View {
                     .buildRequestBody(null, null, null, edtRetypeNewpassword.text.toString(), null, null)
             token = SharedPreferenceHelper.getInstance(this).getToken()!!
 
-            startEdit(token, null, mapPart)
+            presenter.startEdit(token, null, mapPart)
         }
         success = true
     }
@@ -111,7 +103,7 @@ class ChangePasswordActivity : AppCompatActivity(), SignInContract.View {
 
     }
 
-    override fun setPresenter(presenter: SignInContract.Presenter) {
+    override fun setPresenter(presenter: ChangePasswordContract.Presenter) {
         this.presenter = presenter
     }
 
@@ -137,28 +129,7 @@ class ChangePasswordActivity : AppCompatActivity(), SignInContract.View {
         return ConnectivityUtil.isConnected(this)
     }
 
-    private val service by lazy {
-        //Initializing Retrofit stuff
-        RetrofitUtil.builderBflagService()
-    }
-
-
-    private fun startEdit(token: String, filePart: MultipartBody.Part?, mapPart: HashMap<String, RequestBody>?) {
-        showProgress(true)
-
-        disposable = service.getEdit(token, filePart, mapPart)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeWith(object : CallbackWrapper<User>(this) {
-                    override fun onSuccess(result: User) {
-                        onEditSuccess(result)
-                    }
-                })
-
-    }
-
-    fun onEditSuccess(result: User) {
-        Toast.makeText(this, "success", Toast.LENGTH_SHORT).show()
+    override fun onEditSuccess(result: User) {
         SharedPreferenceHelper.getInstance(this).setUser(result)
         onBackPressed()
 

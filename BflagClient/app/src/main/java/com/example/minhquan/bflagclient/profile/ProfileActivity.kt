@@ -15,7 +15,7 @@ import android.view.*
 import com.bumptech.glide.Glide
 import com.example.minhquan.bflagclient.home.HomeActivity
 import com.example.minhquan.bflagclient.profile.dialog.DialogActivity
-import com.example.minhquan.bflagclient.profile.editprofile.ChangePasswordActivity
+import com.example.minhquan.bflagclient.profile.changepassword.ChangePasswordActivity
 import com.example.minhquan.bflagclient.profile.editprofile.EditProfileActivity
 import com.example.minhquan.bflagclient.utils.*
 
@@ -58,7 +58,7 @@ class ProfileActivity : AppCompatActivity(){
         }
 
         tvChangePassword.setOnClickListener {
-            startActivity(Intent(this,ChangePasswordActivity::class.java))
+            startActivity(Intent(this, ChangePasswordActivity::class.java))
             overridePendingTransition(R.anim.slide_in_right,R.anim.slide_out_left)
             finish()
         }

@@ -32,7 +32,7 @@
         <activity android:name=".sign.SignActivity"
             android:windowSoftInputMode="adjustPan">
         </activity>
-        <activity android:name=".profile.editprofile.ChangePasswordActivity"/>
+        <activity android:name=".profile.changepassword.ChangePasswordActivity"/>
         <activity android:name=".resetpassword.ResetPasswordActivity">
 
         </activity>
