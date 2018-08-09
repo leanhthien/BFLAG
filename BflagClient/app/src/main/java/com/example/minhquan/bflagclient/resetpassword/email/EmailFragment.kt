@@ -39,6 +39,8 @@ class EmailFragment : Fragment(), EmailContract.View {
             if(TextUtils.isEmpty(edt_resetpassword_email.text.toString()))
                 edt_resetpassword_email.error = EMPTY_ERROR
             else {
+                loader_email.visibility = View.VISIBLE
+                loader_email.playAnimation()
                 body = JsonObject().buildResetJson(edt_resetpassword_email.text.toString())
                 presenter.startResetPassword(body)
             }
@@ -47,7 +49,8 @@ class EmailFragment : Fragment(), EmailContract.View {
     }
 
     override fun onResetSuccess(result: SuccessResponse) {
-
+        loader_email.pauseAnimation()
+        loader_email.visibility = View.INVISIBLE
         activity?.findViewById<ViewPager>(R.id.vpg_reset_password)?.currentItem = 1
     }
 
@@ -58,8 +61,8 @@ class EmailFragment : Fragment(), EmailContract.View {
                 loader_email.playAnimation()
             }
             false -> {
-                loader_email.visibility = View.GONE
                 loader_email.pauseAnimation()
+                loader_email.visibility = View.GONE
             }
         }
     }
@@ -71,10 +74,14 @@ class EmailFragment : Fragment(), EmailContract.View {
 
     override fun showError(message: String) {
         Log.e("Error return", message)
+        loader_email.pauseAnimation()
+        loader_email.visibility = View.INVISIBLE
         count++
         if (count < MAX_RETRY)
             Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                     .setAction(RETRY) {
+                        loader_email.visibility = View.VISIBLE
+                        loader_email.playAnimation()
                         body = JsonObject().buildResetJson(edt_resetpassword_email.text.toString())
                         presenter.startResetPassword(body)
                     }

@@ -46,6 +46,8 @@ class NewPasswordFragment : Fragment(), NewPasswordContract.View {
                     edt_resetpassword_newpass2.error = EQUAL_ERROR
                 }
                 else -> {
+                    loader_password.visibility = View.VISIBLE
+                    loader_password.playAnimation()
                     body = JsonObject().buildResetAuthJson( activity!!.edt_resetpassword_email.text.toString(),
                             activity!!.edt_resetpassword_code.text.toString(),edt_resetpassword_newpass2.text.toString())
                     presenter.startResetPassword(body)
@@ -61,7 +63,7 @@ class NewPasswordFragment : Fragment(), NewPasswordContract.View {
         showProgress(false)
 
         // Start SignActivity and delete data
-        startActivity(Intent(this@NewPasswordFragment.activity,SignActivity::class.java))
+        //startActivity(Intent(this@NewPasswordFragment.activity,SignActivity::class.java))
         this@NewPasswordFragment.activity!!.finish()
         SharedPreferenceHelper.getInstance(context!!).removeAll()
     }
@@ -73,7 +75,7 @@ class NewPasswordFragment : Fragment(), NewPasswordContract.View {
                 loader_password.playAnimation()
             }
             false -> {
-                loader_password.visibility = View.GONE
+                loader_password.visibility = View.INVISIBLE
                 loader_password.pauseAnimation()
             }
         }

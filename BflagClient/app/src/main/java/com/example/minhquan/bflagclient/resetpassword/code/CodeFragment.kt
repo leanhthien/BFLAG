@@ -39,6 +39,8 @@ class CodeFragment : Fragment(), NewPasswordContract.View {
             if(TextUtils.isEmpty(edt_resetpassword_code.text.toString()))
                 edt_resetpassword_code.error = EMPTY_ERROR
             else {
+                loader_code.visibility = View.VISIBLE
+                loader_code.playAnimation()
                 body = JsonObject().buildResetAuthJson(activity!!.edt_resetpassword_email.text.toString()
                         ,edt_resetpassword_code.text.toString(), null)
                 presenter.startResetPassword(body)
@@ -60,8 +62,8 @@ class CodeFragment : Fragment(), NewPasswordContract.View {
                 loader_code.playAnimation()
             }
             false -> {
-                loader_code.visibility = View.GONE
                 loader_code.pauseAnimation()
+                loader_code.visibility = View.INVISIBLE
             }
         }
     }
