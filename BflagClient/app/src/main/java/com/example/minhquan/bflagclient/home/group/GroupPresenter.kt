@@ -25,6 +25,8 @@ class GroupPresenter(private val view: GroupContract.View): GroupContract.Presen
 
     override fun startGetSubscribedRooms(token: String) {
 
+        view.showProgress(true)
+
         disposable  = service.getSubscribedRooms(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

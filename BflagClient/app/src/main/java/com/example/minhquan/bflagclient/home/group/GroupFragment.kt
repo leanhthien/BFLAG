@@ -75,6 +75,9 @@ class GroupFragment : Fragment(), GroupContract.View, HomeContract.Listener {
 
     override fun onGetSubscribedRoomsSuccess(result: List<Room>) {
 
+        showProgress(false)
+        swipe_refresh.isRefreshing = false
+
         if (result.isEmpty()) {
             tv_empty.visibility = View.VISIBLE
             tv_empty.text = EMPTY_ROOM
@@ -87,6 +90,10 @@ class GroupFragment : Fragment(), GroupContract.View, HomeContract.Listener {
             tv_empty.visibility = View.GONE
             groupAdapter.setData(listRooms)
 
+        }
+
+        swipe_refresh.setOnRefreshListener {
+            presenter.startGetSubscribedRooms(token)
         }
 
     }
@@ -110,6 +117,7 @@ class GroupFragment : Fragment(), GroupContract.View, HomeContract.Listener {
 
     override fun showError(message: String) {
         Log.e("Error return", message)
+        showProgress(false)
 
         val error = if (message == TIME_OUT || message == NETWORK_ERROR) message else UNKNOWN_ERROR
 

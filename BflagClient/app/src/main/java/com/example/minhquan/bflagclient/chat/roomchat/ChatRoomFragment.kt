@@ -14,13 +14,17 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
+import com.afollestad.materialdialogs.MaterialDialog
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.adapter.ChatAdapter
 import com.example.minhquan.bflagclient.adapter.NEW_CHAT
 import com.example.minhquan.bflagclient.adapter.OLD_CHAT
 import com.example.minhquan.bflagclient.base.BaseResponse
+import com.example.minhquan.bflagclient.chat.ChatActivity
 import com.example.minhquan.bflagclient.chat.ChatContract
+import com.example.minhquan.bflagclient.home.HomeActivity
 import com.example.minhquan.bflagclient.model.*
 import com.example.minhquan.bflagclient.utils.*
 import com.hosopy.actioncable.Subscription
@@ -44,6 +48,7 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View, ChatContract.Listene
     private lateinit var user: User
     private lateinit var chat: Chat
     private lateinit var subscription : Subscription
+    private lateinit var chatActivity: ChatActivity
 
     private var disposable: Disposable? = null
     private var offset = 0
@@ -60,18 +65,23 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View, ChatContract.Listene
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        ChatPresenter(this)
+        ChatRoomPresenter(this)
 
         //Get current user data
         token =  SharedPreferenceHelper.getInstance(context!!).getToken()!!
         user =  SharedPreferenceHelper.getInstance(context!!).getUser()!!
 
+        setupListener()
         setupView()
-
     }
 
     fun setRoom(room: Int) {
         this.room = room
+    }
+
+    private fun setupListener() {
+        chatActivity = activity as ChatActivity
+        chatActivity.setListener(this)
     }
 
     private fun setupView() {
@@ -235,7 +245,23 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View, ChatContract.Listene
     }
 
     override fun onOpenSetting() {
+        val wrapInScrollView = true
+        val builder = MaterialDialog.Builder(context!!)
+                .customView(R.layout.popup_setting, wrapInScrollView)
 
+        val dialog = builder.build()
+        val view = dialog.customView
+
+        dialog.show()
+
+        view!!.findViewById<Button>(R.id.btn_ok).setOnClickListener {
+            presenter.startUnsubscribe(token, room)
+            dialog.dismiss()
+        }
+
+        view.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
+            dialog.dismiss()
+        }
 
     }
 
@@ -247,6 +273,8 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View, ChatContract.Listene
     }
 
     override fun onGetHistoryChatSuccess(result: HistoryChatResponse) {
+
+        showProgress(false)
 
         if (offset >= 10 || result.listChats!!.isEmpty())
             swipe_refresh.isRefreshing = false
@@ -280,18 +308,40 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View, ChatContract.Listene
     }
 
     override fun onSendImageChatSuccess(result: SuccessResponse) {
+        showProgress(false)
         Log.d("Send image", "Success")
+    }
+
+    override fun onUnsubscribeSuccess(result: SuccessResponse) {
+
+        showProgress(true)
+
+        Snackbar.make(activity!!.findViewById(android.R.id.content), "Unsubscibed success!", Snackbar.LENGTH_LONG)
+                .show()
+        startActivity(Intent(context, HomeActivity::class.java))
+
     }
 
     override fun showProgress(isShow: Boolean) {
         activity!!.runOnUiThread {
-
+            when (isShow) {
+                true -> {
+                    loader_room.visibility = View.VISIBLE
+                    loader_room.playAnimation()
+                }
+                false -> {
+                    loader_room.visibility = View.GONE
+                    loader_room.pauseAnimation()
+                }
+            }
         }
     }
 
     override fun showError(message: String) {
         Log.e("Error return", message)
         swipe_refresh.isRefreshing = false
+        showProgress(false)
+
         val error =
                 if (message == TIME_OUT || message == NETWORK_ERROR || message == SERVER_ERROR)
                     message
@@ -321,6 +371,5 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View, ChatContract.Listene
     override fun isNetworkConnected(): Boolean {
         return ConnectivityUtil.isConnected(this.activity!!)
     }
-
 
 }

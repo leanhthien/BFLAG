@@ -45,8 +45,6 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
         HomePresenter(this)
 
-
-
         setUpView()
 
     }
@@ -187,7 +185,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
     }
 
     override fun onGetUserSuccess(result: User) {
-        showProgress(false)
+
         SharedPreferenceHelper.getInstance(this).setUser(result)
         setUser(result)
         listener.onFinishGetUser()

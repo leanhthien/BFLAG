@@ -17,8 +17,7 @@ import okhttp3.MultipartBody
 const val CONTENT = "content"
 const val SERVER_ERROR = "Can't connect to server"
 
-class ChatPresenter (val view: ChatRoomContract.View): ChatRoomContract.Presenter {
-
+class ChatRoomPresenter (val view: ChatRoomContract.View): ChatRoomContract.Presenter {
 
 
     //Instance of interface created for Retrofit API calls
@@ -35,6 +34,8 @@ class ChatPresenter (val view: ChatRoomContract.View): ChatRoomContract.Presente
     }
 
     override fun startGetHistoryChat(token: String, id: Int, offset: Int) {
+        view.showProgress(true)
+
         disposable  = service.getHistoryChat(token, id, offset)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -57,6 +58,7 @@ class ChatPresenter (val view: ChatRoomContract.View): ChatRoomContract.Presente
     }
 
     override fun startSendImageChat(token: String, filePart: MultipartBody.Part, roomId: Int) {
+        view.showProgress(true)
 
         disposable  = service.getSendImage(token, roomId, filePart)
                 .subscribeOn(Schedulers.io())
@@ -64,6 +66,19 @@ class ChatPresenter (val view: ChatRoomContract.View): ChatRoomContract.Presente
                 .subscribeWith(object: CallbackWrapper<SuccessResponse>(view) {
                     override fun onSuccess(result: SuccessResponse) {
                         view.onSendImageChatSuccess(result)
+                    }
+                })
+    }
+
+    override fun startUnsubscribe(token: String, id: Int) {
+        view.showProgress(true)
+
+        disposable  = service.getUnsubcribe(token, id)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeWith(object: CallbackWrapper<SuccessResponse>(view) {
+                    override fun onSuccess(result: SuccessResponse) {
+                        view.onUnsubscribeSuccess(result)
                     }
                 })
     }

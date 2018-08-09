@@ -15,6 +15,8 @@ interface ChatRoomContract {
         fun onGetHistoryChatSuccess(result: HistoryChatResponse)
 
         fun onSendImageChatSuccess(result: SuccessResponse)
+
+        fun onUnsubscribeSuccess(result: SuccessResponse)
     }
 
     interface Presenter {
@@ -24,5 +26,7 @@ interface ChatRoomContract {
         fun startSendLogChat(actionType: String, chat: Chat, subscription: Subscription)
 
         fun startSendImageChat(token: String, filePart: MultipartBody.Part, roomId: Int)
+
+        fun startUnsubscribe(token: String, id: Int)
     }
 }

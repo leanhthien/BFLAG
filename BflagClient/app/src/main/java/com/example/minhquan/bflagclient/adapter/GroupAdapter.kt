@@ -130,7 +130,7 @@ class GroupAdapter(var context: Context, val type: Int) : RecyclerView.Adapter<G
             listRooms = if (type == SUBSCRIBED_ROOM){
                 val leftRooms = data
                         .filter { it -> it.name != data[layoutPosition-1].name }
-                        .filter { it -> it.id != null }
+                        .filter { it -> it.id != HOME && it.id != SEARCH }
 
                 (listOf(data[layoutPosition-1])
                                 + leftRooms.take(

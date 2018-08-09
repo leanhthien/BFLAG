@@ -26,8 +26,6 @@ class HomePresenter(val view: HomeContract.View): HomeContract.Presenter {
 
     override fun startGetUser(token: String) {
 
-        view.showProgress(true)
-
         disposable  = service.getUser(token)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

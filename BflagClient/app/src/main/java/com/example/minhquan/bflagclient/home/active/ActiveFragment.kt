@@ -86,6 +86,7 @@ class ActiveFragment : Fragment(), ActiveContract.View, HomeContract.Listener{
     override fun onGetOnlineUsersSuccess(result: List<Friend>) {
 
         showProgress(false)
+        swipe_refresh.isRefreshing = false
 
         if (result.isEmpty()) {
             tv_empty.visibility = View.VISIBLE
@@ -93,12 +94,15 @@ class ActiveFragment : Fragment(), ActiveContract.View, HomeContract.Listener{
         }
         else {
 
-            //listFriends = emptyList + result.filter { it -> it.email != user.email }.sortedBy { it -> it.username }
-            listFriends = emptyList + result.sortedBy { it -> it.username }
+            listFriends = emptyList + result.filter { it -> it.email != user.email }.sortedBy { it -> it.username }
 
             tv_empty.visibility = View.GONE
             activeAdapter.setData(listFriends)
 
+        }
+
+        swipe_refresh.setOnRefreshListener {
+            presenter.startGetOnlineUsers(token)
         }
     }
 

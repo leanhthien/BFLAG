@@ -80,4 +80,10 @@ interface BflagApiService {
                    @Query("q") query: String )
             : Observable<ListOnlineUsers>
 
+    @DELETE("/api/v1/rooms/unsubscribe/{room_id}")
+    fun getUnsubcribe(@Header("Token") token: String,
+                    @Path("room_id") id: Int)
+            : Observable<SuccessResponse>
+
+
 }

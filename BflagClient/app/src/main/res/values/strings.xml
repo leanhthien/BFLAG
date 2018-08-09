@@ -52,6 +52,12 @@
     <string name="ok">OK</string>
     <string name="cancel_room">CANCEL</string>
 
+    <!--Search-->
     <string name="search">Search</string>
+
+    <!--Unsubscribed-->
+    <string name="unsubscribe">Unsubscribe room</string>
+    <string name="unsubscribed_description">Do you want to unsubscribe this room and do not show it anymore?</string>
+
 
 </resources>
