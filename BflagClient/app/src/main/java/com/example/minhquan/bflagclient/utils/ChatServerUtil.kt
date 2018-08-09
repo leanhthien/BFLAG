@@ -1,9 +1,12 @@
+/**
+ * A class with function that create a connection to server by web socket
+ */
+
 package com.example.minhquan.bflagclient.utils
 
 import android.util.Log
 import com.example.minhquan.bflagclient.base.BaseWebSocket
 import com.example.minhquan.bflagclient.model.Chat
-import com.example.minhquan.bflagclient.model.ChatWeb
 import com.example.minhquan.bflagclient.model.OnlineResponse
 import com.google.gson.GsonBuilder
 import com.hosopy.actioncable.ActionCable
@@ -24,6 +27,9 @@ class ChatServerUtil {
 
     companion object {
 
+        /**
+         * Using an action cable library for kotlin to create a connection
+         */
         fun startConnectWebSocket(view: BaseWebSocket<*>, token: String, room: Int?, type: Int) {
 
             // 1. Setup
@@ -78,12 +84,10 @@ class ChatServerUtil {
 
             subscription.onFailed = {
                 // Called when the subscription encounters any error
-
                 if (count++ > 10) {
                     Log.d("Subscription status", "Error")
                     view.showError("Failed to connect")
                 }
-
             }
 
             // 3. Establish connection

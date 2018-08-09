@@ -7,6 +7,7 @@ import com.example.minhquan.bflagclient.model.User
 import com.google.gson.JsonObject
 
 interface HomeContract {
+
     interface View: BaseView<Presenter> {
 
         fun onGetUserSuccess(result: User)
@@ -20,5 +21,12 @@ interface HomeContract {
         fun startGetUser(token: String)
 
         fun startCreateRoom(token: String, body: JsonObject)
+
+    }
+
+    interface Listener {
+
+        fun onFinishGetUser()
+
     }
 }

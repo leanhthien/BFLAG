@@ -12,7 +12,7 @@ import kotlinx.android.synthetic.main.activity_sign.*
 class SignActivity : AppCompatActivity() {
 
     private var pagerAdapter: PagerSignAdapter? = null
-    private lateinit var listener: SignListener
+    private lateinit var listener: SignContract.Listener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,14 +25,16 @@ class SignActivity : AppCompatActivity() {
         tvBflag.typeface = typeface
     }
 
-    interface SignListener {
-        fun onAutoSignUp(user: User)
-    }
-
-    fun setListener(listener: SignListener) {
+    /**
+     *  Set up a listener in Sign Activity
+     */
+    fun setListener(listener: SignContract.Listener) {
         this.listener = listener
     }
 
+    /**
+     *  Get data from Sign In Fragment and transfer to Sign Up Fragment
+     */
     fun getAutoSignup(user: User) {
         listener.onAutoSignUp(user)
     }

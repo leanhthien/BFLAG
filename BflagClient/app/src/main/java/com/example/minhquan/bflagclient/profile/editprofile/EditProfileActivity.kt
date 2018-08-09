@@ -93,7 +93,6 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
                 presenter.startEdit(token, null, mapPart)
             }
 
-
         }
 
     }
@@ -141,9 +140,7 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
                                     "Permission denied, can't open photo Gallery!",
                                     Toast.LENGTH_SHORT).show()
                     }
-
         }
-
     }
 
     /**
@@ -170,12 +167,6 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
             return
 
         when (requestCode) {
-//            CAMERA_REQUEST_CODE -> {
-//                val thumbnail = data!!.extras!!.get("data") as Bitmap
-//                path = savePhoto(thumbnail)
-//                img_capture!!.setImageBitmap(thumbnail)
-//                Toast.makeText(this@EditProfileActivity, "Image Saved!", Toast.LENGTH_SHORT).show()
-//            }
             GALLERY_REQUEST_CODE -> {
                 contentURI = data?.data
                 try {
@@ -191,7 +182,6 @@ class EditProfileActivity : AppCompatActivity(), EditProfileContract.View {
                 }
             }
         }
-
     }
 
     override fun onEditSuccess(result: User) {

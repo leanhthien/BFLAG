@@ -15,12 +15,8 @@ import android.widget.TextView
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.example.minhquan.bflagclient.chat.ChatActivity
-import com.example.minhquan.bflagclient.model.ListRoomResponse
 import com.example.minhquan.bflagclient.model.Room
-import com.example.minhquan.bflagclient.utils.DEFAULT_PROFILE_IMAGE
-import com.example.minhquan.bflagclient.utils.ON_WORKING
-import com.example.minhquan.bflagclient.utils.UNKNOWN
-import com.example.minhquan.bflagclient.utils.makePrettyDate
+import com.example.minhquan.bflagclient.utils.*
 
 const val ROOM_AMOUNT = 4
 const val PHOTO_SHARE = " shared an photo"
@@ -37,11 +33,10 @@ class GroupAdapter(var context: Context, val type: Int) : RecyclerView.Adapter<G
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
-        val view: View? = if (viewType == 0 ) {
-            LayoutInflater.from(parent.context).inflate(R.layout.item_empty, parent, false)
-        }
-        else {
-            LayoutInflater.from(parent.context).inflate(R.layout.item_group, parent, false)
+        val view: View? = when (viewType) {
+            0 -> LayoutInflater.from(parent.context).inflate(R.layout.item_empty, parent, false)
+            1 -> LayoutInflater.from(parent.context).inflate(R.layout.item_empty_search, parent, false)
+            else -> LayoutInflater.from(parent.context).inflate(R.layout.item_group, parent, false)
         }
         return ViewHolder(view!!)
     }
@@ -51,7 +46,11 @@ class GroupAdapter(var context: Context, val type: Int) : RecyclerView.Adapter<G
     }
 
     override fun getItemViewType(position: Int): Int {
-        return if(position == 0) 0 else 1
+        return when {
+            position == 0 && data[position].id == HOME -> 0
+            position == 0 && data[position].id == SEARCH -> 1
+            else -> 2
+        }
     }
 
     fun setData(data: List<Room>) {
@@ -71,40 +70,42 @@ class GroupAdapter(var context: Context, val type: Int) : RecyclerView.Adapter<G
         holder.itemView.startAnimation(animation)
         lastPosition = position
 
+
         if (position == 0) return
 
-        holder.tvRoomName.text = room.name
+            holder.tvRoomName.text = room.name
 
-        if (room.lastMessage != null) {
-            if (room.lastMessage.message != null) {
-                if ( room.lastMessage.message.content != null) {
-                    val message = room.lastMessage.friend!!.username + ": " + room.lastMessage.message.content
-                    holder.tvLastMessage.text = message
+            if (room.lastMessage != null) {
+                if (room.lastMessage.message != null) {
+                    if ( room.lastMessage.message.content != null) {
+                        val message = room.lastMessage.friend!!.username + ": " + room.lastMessage.message.content
+                        holder.tvLastMessage.text = message
+                    }
+                    else {
+                        val message = room.lastMessage.friend!!.username + PHOTO_SHARE
+                        holder.tvLastMessage.text = message
+                    }
+                    holder.tvLastAccess.text = room.lastMessage.time!!.makePrettyDate()
                 }
-                else {
-                    val message = room.lastMessage.friend!!.username + PHOTO_SHARE
-                    holder.tvLastMessage.text = message
-                }
-                holder.tvLastAccess.text = room.lastMessage.time!!.makePrettyDate()
             }
-        }
-        else {
-            holder.tvLastAccess.text = UNKNOWN
-            holder.tvLastMessage.text = UNKNOWN
-        }
+            else {
+                holder.tvLastAccess.text = UNKNOWN
+                holder.tvLastMessage.text = UNKNOWN
+            }
 
-        if (room.listFriends!!.isNotEmpty())
-            Glide.with(context)
-                .load(room.listFriends[0].profileImage)
-                .apply(RequestOptions
-                        .circleCropTransform())
-                .into(holder.imgLeft)
-        else
-            Glide.with(context)
-                    .load(DEFAULT_PROFILE_IMAGE)
-                    .apply(RequestOptions
-                            .circleCropTransform())
-                    .into(holder.imgLeft)
+            if (room.listFriends!!.isNotEmpty())
+                Glide.with(context)
+                        .load(room.listFriends[0].profileImage)
+                        .apply(RequestOptions
+                                .circleCropTransform())
+                        .into(holder.imgLeft)
+            else
+                Glide.with(context)
+                        .load(DEFAULT_PROFILE_IMAGE)
+                        .apply(RequestOptions
+                                .circleCropTransform())
+                        .into(holder.imgLeft)
+
 
     }
 

@@ -20,6 +20,7 @@ import com.example.minhquan.bflagclient.adapter.ChatAdapter
 import com.example.minhquan.bflagclient.adapter.NEW_CHAT
 import com.example.minhquan.bflagclient.adapter.OLD_CHAT
 import com.example.minhquan.bflagclient.base.BaseResponse
+import com.example.minhquan.bflagclient.chat.ChatContract
 import com.example.minhquan.bflagclient.model.*
 import com.example.minhquan.bflagclient.utils.*
 import com.hosopy.actioncable.Subscription
@@ -33,9 +34,9 @@ const val CAMERA_REQUEST_CODE = 100
 const val GALLERY_REQUEST_CODE = 200
 const val IMAGE_DIRECTORY_PATH = "/Bflag"
 const val IMAGE = "image"
-const val DATE_TIME_FORMAT = "yyyy-MM-dd HH:mm:ss"
 
-class ChatRoomFragment : Fragment(), ChatRoomContract.View {
+class ChatRoomFragment : Fragment(), ChatRoomContract.View, ChatContract.Listener {
+
 
     private lateinit var presenter: ChatRoomContract.Presenter
     private lateinit var chatAdapter: ChatAdapter
@@ -44,7 +45,6 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
     private lateinit var chat: Chat
     private lateinit var subscription : Subscription
 
-    private var historyChat: List<Chat> =listOf()
     private var disposable: Disposable? = null
     private var offset = 0
     private var smoothScroll = 10
@@ -213,7 +213,9 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
 
     private fun sendChat(text: String?, image: String?, uri: Uri?) {
 
-        chat = Chat(null,Friend(user.email, user.username, user.profileImage), Message(text, image))
+        chat = Chat(null,
+                Friend(user.email, user.username, user.profileImage),
+                Message(text, image))
 
         if (text != null) edt_chat.text = null
 
@@ -230,6 +232,11 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View {
 
             }
         }
+    }
+
+    override fun onOpenSetting() {
+
+
     }
 
     override fun onConnectWebSocketSuccess(subscription: Subscription) {

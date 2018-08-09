@@ -3,6 +3,9 @@ package com.example.minhquan.bflagclient.utils
 import com.google.gson.JsonObject
 import java.util.*
 
+/**
+ * Create a sign up JsonObject
+ */
 fun JsonObject.buildSignUpJson(email: String, password: String, username: String, firstName: String, lastName: String): JsonObject {
 
     addProperty(EMAIL,email)
@@ -14,6 +17,9 @@ fun JsonObject.buildSignUpJson(email: String, password: String, username: String
     return this
 }
 
+/**
+ * Create a sign in JsonObject
+ */
 fun JsonObject.buildSignInJson(email: String, password: String): JsonObject {
 
     addProperty(EMAIL,email)
@@ -22,27 +28,9 @@ fun JsonObject.buildSignInJson(email: String, password: String): JsonObject {
     return this
 }
 
-fun JsonObject.buildAuthJson(token: String) : JsonObject {
-
-    addProperty(TOKEN, token)
-
-    return this
-}
-
-
-fun JsonObject.buildEditJson(username: String?, firstName: String?, lastName: String?, password: String?, gender: String?, birthday: String?) : JsonObject {
-
-    addProperty(USERNAME, username)
-    addProperty(FIRST_NAME, firstName)
-    addProperty(LAST_NAME, lastName)
-    addProperty(PASSWORD, password)
-    addProperty(GENDER, gender)
-    addProperty(BIRTH_DAY, birthday)
-
-
-    return this
-}
-
+/**
+ * Create a reset password JsonObject
+ */
 fun JsonObject.buildResetJson(email: String): JsonObject {
 
     addProperty(EMAIL, email)
@@ -50,6 +38,9 @@ fun JsonObject.buildResetJson(email: String): JsonObject {
     return this
 }
 
+/**
+ * Create a reset auth password JsonObject
+ */
 fun JsonObject.buildResetAuthJson(email: String, resetCode: String, password: String?) : JsonObject {
 
     addProperty(EMAIL, email)
@@ -59,18 +50,19 @@ fun JsonObject.buildResetAuthJson(email: String, resetCode: String, password: St
     return this
 }
 
+/**
+ * Create a create room JsonObject
+ */
 fun JsonObject.buildCreateRoom(name: String): JsonObject {
 
     addProperty(NAME, name)
     return this
 }
 
-const val EMAIL = "email"
-const val USERNAME = "username"
-const val FIRST_NAME = "first_name"
-const val LAST_NAME = "last_name"
-const val PASSWORD = "password"
-const val RESET_CODE = "reset_code"
-const val BIRTH_DAY = "birth"
-const val GENDER = "gender"
-const val NAME = "name"
+private const val EMAIL = "email"
+private const val USERNAME = "username"
+private const val FIRST_NAME = "first_name"
+private const val LAST_NAME = "last_name"
+private const val PASSWORD = "password"
+private const val RESET_CODE = "reset_code"
+private const val NAME = "name"

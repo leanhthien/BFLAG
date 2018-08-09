@@ -5,27 +5,23 @@ import android.content.SharedPreferences
 import com.example.minhquan.bflagclient.model.User
 import com.google.gson.Gson
 
+private const val BFLAG = "BFLAG"
+private const val TOKEN_SP = "token"
+private const val TOKEN_GOOGLE = "token_google"
+private const val TOKEN_FACEBOOK = "token_facebook"
+private const val USER = "user"
+private const val EMAIL = "email"
+
 class SharedPreferenceHelper private constructor(context: Context) {
 
-    val BFLAG = "BFLAG"
-    val TOKEN = "token"
-    val TOKEN_GOOGLE = "token_google"
-    val TOKEN_FACEBOOK = "token_facebook"
-    val USER = "user"
-    val EMAIL = "email"
-
-    var instance : SharedPreferences
-
-    init {
-        instance = context.getSharedPreferences(BFLAG, Context.MODE_PRIVATE)
-    }
+    var instance : SharedPreferences = context.getSharedPreferences(BFLAG, Context.MODE_PRIVATE)
 
     fun setToken(token: String?) {
-        instance.edit().putString(TOKEN, token).apply()
+        instance.edit().putString(TOKEN_SP, token).apply()
     }
 
     fun getToken() : String? {
-        return instance.getString(TOKEN, null)
+        return instance.getString(TOKEN_SP, null)
     }
 
     fun setTokenGoogle(token: String?) {
@@ -43,7 +39,6 @@ class SharedPreferenceHelper private constructor(context: Context) {
     fun getTokenFacebook() : String? {
         return instance.getString(TOKEN_FACEBOOK, null)
     }
-
 
     fun setUser(user: User?) {
         instance.edit().putString(USER, Gson().toJson(user)).apply()

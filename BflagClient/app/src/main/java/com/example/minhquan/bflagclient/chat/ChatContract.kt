@@ -11,4 +11,8 @@ interface ChatContract {
     interface Presenter {
 
     }
+
+    interface Listener {
+        fun onOpenSetting()
+    }
 }

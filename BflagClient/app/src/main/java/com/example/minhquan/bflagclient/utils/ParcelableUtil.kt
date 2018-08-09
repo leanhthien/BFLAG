@@ -1,3 +1,8 @@
+/**
+ * Library for reducing Parcelable boilerplate code
+ */
+
+
 package com.example.minhquan.bflagclient.utils
 
 import android.os.Parcel

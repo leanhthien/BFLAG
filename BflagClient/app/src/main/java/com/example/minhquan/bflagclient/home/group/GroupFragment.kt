@@ -11,6 +11,8 @@ import android.view.ViewGroup
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.adapter.GroupAdapter
 import com.example.minhquan.bflagclient.adapter.SUBSCRIBED_ROOM
+import com.example.minhquan.bflagclient.home.HomeActivity
+import com.example.minhquan.bflagclient.home.HomeContract
 import com.example.minhquan.bflagclient.model.Room
 import com.example.minhquan.bflagclient.utils.*
 import kotlinx.android.synthetic.main.fragment_group.*
@@ -19,9 +21,10 @@ import kotlinx.android.synthetic.main.fragment_group.*
 const val EMPTY_ROOM = "There's no room can be shown here"
 
 
-class GroupFragment : Fragment(), GroupContract.View {
+class GroupFragment : Fragment(), GroupContract.View, HomeContract.Listener {
 
     private lateinit var presenter: GroupContract.Presenter
+    private lateinit var homeActivity: HomeActivity
     private lateinit var token: String
     private lateinit var groupAdapter: GroupAdapter
     private lateinit var listRooms: List<Room>
@@ -36,8 +39,13 @@ class GroupFragment : Fragment(), GroupContract.View {
         super.onViewCreated(view, savedInstanceState)
 
         GroupPresenter(this)
-
+        setupListener()
         setupView()
+    }
+
+    private fun setupListener() {
+        homeActivity = activity as HomeActivity
+        homeActivity.setListener(this)
     }
 
     private fun setupView() {
@@ -55,6 +63,16 @@ class GroupFragment : Fragment(), GroupContract.View {
         }
     }
 
+    override fun onFinishGetUser() {
+
+        val tokenReturn = SharedPreferenceHelper.getInstance(context!!).getToken()
+
+        if (tokenReturn != null) {
+            token = tokenReturn
+            presenter.startGetSubscribedRooms(token)
+        }
+    }
+
     override fun onGetSubscribedRoomsSuccess(result: List<Room>) {
 
         if (result.isEmpty()) {
@@ -62,7 +80,7 @@ class GroupFragment : Fragment(), GroupContract.View {
             tv_empty.text = EMPTY_ROOM
         }
         else {
-            listRooms = result.sort()
+            listRooms = result.sort(HOME)
 
             Log.d("Subscribed room", listRooms.toString())
 
@@ -74,9 +92,16 @@ class GroupFragment : Fragment(), GroupContract.View {
     }
 
     override fun showProgress(isShow: Boolean) {
-
-        //if (isShow) shimmer_view_container.startShimmer() else shimmer_view_container.stopShimmer()
-
+        when (isShow) {
+            true -> {
+                loader_group.visibility = View.VISIBLE
+                loader_group.playAnimation()
+            }
+            false -> {
+                loader_group.visibility = View.GONE
+                loader_group.pauseAnimation()
+            }
+        }
     }
 
     override fun setPresenter(presenter: GroupContract.Presenter) {

@@ -15,6 +15,7 @@ import com.example.minhquan.bflagclient.home.HomeActivity
 import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.sign.SignActivity
+import com.example.minhquan.bflagclient.sign.SignContract
 import com.example.minhquan.bflagclient.utils.*
 import com.google.gson.JsonObject
 import kotlinx.android.synthetic.main.fragment_signup.*
@@ -22,7 +23,7 @@ import kotlinx.android.synthetic.main.fragment_signup.*
 
 const val EMPTY_ERROR = "The value cannot be empty!"
 
-class SignUpFragment : Fragment(), SignUpContract.View, SignActivity.SignListener {
+class SignUpFragment : Fragment(), SignUpContract.View, SignContract.Listener {
 
     private lateinit var presenter: SignUpContract.Presenter
     private lateinit var body: JsonObject

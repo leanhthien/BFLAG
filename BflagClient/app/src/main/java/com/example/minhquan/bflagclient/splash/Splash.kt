@@ -1,3 +1,7 @@
+/**
+ * Activity for Splash screen - The very first screen of app
+ */
+
 package com.example.minhquan.bflagclient.splash
 
 import android.animation.Animator
@@ -39,6 +43,9 @@ class Splash : AppCompatActivity(), SplashContract.View {
         checkSignIn()
     }
 
+    /**
+     * Start animation of splash screen
+     */
     private fun playAnimation() {
 
         animation_splash.setAnimation("world_locations.json")
@@ -71,6 +78,9 @@ class Splash : AppCompatActivity(), SplashContract.View {
         animation_splash.playAnimation()
     }
 
+    /**
+     *  Check user token for automatically sign in
+     */
     private fun checkSignIn() {
 
         /*if ((GoogleSignIn.getLastSignedInAccount(this) != null)

@@ -27,7 +27,6 @@ import com.example.minhquan.bflagclient.search.SearchActivity
 import com.example.minhquan.bflagclient.utils.*
 import com.afollestad.materialdialogs.MaterialDialog
 import com.example.minhquan.bflagclient.model.Room
-import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.google.gson.JsonObject
 
 
@@ -36,6 +35,7 @@ const val EMPTY_ERROR = "Name can not be empty!"
 class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     private lateinit var presenter: HomeContract.Presenter
+    private lateinit var listener: HomeContract.Listener
     private lateinit var token: String
     private var count: Int = 0
 
@@ -44,6 +44,8 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         setContentView(R.layout.activity_home)
 
         HomePresenter(this)
+
+
 
         setUpView()
 
@@ -92,8 +94,6 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         else {
             presenter.startGetUser(token)
         }
-
-
     }
 
     private fun setUser(user: User) {
@@ -107,10 +107,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
                 .apply(RequestOptions
                         .circleCropTransform())
                 .into(imgProfile)
-        else {
-            // TODO: Show offline profile image
 
-        }
 
         imgProfile.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
@@ -121,10 +118,8 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         }
 
         img_add.setOnClickListener {
-            // TODO : Feature create a new room
 
             val wrapInScrollView = true
-
             val builder = MaterialDialog.Builder(this)
                     .customView(R.layout.popup_creat_room, wrapInScrollView)
 
@@ -143,16 +138,12 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
                     presenter.startCreateRoom(token,body)
                     dialog.dismiss()
                 }
-
             }
 
             view.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
                 dialog.dismiss()
             }
         }
-
-
-
     }
 
     /**
@@ -199,7 +190,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         showProgress(false)
         SharedPreferenceHelper.getInstance(this).setUser(result)
         setUser(result)
-
+        listener.onFinishGetUser()
     }
 
     override fun onCreateRoomSuccess(result: Room) {
@@ -213,6 +204,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         bundle.putParcelableArrayList("listRooms", listRooms)
         intent.putExtra("roomBundle", bundle)
         this.startActivity(intent)
+        finish()
     }
 
     override fun showProgress(isShow: Boolean) {
@@ -265,5 +257,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         return ConnectivityUtil.isConnected(this)
     }
 
-
+    fun setListener(listener: HomeContract.Listener) {
+        this.listener = listener
+    }
 }

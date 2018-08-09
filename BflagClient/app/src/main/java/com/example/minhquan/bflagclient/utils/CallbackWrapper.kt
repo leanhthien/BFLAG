@@ -1,3 +1,7 @@
+/**
+ * A custom CallbackWrapper to handle response form server that emphasizes on error exceptions
+ */
+
 package com.example.minhquan.bflagclient.utils
 
 import org.json.JSONObject
@@ -12,16 +16,22 @@ import java.net.SocketTimeoutException
 
 
 abstract class CallbackWrapper<T : BaseResponse>(view: BaseView<*>) : DisposableObserver<T>() {
-    //BaseView is just a reference of a View in MVP
+
     private val weakReference: WeakReference<BaseView<*>> = WeakReference(view)
 
     protected abstract fun onSuccess(result: T)
 
+    /**
+     * Handle server return successfully response
+     */
     override fun onNext(result: T) {
-        //You can return StatusCodes of different cases from your API and handle it here. I usually include these cases on BaseResponse and iherit it from every Response
+        // Return StatusCodes of different cases from API and handle.
         onSuccess(result)
     }
 
+    /**
+     * Handle when server return error
+     */
     override fun onError(e: Throwable) {
         val view = weakReference.get()
         when (e) {
@@ -35,10 +45,12 @@ abstract class CallbackWrapper<T : BaseResponse>(view: BaseView<*>) : Disposable
         }
     }
 
-    override fun onComplete() {
+    override fun onComplete() {}
 
-    }
-
+    /**
+     * Parse the error message that server return
+     * @param responseBody Error body with message
+     */
     private fun getErrorMessage(responseBody: ResponseBody): String {
         return try {
             val jsonObject = JSONObject(responseBody.string())
@@ -46,6 +58,5 @@ abstract class CallbackWrapper<T : BaseResponse>(view: BaseView<*>) : Disposable
         } catch (e: Exception) {
             e.message!!
         }
-
     }
 }

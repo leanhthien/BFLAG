@@ -1,7 +1,6 @@
 package com.example.minhquan.bflagclient.home
 
 import com.example.minhquan.bflagclient.model.Room
-import com.example.minhquan.bflagclient.model.SuccessResponse
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.CallbackWrapper
 import com.example.minhquan.bflagclient.utils.RetrofitUtil
@@ -11,7 +10,6 @@ import io.reactivex.disposables.Disposable
 import io.reactivex.schedulers.Schedulers
 
 class HomePresenter(val view: HomeContract.View): HomeContract.Presenter {
-
 
     //Instance of interface created for Retrofit API calls
     private val service by lazy {

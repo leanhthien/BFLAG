@@ -78,7 +78,6 @@ class SignInFragment : Fragment(), SignInContract.View {
             }
 
             if(check){
-
                 body = JsonObject().buildSignInJson(edtEmail.text.toString(), edtPassword.text.toString())
                 presenter.startSignIn(body)
             }
@@ -121,22 +120,20 @@ class SignInFragment : Fragment(), SignInContract.View {
         LoginManager.getInstance().registerCallback(callbackManager,
                 object : FacebookCallback<LoginResult> {
                     override fun onSuccess(loginResult: LoginResult) {
-                        // TODO:
                         Log.i("Sig up with Facebook", "Success")
-                        Log.d("Token facebook", loginResult.accessToken.token)
                         SharedPreferenceHelper.getInstance(context!!).setTokenFacebook(loginResult.accessToken.token)
+                        // TODO: Get user data
+
                     }
 
                     override fun onCancel() {
-                        // TODO:
                         Log.i("Sig up with Facebook","Canceled")
-
 
                     }
 
                     override fun onError(exception: FacebookException) {
-                        // TODO:
                         Log.e("Sig up with Facebook", exception.localizedMessage)
+                        showError(exception.localizedMessage)
                     }
                 })
 
@@ -239,16 +236,15 @@ class SignInFragment : Fragment(), SignInContract.View {
 
         showProgress(false)
 
-        val error = if (message == TIME_OUT || message == NETWORK_ERROR) message else UNKNOWN_ERROR
         count++
         if (count < MAX_RETRY)
-            Snackbar.make(activity!!.findViewById(android.R.id.content), error, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
                     .setAction(RETRY) {
                         presenter.startSignIn(body)
                     }
                     .show()
         else
-            Snackbar.make(activity!!.findViewById(android.R.id.content), error, Snackbar.LENGTH_LONG)
+            Snackbar.make(activity!!.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)
                     .show()
     }
 

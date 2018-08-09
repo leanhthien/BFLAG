@@ -24,6 +24,7 @@
     <string name="remember_me">Remember me</string>
     <string name="forgot_password">Forgot password?</string>
     <string name="dont_have_account">Don"'"t have account?</string>
+    <string name="sign_up_more">Or using Google, Facebook account</string>
 
     <!--Home-->
     <string name="messages">Messages</string>
@@ -50,5 +51,7 @@
     <string name="name">Name</string>
     <string name="ok">OK</string>
     <string name="cancel_room">CANCEL</string>
+
+    <string name="search">Search</string>
 
 </resources>

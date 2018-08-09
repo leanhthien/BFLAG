@@ -16,6 +16,7 @@ import com.example.minhquan.bflagclient.utils.*
 class ChatActivity : FragmentActivity(), ChatContract.View {
 
     private lateinit var presenter: ChatContract.Presenter
+    private lateinit var listener: ChatContract.Listener
     private lateinit var roomAdapter: RoomAdapter
     private lateinit var pagerAdapterRoom: PagerAdapterChatRoom
     private lateinit var listRooms : List<Room>
@@ -50,21 +51,17 @@ class ChatActivity : FragmentActivity(), ChatContract.View {
         vpg_chat_friend.adapter = pagerAdapterRoom
 
         img_back.setOnClickListener {
-            startActivity(Intent(this, HomeActivity::class.java))
-            finish()
+            onBackPressed()
         }
-    }
 
-    fun getRoomAction(room: Int) {
         img_more.setOnClickListener {
-
+            listener.onOpenSetting()
         }
     }
 
     override fun showProgress(isShow: Boolean) {
 
     }
-
 
     override fun setPresenter(presenter: ChatContract.Presenter) {
         this.presenter = presenter
@@ -97,7 +94,12 @@ class ChatActivity : FragmentActivity(), ChatContract.View {
 
     override fun isNetworkConnected(): Boolean {
         return ConnectivityUtil.isConnected(this)
+    }
 
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this, HomeActivity::class.java))
+        finish()
     }
 
 }

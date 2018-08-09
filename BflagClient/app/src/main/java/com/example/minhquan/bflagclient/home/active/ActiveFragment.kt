@@ -10,6 +10,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.adapter.ActiveAdapter
+import com.example.minhquan.bflagclient.home.HomeActivity
+import com.example.minhquan.bflagclient.home.HomeContract
 import com.example.minhquan.bflagclient.model.Friend
 import com.example.minhquan.bflagclient.model.User
 import com.example.minhquan.bflagclient.utils.*
@@ -17,10 +19,11 @@ import kotlinx.android.synthetic.main.fragment_active.*
 
 const val EMPTY_USER = "There's no user can be shown here"
 
-class ActiveFragment : Fragment(), ActiveContract.View{
+class ActiveFragment : Fragment(), ActiveContract.View, HomeContract.Listener{
 
     private lateinit var presenter: ActiveContract.Presenter
     private lateinit var activeAdapter: ActiveAdapter
+    private lateinit var homeActivity: HomeActivity
     private lateinit var token: String
     private lateinit var user: User
     private lateinit var listFriends: List<Friend>
@@ -37,8 +40,13 @@ class ActiveFragment : Fragment(), ActiveContract.View{
         super.onViewCreated(view, savedInstanceState)
 
         ActivePresenter(this)
-
+        setupListener()
         setupView()
+    }
+
+    private fun setupListener() {
+        homeActivity = activity as HomeActivity
+        homeActivity.setListener(this)
     }
 
     private fun setupView() {
@@ -61,6 +69,20 @@ class ActiveFragment : Fragment(), ActiveContract.View{
 
     }
 
+    override fun onFinishGetUser() {
+        val tokenReturn = SharedPreferenceHelper.getInstance(context!!).getToken()
+        val userReturn =  SharedPreferenceHelper.getInstance(context!!).getUser()
+
+        if (userReturn!= null)
+            user = userReturn
+
+        if (tokenReturn != null) {
+            token = tokenReturn
+            presenter.startGetOnlineUsers(token)
+        }
+    }
+
+
     override fun onGetOnlineUsersSuccess(result: List<Friend>) {
 
         showProgress(false)
@@ -71,9 +93,7 @@ class ActiveFragment : Fragment(), ActiveContract.View{
         }
         else {
 
-
             //listFriends = emptyList + result.filter { it -> it.email != user.email }.sortedBy { it -> it.username }
-
             listFriends = emptyList + result.sortedBy { it -> it.username }
 
             tv_empty.visibility = View.GONE
@@ -83,7 +103,16 @@ class ActiveFragment : Fragment(), ActiveContract.View{
     }
 
     override fun showProgress(isShow: Boolean) {
-
+        when (isShow) {
+            true -> {
+                loader_active.visibility = View.VISIBLE
+                loader_active.playAnimation()
+            }
+            false -> {
+                loader_active.visibility = View.GONE
+                loader_active.pauseAnimation()
+            }
+        }
     }
 
     override fun setPresenter(presenter: ActiveContract.Presenter) {

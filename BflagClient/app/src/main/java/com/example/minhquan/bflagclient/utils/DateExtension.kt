@@ -1,6 +1,6 @@
 /**
  * Copyright (c) 2017-present, Facebook, Inc. All rights reserved.
- *
+ * Extension function for creating a timeline
  */
 
 package com.example.minhquan.bflagclient.utils

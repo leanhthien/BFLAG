@@ -1,16 +1,19 @@
 package com.example.minhquan.bflagclient.search
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.LinearLayoutManager
-import android.text.Editable
-import android.text.TextWatcher
 import android.util.Log
+import android.view.KeyEvent
 import android.view.View
+import android.view.inputmethod.EditorInfo
+import android.widget.TextView
 import com.example.minhquan.bflagclient.R
 import com.example.minhquan.bflagclient.adapter.GroupAdapter
 import com.example.minhquan.bflagclient.adapter.SEARCH_ROOM
+import com.example.minhquan.bflagclient.home.HomeActivity
 import com.example.minhquan.bflagclient.model.Friend
 import com.example.minhquan.bflagclient.model.Room
 import com.example.minhquan.bflagclient.utils.*
@@ -21,20 +24,18 @@ const val EMPTY_RESULT = "There's no result"
 
 class SearchActivity : AppCompatActivity(), SearchContract.View{
 
-
     private lateinit var presenter: SearchContract.Presenter
     private lateinit var token: String
     private lateinit var groupAdapter: GroupAdapter
     private lateinit var listRooms: List<Room>
-    private lateinit var query : String
 
     var count  = 0
-
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_search)
 
+        SearchPresenter(this)
         setupView()
     }
 
@@ -49,24 +50,18 @@ class SearchActivity : AppCompatActivity(), SearchContract.View{
 
         if (tokenReturn != null) {
             token = tokenReturn
+
+            edtSearch.setOnEditorActionListener {v, actionId, event ->
+                if(actionId == EditorInfo.IME_ACTION_DONE){
+                    if (edtSearch.text.isNotEmpty())
+                        presenter.startSearchRoom(token, edtSearch.text.toString())
+                    true
+                } else {
+                    false
+                }
+
+            }
         }
-
-        edtSearch.addTextChangedListener(object: TextWatcher {
-            override fun afterTextChanged(p0: Editable?) {
-
-            }
-
-            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-
-            }
-
-            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                query = p0.toString()
-                presenter.startSearchRoom(token, query)
-            }
-
-        })
-
 
         tvCancel.setOnClickListener {
             onBackPressed()
@@ -82,7 +77,7 @@ class SearchActivity : AppCompatActivity(), SearchContract.View{
         }
         else {
 
-            listRooms = result.sort()
+            listRooms = result.sort(SEARCH)
 
             Log.d("Searched room", listRooms.toString())
 
@@ -135,5 +130,11 @@ class SearchActivity : AppCompatActivity(), SearchContract.View{
 
     override fun isNetworkConnected(): Boolean {
         return ConnectivityUtil.isConnected(this)
+    }
+
+    override fun onBackPressed() {
+        super.onBackPressed()
+        startActivity(Intent(this, HomeActivity::class.java))
+        finish()
     }
 }

@@ -90,7 +90,7 @@
         app:layout_constraintTop_toBottomOf="@+id/btnSignIn" />
 
     <TextView
-        android:id="@+id/textView3"
+        android:id="@+id/tv_hint_sign_up"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="48dp"
@@ -112,8 +112,19 @@
         android:textColor="@color/colorPrimary"
         android:textSize="15sp"
         android:textStyle="bold|italic"
-        app:layout_constraintStart_toEndOf="@+id/textView3"
+        app:layout_constraintStart_toEndOf="@+id/tv_hint_sign_up"
         app:layout_constraintTop_toBottomOf="@+id/tvForgotPassword" />
+
+    <TextView
+        android:id="@+id/tv_more"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
+        android:text="@string/sign_up_more"
+        android:textSize="15sp"
+        app:layout_constraintEnd_toStartOf="@+id/guideline_right"
+        app:layout_constraintStart_toStartOf="@+id/guideline_left"
+        app:layout_constraintTop_toBottomOf="@+id/tv_hint_sign_up" />
 
     <View
         android:id="@+id/bg_google"
@@ -121,11 +132,11 @@
         android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:background="@drawable/background_rounded_logo_google"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_facebook_sign_in"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/bg_facebook"
         app:layout_constraintHorizontal_chainStyle="packed"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/tv_more"
         app:layout_constraintVertical_bias="0.0"/>
 
     <ImageView
@@ -146,9 +157,9 @@
         android:layout_marginStart="16dp"
         android:background="@drawable/background_rounded_logo_facebook"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView3"
+        app:layout_constraintTop_toBottomOf="@+id/tv_more"
         app:layout_constraintStart_toEndOf="@+id/bg_google"
-        app:layout_constraintBottom_toBottomOf="@+id/btn_facebook_sign_in"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintVertical_bias="0.0"/>
 
     <ImageView
@@ -160,18 +171,6 @@
         app:layout_constraintEnd_toEndOf="@+id/bg_facebook"
         app:layout_constraintStart_toStartOf="@+id/bg_facebook"
         app:layout_constraintTop_toTopOf="@+id/bg_facebook" />
-
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/btn_facebook_sign_in"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:visibility="gone"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/img_google"
-        app:layout_constraintVertical_bias="0.9"/>
 
     <com.airbnb.lottie.LottieAnimationView
         android:id="@+id/loader_sign_in"
