@@ -108,9 +108,6 @@ class SearchActivity : AppCompatActivity(), SearchContract.View{
         count++
         if (count < MAX_RETRY)
             Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_INDEFINITE)
-                    .setAction(RETRY) {
-                        //presenter.startGetUser(token)
-                    }
                     .show()
         else
             Snackbar.make(this.window.decorView.findViewById(android.R.id.content), message, Snackbar.LENGTH_LONG)

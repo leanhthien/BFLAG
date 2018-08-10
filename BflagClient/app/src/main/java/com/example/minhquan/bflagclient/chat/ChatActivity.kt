@@ -45,7 +45,6 @@ class ChatActivity : FragmentActivity() {
         img_back.setOnClickListener {
 
             startActivity(Intent(this, HomeActivity::class.java))
-            finish()
         }
 
         img_more.setOnClickListener {
