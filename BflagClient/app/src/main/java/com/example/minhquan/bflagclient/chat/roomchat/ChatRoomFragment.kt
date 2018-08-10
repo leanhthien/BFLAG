@@ -255,7 +255,7 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View, ChatContract.Listene
         dialog.show()
 
         view!!.findViewById<Button>(R.id.btn_ok).setOnClickListener {
-            presenter.startUnsubscribe(token, room)
+            presenter.startUnsubscribe(token, this.room)
             dialog.dismiss()
         }
 

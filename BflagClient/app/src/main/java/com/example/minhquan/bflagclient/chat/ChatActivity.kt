@@ -43,7 +43,6 @@ class ChatActivity : FragmentActivity() {
         vpg_chat_friend.adapter = pagerAdapterRoom
 
         img_back.setOnClickListener {
-
             startActivity(Intent(this, HomeActivity::class.java))
         }
 

@@ -154,6 +154,7 @@ class SignInFragment : Fragment(), SignInContract.View {
         SharedPreferenceHelper.getInstance(context!!).setToken(result.token)
 
         startActivity(Intent(context,HomeActivity::class.java))
+        activity!!.finish()
 
     }
 

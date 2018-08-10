@@ -100,6 +100,7 @@ class SignUpFragment : Fragment(), SignUpContract.View, SignContract.Listener {
         SharedPreferenceHelper.getInstance(context!!).setToken(result.token)
 
         startActivity(Intent(context, HomeActivity::class.java))
+        activity!!.finish()
     }
 
     override fun showProgress(isShow: Boolean) {
