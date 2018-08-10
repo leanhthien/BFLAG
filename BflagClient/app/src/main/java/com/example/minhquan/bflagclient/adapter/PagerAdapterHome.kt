@@ -31,4 +31,6 @@ class PagerHomeAdapter(var context: Context, fm: FragmentManager) : FragmentPage
         }
     }
 
+
+
 }

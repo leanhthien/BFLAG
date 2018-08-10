@@ -47,6 +47,8 @@ class ActiveFragment : Fragment(), ActiveContract.View, HomeContract.Listener{
     private fun setupListener() {
         homeActivity = activity as HomeActivity
         homeActivity.setListener(this)
+
+
     }
 
     private fun setupView() {
@@ -55,17 +57,6 @@ class ActiveFragment : Fragment(), ActiveContract.View, HomeContract.Listener{
         rv_active.setHasFixedSize(true)
         rv_active.layoutManager = LinearLayoutManager(context, LinearLayoutManager.VERTICAL,false)
         rv_active.adapter = activeAdapter
-
-        val tokenReturn = SharedPreferenceHelper.getInstance(context!!).getToken()
-        val userReturn =  SharedPreferenceHelper.getInstance(context!!).getUser()
-
-        if (userReturn!= null)
-            user = userReturn
-
-        if (tokenReturn != null) {
-            token = tokenReturn
-            presenter.startGetOnlineUsers(token)
-        }
 
     }
 

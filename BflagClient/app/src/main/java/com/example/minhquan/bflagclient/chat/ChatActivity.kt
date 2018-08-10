@@ -27,8 +27,6 @@ class ChatActivity : FragmentActivity() {
         listRooms = bundle.getParcelableArrayList("listRooms")
         listRoomIds = listRooms.map { it -> it.id!! }
 
-
-
         setupView()
     }
 
@@ -45,7 +43,9 @@ class ChatActivity : FragmentActivity() {
         vpg_chat_friend.adapter = pagerAdapterRoom
 
         img_back.setOnClickListener {
-            onBackPressed()
+
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
         }
 
         img_more.setOnClickListener {
@@ -55,12 +55,6 @@ class ChatActivity : FragmentActivity() {
 
     fun setListener(listener: ChatContract.Listener) {
         this.listener = listener
-    }
-
-    override fun onBackPressed() {
-        super.onBackPressed()
-        startActivity(Intent(this, HomeActivity::class.java))
-        finish()
     }
 
 }

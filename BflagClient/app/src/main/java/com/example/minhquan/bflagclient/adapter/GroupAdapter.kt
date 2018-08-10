@@ -1,6 +1,7 @@
 package com.example.minhquan.bflagclient.adapter
 
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
@@ -127,23 +128,25 @@ class GroupAdapter(var context: Context, val type: Int) : RecyclerView.Adapter<G
             val intent = Intent(context, ChatActivity::class.java)
             val bundle = Bundle()
 
-            listRooms = if (type == SUBSCRIBED_ROOM){
+            if (type == SUBSCRIBED_ROOM){
                 val leftRooms = data
                         .filter { it -> it.name != data[layoutPosition-1].name }
                         .filter { it -> it.id != HOME && it.id != SEARCH }
 
-                (listOf(data[layoutPosition-1])
+                listRooms = (listOf(data[layoutPosition-1])
                                 + leftRooms.take(
                                 if (leftRooms.size < ROOM_AMOUNT) leftRooms.size else ROOM_AMOUNT))
                         .toCollection(ArrayList())
 
             } else {
-                arrayListOf(data[layoutPosition-1])
+                listRooms =  arrayListOf(data[layoutPosition-1])
             }
 
             bundle.putParcelableArrayList("listRooms", listRooms)
             intent.putExtra("roomBundle", bundle)
             context.startActivity(intent)
+            val activity = context as Activity
+            activity.finish()
 
         }
     }

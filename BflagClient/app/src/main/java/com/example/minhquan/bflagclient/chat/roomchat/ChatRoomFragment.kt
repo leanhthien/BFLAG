@@ -314,12 +314,11 @@ class ChatRoomFragment : Fragment(), ChatRoomContract.View, ChatContract.Listene
 
     override fun onUnsubscribeSuccess(result: SuccessResponse) {
 
-        showProgress(true)
+        showProgress(false)
 
         Snackbar.make(activity!!.findViewById(android.R.id.content), "Unsubscibed success!", Snackbar.LENGTH_LONG)
                 .show()
         startActivity(Intent(context, HomeActivity::class.java))
-
     }
 
     override fun showProgress(isShow: Boolean) {

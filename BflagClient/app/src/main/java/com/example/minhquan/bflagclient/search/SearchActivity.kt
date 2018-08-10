@@ -64,7 +64,8 @@ class SearchActivity : AppCompatActivity(), SearchContract.View{
         }
 
         tvCancel.setOnClickListener {
-            onBackPressed()
+            startActivity(Intent(this, HomeActivity::class.java))
+            finish()
         }
 
     }
@@ -132,9 +133,4 @@ class SearchActivity : AppCompatActivity(), SearchContract.View{
         return ConnectivityUtil.isConnected(this)
     }
 
-    override fun onBackPressed() {
-        super.onBackPressed()
-        startActivity(Intent(this, HomeActivity::class.java))
-        finish()
-    }
 }

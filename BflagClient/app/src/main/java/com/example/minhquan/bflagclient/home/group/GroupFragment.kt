@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.fragment_group.*
 const val EMPTY_ROOM = "There's no room can be shown here"
 
 
-class GroupFragment : Fragment(), GroupContract.View, HomeContract.Listener {
+class GroupFragment : Fragment(), GroupContract.View {
 
     private lateinit var presenter: GroupContract.Presenter
     private lateinit var homeActivity: HomeActivity
@@ -39,14 +39,10 @@ class GroupFragment : Fragment(), GroupContract.View, HomeContract.Listener {
         super.onViewCreated(view, savedInstanceState)
 
         GroupPresenter(this)
-        setupListener()
+
         setupView()
     }
 
-    private fun setupListener() {
-        homeActivity = activity as HomeActivity
-        homeActivity.setListener(this)
-    }
 
     private fun setupView() {
 
@@ -54,16 +50,6 @@ class GroupFragment : Fragment(), GroupContract.View, HomeContract.Listener {
         rv_room.setHasFixedSize(true)
         rv_room.layoutManager = LinearLayoutManager(context,LinearLayoutManager.VERTICAL,false)
         rv_room.adapter = groupAdapter
-
-        val tokenReturn = SharedPreferenceHelper.getInstance(context!!).getToken()
-
-        if (tokenReturn != null) {
-            token = tokenReturn
-            presenter.startGetSubscribedRooms(token)
-        }
-    }
-
-    override fun onFinishGetUser() {
 
         val tokenReturn = SharedPreferenceHelper.getInstance(context!!).getToken()
 

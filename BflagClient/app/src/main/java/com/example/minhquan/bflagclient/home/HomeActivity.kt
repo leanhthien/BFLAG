@@ -74,30 +74,14 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
         // and set for view blur
         blurNav.layoutParams.height = height
 
-
-        val userReturn = SharedPreferenceHelper.getInstance(this).getUser()
-        val tokenReturn =  SharedPreferenceHelper.getInstance(this).getToken()
-
-        if (tokenReturn != null) {
-            token = tokenReturn
-        }
-        if (userReturn != null) {
-
-            if (!isNetworkConnected())
-                Snackbar.make(this.window.decorView.findViewById(android.R.id.content), WORKING_OFFLINE, Snackbar.LENGTH_LONG)
-                        .show()
-            setUser(userReturn)
-
-        }
-        else {
-            presenter.startGetUser(token)
-        }
     }
 
     private fun setUser(user: User) {
 
         // animation shared element when click image profile
         //imgProfile.setImageResource(user.profileImage)
+
+        listener.onFinishGetUser()
 
         if (isNetworkConnected())
             Glide.with(this)
@@ -141,6 +125,28 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
             view.findViewById<Button>(R.id.btn_cancel).setOnClickListener {
                 dialog.dismiss()
             }
+        }
+    }
+
+    fun onReadyGetUser() {
+        val userReturn = SharedPreferenceHelper.getInstance(this).getUser()
+        val tokenReturn =  SharedPreferenceHelper.getInstance(this).getToken()
+
+        if (tokenReturn != null) {
+            token = tokenReturn
+        }
+        if (userReturn != null) {
+
+            if (!isNetworkConnected()) {
+                Snackbar.make(this.window.decorView.findViewById(android.R.id.content), WORKING_OFFLINE, Snackbar.LENGTH_LONG)
+                        .show()
+            }
+
+            setUser(userReturn)
+
+        }
+        else {
+            presenter.startGetUser(token)
         }
     }
 
@@ -188,7 +194,7 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
         SharedPreferenceHelper.getInstance(this).setUser(result)
         setUser(result)
-        listener.onFinishGetUser()
+
     }
 
     override fun onCreateRoomSuccess(result: Room) {
@@ -257,5 +263,8 @@ class HomeActivity : AppCompatActivity(), HomeContract.View {
 
     fun setListener(listener: HomeContract.Listener) {
         this.listener = listener
+        onReadyGetUser()
     }
+
+
 }
